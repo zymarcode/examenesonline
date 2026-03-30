@@ -1313,14 +1313,19 @@ const UI = {
 };
 
 // ── API CALL ─────────────────────────────────────
-function call(fn, args, cb) {
+/* ===== CALL para payloads grandes (imágenes base64) ===== */
+function callLarge(fn, namedArgs, cb, errCb) {
+  UI.spin('Subiendo imagen…');
+  // Enviar como campos planos en lugar de args array
+  const payload = Object.assign({ action: fn }, namedArgs);
+  
   fetch(API_URL, {
     method: 'POST',
-    body: JSON.stringify({ action: fn, args })
+    body: JSON.stringify(payload)
   })
-  .then(r => r.json())
-  .then(data => { UI.hide(); cb && cb(data); })
-  .catch(e => { UI.hide(); console.error(fn, e); });
+  .then(res => res.json())
+  .then(data => { UI.hide(); if (cb) cb(data); })
+  .catch(error => { UI.hide(); if (errCb) errCb(error); });
 }
 
 function callSpin(txt, fn, args, cb) {
@@ -1988,27 +1993,47 @@ function applySiteName(name) {
   document.title = name;
   $('pageTabTitle').textContent = name;
 }
-function guardarLoginPers() {
-  const siteName = $('inputSiteName')?.value.trim() || '';
-  const fondoUrl = $('inputFondoUrl')?.value.trim() || '';
-  const logoUrl  = $('inputLogoUrl')?.value.trim() || '';
-  const blur     = $('inputBlur')?.value || '5';
 
-  // Guardamos via config (reutilizando el sistema de config)
-  callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, {
-    loginFondo: fondoUrl,
-    loginLogo:  logoUrl,
-    loginBlur:  blur,
-    ...(siteName ? { loginSiteName: siteName } : {})
-  }], res => {
-    if (res.success) {
-      UI.alert('loginPersAlert','ok','✅ Guardado correctamente');
-      if (fondoUrl) applyFondo(fondoUrl, blur);
-      if (logoUrl) applyLogo(logoUrl);
-      if (siteName) applySiteName(siteName);
-    } else UI.alert('loginPersAlert','err',res.message);
-  });
+
+function guardarLoginPers() {
+  const blur = document.getElementById('inputBlur').value;
+  const hasFondo = !!App.pers.fondoB64, hasLogo = !!App.pers.logoB64;
+  UI.spin('Guardando personalización…');
+  let pendientes = 1 + (hasFondo ? 1 : 0) + (hasLogo ? 1 : 0);
+  const errs = [];
+  const check = () => {
+    pendientes--;
+    if (pendientes <= 0) {
+      UI.hide();
+      if (errs.length) UI.alert('loginPersAlert','error', errs.join(' | '));
+      else { UI.alert('loginPersAlert','success','✅ Guardado correctamente'); cargarLoginPers(); }
+    }
+  };
+
+  // Blur: usa call normal (sin imagen)
+  call('guardarBlurLogin', [App.ses.usuario, blur], 
+    res => { if (!res?.success) errs.push('Blur: ' + (res?.message||'Error')); check(); });
+
+  // Imágenes: usa callLarge con campos planos
+  if (hasFondo) {
+    callLarge('subirImagenLogin', {
+      adminUser: App.ses.usuario,
+      base64Data: App.pers.fondoB64,
+      mimeType: App.pers.fondoMime || 'image/png',
+      tipo: 'fondo'
+    }, res => { if (!res?.success) errs.push('Fondo: ' + (res?.message||'Error')); check(); });
+  }
+  if (hasLogo) {
+    callLarge('subirImagenLogin', {
+      adminUser: App.ses.usuario,
+      base64Data: App.pers.logoB64,
+      mimeType: App.pers.logoMime || 'image/png',
+      tipo: 'logo'
+    }, res => { if (!res?.success) errs.push('Logo: ' + (res?.message||'Error')); check(); });
+  }
 }
+
+
 function eliminarLoginPers() {
   if (!confirm('¿Quitar las imágenes y restablecer el login?')) return;
   callSpin('Eliminando…','eliminarImagenesLogin',[App.ses.usuario], res => {
