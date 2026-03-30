@@ -342,16 +342,8 @@ function esc(s){ return s==null?'':String(s).replace(/&/g,'&amp;').replace(/</g,
 /* ===== CALL helper (FETCH) ===== */
 function call(fn, args, cb, errCb) {
   UI.spin('Conectando…');
-  // Enviar como campos planos en lugar de args array
-  let payload = { action: fn };
-  
-  // Si args es un array, lo asignamos como args
-  if (Array.isArray(args)) {
-    payload.args = args;
-  } else if (args && typeof args === 'object') {
-    // Si args es un objeto, lo mezclamos directamente con el payload
-    Object.assign(payload, args);
-  }
+  // Mapeo de argumentos para enviar como objeto JSON
+  let payload = { action: fn, args: args };
   
   fetch(API_URL, {
     method: 'POST',
@@ -1192,47 +1184,17 @@ function applyLogo(url) {
   const sw=document.getElementById('sidebarLogoWrap'), si=document.getElementById('sidebarLogoImg'), st=document.getElementById('sidebarTitulo');
   if(sw&&si&&st){ if(url){ si.src=url; sw.style.display='block'; st.style.display='none'; } else { sw.style.display='none'; st.style.display='block'; } }
 }
-
-
 function guardarLoginPers() {
-  const blur = document.getElementById('inputBlur').value;
-  const hasFondo = !!App.pers.fondoB64, hasLogo = !!App.pers.logoB64;
+  const blur=document.getElementById('inputBlur').value;
+  const hasFondo=!!App.pers.fondoB64, hasLogo=!!App.pers.logoB64;
   UI.spin('Guardando personalización…');
-  let pendientes = 1 + (hasFondo ? 1 : 0) + (hasLogo ? 1 : 0);
-  const errs = [];
-  const check = () => {
-    pendientes--;
-    if (pendientes <= 0) {
-      UI.hide();
-      if (errs.length) UI.alert('loginPersAlert','error', errs.join(' | '));
-      else { UI.alert('loginPersAlert','success','✅ Guardado correctamente'); cargarLoginPers(); }
-    }
-  };
-
-  // Blur: usa call normal (sin imagen)
-  call('guardarBlurLogin', [App.ses.usuario, blur], 
-    res => { if (!res?.success) errs.push('Blur: ' + (res?.message||'Error')); check(); });
-
-  // Imágenes: usa callLarge con campos planos
-  if (hasFondo) {
-    callLarge('subirImagenLogin', {
-      adminUser: App.ses.usuario,
-      base64Data: App.pers.fondoB64,
-      mimeType: App.pers.fondoMime || 'image/png',
-      tipo: 'fondo'
-    }, res => { if (!res?.success) errs.push('Fondo: ' + (res?.message||'Error')); check(); });
-  }
-  if (hasLogo) {
-    callLarge('subirImagenLogin', {
-      adminUser: App.ses.usuario,
-      base64Data: App.pers.logoB64,
-      mimeType: App.pers.logoMime || 'image/png',
-      tipo: 'logo'
-    }, res => { if (!res?.success) errs.push('Logo: ' + (res?.message||'Error')); check(); });
-  }
+  let pendientes=1+(hasFondo?1:0)+(hasLogo?1:0);
+  const errs=[];
+  const check=()=>{ pendientes--; if(pendientes<=0){ UI.hide(); if(errs.length) UI.alert('loginPersAlert','error',errs.join(' | ')); else { UI.alert('loginPersAlert','success','✅ Guardado correctamente'); cargarLoginPers(); } } };
+  call('guardarBlurLogin',[App.ses.usuario,blur], res=>{ if(!res?.success) errs.push('Blur: '+(res?.message||'Error')); check(); });
+  if(hasFondo) call('subirImagenLogin',[App.ses.usuario,App.pers.fondoB64,App.pers.fondoMime,'fondo'], res=>{ if(!res?.success) errs.push('Fondo: '+(res?.message||'Error')); check(); });
+  if(hasLogo)  call('subirImagenLogin',[App.ses.usuario,App.pers.logoB64,App.pers.logoMime,'logo'],   res=>{ if(!res?.success) errs.push('Logo: '+(res?.message||'Error'));  check(); });
 }
-
-
 function eliminarLoginPers() {
   if(!confirm('¿Quitar las imágenes del login?')) return;
   UI.spin('Eliminando…');
