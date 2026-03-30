@@ -314,6 +314,9 @@ Respuesta: B</pre></div><div class="card"><div class="card-title"><span class="i
 const API_URL = 'https://script.google.com/macros/s/AKfycbyUWqptaVmEyZuN7gtHqEeaHlf77s9n047K7XoNk_VspuvhYIGQUL1tyB3xEuZcG21h/exec';
 
 /* ===== ESTADO ===== */
+/* ============================================================
+APP — ESTADO CENTRALIZADO
+============================================================ */
 const App = {
   ses: { usuario:'', nombre:'', rol:'', adminId:'' },
   quiz: { preguntas:[], indice:0, correctas:0, incorrectas:0, respondida:false },
@@ -337,57 +340,39 @@ const UI = {
   },
   fechaCorta: (s) => s ? s.split(' ')[0] : ''
 };
+
 function esc(s){ return s==null?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-/* ===== CALL helper (FETCH) ===== */
+/* ===== CALL helper ===== */
 function call(fn, args, cb, errCb) {
-  UI.spin('Conectando…');
-  // Mapeo de argumentos para enviar como objeto JSON
-  let payload = { action: fn, args: args };
-  
-  fetch(API_URL, {
-    method: 'POST',
-    body: JSON.stringify(payload)
-  })
-  .then(res => res.json())
-  .then(data => {
-    UI.hide();
-    if (cb) cb(data);
-  })
-  .catch(error => {
-    UI.hide();
-    console.error(fn, error);
-    if (errCb) errCb(error);
-    else UI.alert('general', 'error', 'Error de conexión con el servidor');
-  });
+  let r = google.script.run.withSuccessHandler(cb||function(){});
+  if (errCb) r = r.withFailureHandler(errCb);
+  else r = r.withFailureHandler(e => { UI.hide(); console.error(fn,e); });
+  r[fn](...args);
 }
 
-/* ===== LOGIN / SESIÓN ===== */
+/* ============================================================ LOGIN / SESIÓN ============================================================ */
 function hacerLogin() {
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value.trim();
   if (!u||!p) { mostrarLoginAlert('error','Ingresa usuario y contraseña'); return; }
   UI.spin('Verificando credenciales…');
-  call('loginUsuario', [u, p], res => {
+  call('loginUsuario',[u,p], res=>{
     UI.hide();
-    if (res.success) { 
-      App.ses = res.datos; 
-      sessionStorage.setItem('ses', JSON.stringify(App.ses)); 
-      iniciarApp(); 
-    } else mostrarLoginAlert('error', res.message);
+    if (res.success) { App.ses = res.datos; sessionStorage.setItem('ses', JSON.stringify(App.ses)); iniciarApp(); }
+    else mostrarLoginAlert('error', res.message);
   });
 }
+
 function mostrarLoginAlert(tipo, msg) {
   const el = document.getElementById('loginAlert');
   const ic = {success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
   el.innerHTML = `<div class="login-alert-box login-alert-${tipo}">${ic[tipo]||''} ${msg}</div>`;
   setTimeout(()=>{ if(el.innerHTML.includes(msg)) el.innerHTML=''; },6000);
 }
+
 function cerrarSesion() {
-  if (App.ses.usuario) {
-    // Usar navigator.sendBeacon para cierre seguro en beforeunload si es necesario
-    fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'registrarCierreSesion', args: [App.ses.usuario] }) });
-  }
+  if (App.ses.usuario) google.script.run.registrarCierreSesion(App.ses.usuario);
   _detenerIntervals();
   App.ses = {usuario:'',nombre:'',rol:'',adminId:''};
   sessionStorage.removeItem('ses');
@@ -397,7 +382,7 @@ function cerrarSesion() {
   _detenerTimer();
 }
 
-/* ===== NAVEGACIÓN ===== */
+/* ============================================================ NAVEGACIÓN ============================================================ */
 const SECS = [
   {id:'inicio',  icon:'🏠', label:'Inicio',          admin:false, superAdmin:false},
   {id:'admins',  icon:'👑', label:'Administradores',  admin:false, superAdmin:true},
@@ -409,6 +394,7 @@ const SECS = [
   {id:'historial',icon:'📊',label:'Historial',         admin:false, superAdmin:false},
   {id:'ranking', icon:'🏅', label:'Ranking',           admin:true,  superAdmin:false}
 ];
+
 const TITULOS = {inicio:'Inicio',admins:'Administradores',importar:'Configuración',usuarios:'Usuarios',enlinea:'En Línea',perfil:'Mi Perfil',quiz:'Quiz',historial:'Historial',ranking:'Ranking'};
 const SUBTITULOS = {inicio:'Panel general',admins:'Gestión del sistema',importar:'Ajustes avanzados',usuarios:'Gestión de estudiantes',enlinea:'Actividad en tiempo real',perfil:'Tu cuenta',quiz:'Evaluación interactiva',historial:'Registro de resultados',ranking:'Clasificación general'};
 
@@ -454,13 +440,15 @@ function mostrarSeccion(sec) {
   if (loaders[sec]) loaders[sec]();
 }
 
-/* ===== SIDEBAR MÓVIL ===== */
+/* ============================================================ SIDEBAR MÓVIL ============================================================ */
 function initSidebar() {
   document.getElementById('hamburgerBtn').addEventListener('click', toggleSidebar);
   document.getElementById('sidebarOverlay').addEventListener('click', cerrarSidebar);
   window.addEventListener('resize', ()=>{ if(window.innerWidth>768 && App.ui.sidebarOpen) cerrarSidebar(); });
 }
+
 function toggleSidebar() { App.ui.sidebarOpen ? cerrarSidebar() : abrirSidebar(); }
+
 function abrirSidebar() {
   document.getElementById('appSidebar').classList.add('open');
   const ov = document.getElementById('sidebarOverlay');
@@ -468,6 +456,7 @@ function abrirSidebar() {
   document.getElementById('hamburgerBtn').classList.add('open');
   App.ui.sidebarOpen = true;
 }
+
 function cerrarSidebar() {
   document.getElementById('appSidebar').classList.remove('open');
   const ov = document.getElementById('sidebarOverlay');
@@ -476,7 +465,7 @@ function cerrarSidebar() {
   App.ui.sidebarOpen = false;
 }
 
-/* ===== INICIAR APP ===== */
+/* ============================================================ INICIAR APP ============================================================ */
 function iniciarApp() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appMain').style.display = 'flex';
@@ -491,7 +480,7 @@ function iniciarApp() {
   if (App.ses.rol==='super_admin'||App.ses.rol==='admin') iniciarAutoRefresh();
 }
 
-/* ===== DASHBOARD ===== */
+/* ============================================================ DASHBOARD ============================================================ */
 function cargarDashboard() {
   call('obtenerEstadisticasGenerales',[App.ses.usuario,App.ses.rol,App.ses.adminId], res=>{
     if (!res?.success) return;
@@ -510,8 +499,9 @@ function cargarDashboard() {
   });
 }
 
-/* ===== ADMINISTRADORES ===== */
+/* ============================================================ ADMINISTRADORES ============================================================ */
 let adminProgramar = '';
+
 function abrirModal(usuario) {
   adminProgramar = usuario;
   document.getElementById('mAdminUser').value = usuario;
@@ -523,7 +513,9 @@ function abrirModal(usuario) {
   document.getElementById('mAlert').innerHTML = '';
   document.getElementById('modalProgramar').classList.add('show');
 }
+
 function cerrarModal() { document.getElementById('modalProgramar').classList.remove('show'); adminProgramar=''; }
+
 function confirmarProgramacion() {
   const fi = document.getElementById('mFechaInicio').value;
   const ff = document.getElementById('mFechaFin').value;
@@ -540,6 +532,7 @@ function confirmarProgramacion() {
     else UI.alert('mAlert','error',res.message);
   });
 }
+
 function cargarAdmins() {
   const cont = document.getElementById('listaAdmins');
   cont.innerHTML = '<div class="empty-state"><div class="spinner"></div><p>Cargando…</p></div>';
@@ -549,10 +542,21 @@ function cargarAdmins() {
     let html = mobile ? '<div class="grid-layout">' : '<div class="table-wrap"><table class="data-table"><thead><tr><th>Usuario</th><th>Nombre</th><th>Estado</th><th>Registro</th><th>Período</th><th>Acciones</th></tr></thead><tbody>';
     res.admins.forEach(a=>{
       const badge = a.estado==='activo'?'<span class="badge badge-activo">✅ Activo</span>':'<span class="badge badge-inactivo">🔴 Inactivo</span>';
-      const periodo = (a.fechaInicioProgramada||a.fechaFinProgramada) ? `<div style="font-size:.72rem;background:rgba(245,158,11,.08);padding:5px 8px;border-radius:8px;border:1px solid rgba(245,158,11,.15)">${a.fechaInicioProgramada?'📅 '+UI.fechaCorta(a.fechaInicioProgramada)+'<br>':''} ${a.fechaFinProgramada?'⏰ '+UI.fechaCorta(a.fechaFinProgramada):''}</div>` : '-';
-      const acciones = `<button class="btn btn-sm" onclick="verHistAdmin('${esc(a.usuario)}')" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff">📜</button>${a.estado==='activo'?`<button class="btn btn-sm btn-warning" onclick="cambiarEstAdmin('${esc(a.usuario)}','inactivo')">🔴</button>`:`<button class="btn btn-sm btn-success" onclick="cambiarEstAdmin('${esc(a.usuario)}','activo')">🟢</button>`}<button class="btn btn-sm" onclick="abrirModal('${esc(a.usuario)}')" style="background:linear-gradient(135deg,var(--amber-500),var(--amber-400));color:var(--navy-950)">📅</button>`;
+      const periodo = (a.fechaInicioProgramada||a.fechaFinProgramada)
+        ? `<div style="font-size:.72rem;background:rgba(245,158,11,.08);padding:5px 8px;border-radius:8px;border:1px solid rgba(245,158,11,.15)">${a.fechaInicioProgramada?'📅 '+UI.fechaCorta(a.fechaInicioProgramada)+'<br>':''} ${a.fechaFinProgramada?'⏰ '+UI.fechaCorta(a.fechaFinProgramada):''}</div>` : '-';
+      const acciones = `<button class="btn btn-sm" onclick="verHistAdmin('${esc(a.usuario)}')" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff">📜</button>
+        ${a.estado==='activo'
+        ?`<button class="btn btn-sm btn-warning" onclick="cambiarEstAdmin('${esc(a.usuario)}','inactivo')">🔴</button>`
+        :`<button class="btn btn-sm btn-success" onclick="cambiarEstAdmin('${esc(a.usuario)}','activo')">🟢</button>`}
+        <button class="btn btn-sm" onclick="abrirModal('${esc(a.usuario)}')" style="background:linear-gradient(135deg,var(--amber-500),var(--amber-400));color:var(--navy-950)">📅</button>
+        <button class="btn btn-sm btn-danger" onclick="eliminarAdmin('${esc(a.usuario)}')">🗑️</button>`;
       if (mobile) {
-        html += `<div class="data-card"><div class="data-card-header"><div class="data-card-title">${esc(a.nombre)}</div>${badge}</div><div class="data-card-field"><span class="data-card-label">Usuario:</span><span class="data-card-value">@${esc(a.usuario)}</span></div><div class="data-card-field"><span class="data-card-label">Email:</span><span class="data-card-value">${esc(a.email||'-')}</span></div><div class="data-card-field"><span class="data-card-label">Registro:</span><span class="data-card-value">${UI.fechaCorta(a.fechaRegistro)}</span></div>${(a.fechaInicioProgramada||a.fechaFinProgramada)?`<div style="margin-top:6px">${periodo}</div>`:''}<div class="data-card-actions">${acciones}</div></div>`;
+        html += `<div class="data-card"><div class="data-card-header"><div class="data-card-title">${esc(a.nombre)}</div>${badge}</div>
+          <div class="data-card-field"><span class="data-card-label">Usuario:</span><span class="data-card-value">@${esc(a.usuario)}</span></div>
+          <div class="data-card-field"><span class="data-card-label">Email:</span><span class="data-card-value">${esc(a.email||'-')}</span></div>
+          <div class="data-card-field"><span class="data-card-label">Registro:</span><span class="data-card-value">${UI.fechaCorta(a.fechaRegistro)}</span></div>
+          ${(a.fechaInicioProgramada||a.fechaFinProgramada)?`<div style="margin-top:6px">${periodo}</div>`:''}
+          <div class="data-card-actions">${acciones}</div></div>`;
       } else {
         html += `<tr><td><strong>${esc(a.usuario)}</strong></td><td>${esc(a.nombre)}</td><td>${badge}</td><td>${UI.fechaCorta(a.fechaRegistro)}</td><td>${periodo}</td><td><div style="display:flex;gap:6px">${acciones}</div></td></tr>`;
       }
@@ -561,6 +565,20 @@ function cargarAdmins() {
     cont.innerHTML = html;
   });
 }
+
+// ✅ NUEVA FUNCIÓN - ELIMINAR ADMINISTRADOR
+function eliminarAdmin(usuario) {
+  if (!confirm(`⚠️ ¿Eliminar permanentemente al administrador "${usuario}"?\n\nEsta acción NO se puede deshacer.`)) return;
+  const confirmacion = prompt('Escribe ELIMINAR para confirmar:');
+  if (confirmacion !== 'ELIMINAR') { UI.alert('adminAlert','warning','Cancelado'); return; }
+  UI.spin('Eliminando administrador…');
+  call('eliminarAdministrador',[App.ses.usuario,usuario], res=>{
+    UI.hide();
+    if (res.success) { UI.alert('adminAlert','success',res.message); cargarAdmins(); }
+    else UI.alert('adminAlert','error',res.message);
+  });
+}
+
 function crearAdmin() {
   const u = document.getElementById('nAdminUser').value.trim();
   const p = document.getElementById('nAdminPass').value.trim();
@@ -575,6 +593,7 @@ function crearAdmin() {
     else UI.alert('adminAlert','error',res.message);
   });
 }
+
 function cambiarEstAdmin(usuario, estado) {
   const motivo = prompt(`📝 Motivo de ${estado==='activo'?'activación':'desactivación'}:`, estado==='activo'?'Activación manual':'Desactivación manual');
   if (motivo===null) return;
@@ -584,6 +603,7 @@ function cambiarEstAdmin(usuario, estado) {
     if (res.success) { UI.alert('adminAlert','success',res.message); cargarAdmins(); } else UI.alert('adminAlert','error',res.message);
   });
 }
+
 function verHistAdmin(usuario) {
   UI.spin('Cargando historial…');
   call('obtenerHistorialAdmin',[App.ses.usuario,usuario], res=>{
@@ -601,9 +621,10 @@ function verHistAdmin(usuario) {
     cont.innerHTML = html;
   });
 }
+
 function cerrarHistorialAdmin() { document.getElementById('historialAdminCard').style.display='none'; document.getElementById('historialAdminCont').innerHTML=''; }
 
-/* ===== USUARIOS ===== */
+/* ============================================================ USUARIOS ============================================================ */
 function cargarUsuarios() {
   const cont = document.getElementById('listaUsuarios');
   cont.innerHTML = '<div class="empty-state"><div class="spinner"></div><p>Cargando…</p></div>';
@@ -614,9 +635,16 @@ function cargarUsuarios() {
     res.usuarios.forEach(u=>{
       const badge = u.estado==='activo'?'<span class="badge badge-activo">✅ Activo</span>':'<span class="badge badge-inactivo">🔴 Inactivo</span>';
       const esYo = u.usuario===App.ses.usuario;
-      const acc = esYo ? '<span style="color:#94a3b8;font-size:.8rem">Tu cuenta</span>' : `${u.estado==='activo'?`<button class="btn btn-warning btn-sm" onclick="toggleUser('${esc(u.usuario)}','inactivo')">🚫</button>`:`<button class="btn btn-success btn-sm" onclick="toggleUser('${esc(u.usuario)}','activo')">✅</button>`}<button class="btn btn-primary btn-sm" onclick="resetPass('${esc(u.usuario)}')">🔑</button><button class="btn btn-danger btn-sm" onclick="borrarUser('${esc(u.usuario)}')">🗑️</button>`;
+      const acc = esYo ? '<span style="color:#94a3b8;font-size:.8rem">Tu cuenta</span>' :
+        `${u.estado==='activo'?`<button class="btn btn-warning btn-sm" onclick="toggleUser('${esc(u.usuario)}','inactivo')">🚫</button>`:`<button class="btn btn-success btn-sm" onclick="toggleUser('${esc(u.usuario)}','activo')">✅</button>`}
+        <button class="btn btn-primary btn-sm" onclick="resetPass('${esc(u.usuario)}')">🔑</button>
+        <button class="btn btn-danger btn-sm" onclick="borrarUser('${esc(u.usuario)}')">🗑️</button>`;
       if (mobile) {
-        html += `<div class="data-card"><div class="data-card-header"><div class="data-card-title">${esc(u.nombre)}</div>${badge}</div><div class="data-card-field"><span class="data-card-label">Usuario:</span><span class="data-card-value">@${esc(u.usuario)}</span></div><div class="data-card-field"><span class="data-card-label">Email:</span><span class="data-card-value">${esc(u.email||'-')}</span></div><div class="data-card-field"><span class="data-card-label">Registro:</span><span class="data-card-value">${UI.fechaCorta(u.fecha)}</span></div><div class="data-card-actions">${acc}</div></div>`;
+        html += `<div class="data-card"><div class="data-card-header"><div class="data-card-title">${esc(u.nombre)}</div>${badge}</div>
+          <div class="data-card-field"><span class="data-card-label">Usuario:</span><span class="data-card-value">@${esc(u.usuario)}</span></div>
+          <div class="data-card-field"><span class="data-card-label">Email:</span><span class="data-card-value">${esc(u.email||'-')}</span></div>
+          <div class="data-card-field"><span class="data-card-label">Registro:</span><span class="data-card-value">${UI.fechaCorta(u.fecha)}</span></div>
+          <div class="data-card-actions">${acc}</div></div>`;
       } else {
         html += `<tr><td><strong>${esc(u.usuario)}</strong></td><td>${esc(u.nombre)}</td><td>${esc(u.email||'-')}</td><td>${badge}</td><td>${UI.fechaCorta(u.fecha)}</td><td><div style="display:flex;gap:6px">${acc}</div></td></tr>`;
       }
@@ -625,6 +653,7 @@ function cargarUsuarios() {
     cont.innerHTML = html;
   });
 }
+
 function crearUsuario() {
   const u = document.getElementById('nUser').value.trim();
   const p = document.getElementById('nPass').value.trim();
@@ -638,24 +667,27 @@ function crearUsuario() {
     else UI.alert('userAlert','error',res.message);
   });
 }
+
 function toggleUser(usuario, estado) {
   if (!confirm(`¿${estado==='activo'?'Activar':'Desactivar'} a "${usuario}"?`)) return;
   UI.spin('Actualizando…');
   call('cambiarEstadoUsuario',[App.ses.usuario,usuario,estado], res=>{ UI.hide(); if(res.success) cargarUsuarios(); else alert(res.message); });
 }
+
 function resetPass(usuario) {
   const p = prompt(`Nueva contraseña para "${usuario}":`);
   if (!p?.trim()) return;
   UI.spin('Actualizando…');
   call('resetearContrasena',[App.ses.usuario,usuario,p.trim()], res=>{ UI.hide(); alert(res.message); });
 }
+
 function borrarUser(usuario) {
   if (!confirm(`⚠️ ¿Eliminar a "${usuario}"?`)) return;
   UI.spin('Eliminando…');
   call('eliminarUsuario',[App.ses.usuario,usuario], res=>{ UI.hide(); alert(res.message); if(res.success) cargarUsuarios(); });
 }
 
-/* ===== IMPORTAR PREGUNTAS ===== */
+/* ============================================================ IMPORTAR PREGUNTAS ============================================================ */
 (function initUpload(){
   const zone = document.getElementById('uploadZone');
   const inp  = document.getElementById('fileInput');
@@ -666,6 +698,7 @@ function borrarUser(usuario) {
   zone.addEventListener('drop', e=>{ e.preventDefault(); zone.style.borderColor=''; if(e.dataTransfer.files.length){ inp.files=e.dataTransfer.files; onFileSelect(); } });
   inp.addEventListener('change', onFileSelect);
 })();
+
 function onFileSelect() {
   const f = document.getElementById('fileInput').files[0];
   if (!f) return;
@@ -674,6 +707,7 @@ function onFileSelect() {
   App.upload.archivo = f;
   document.getElementById('fileName').textContent = `📄 ${f.name}`;
 }
+
 function importarArchivo() {
   if (!App.upload.archivo) { UI.alert('importAlert','error','Selecciona un archivo'); return; }
   const tema = document.getElementById('inputTema').value.trim() || 'General';
@@ -691,6 +725,7 @@ function importarArchivo() {
     r.readAsArrayBuffer(App.upload.archivo);
   }
 }
+
 function enviarContenido(txt, tema) {
   document.getElementById('spinnerText').textContent = 'Importando preguntas…';
   call('procesarContenidoTexto',[txt,tema,App.ses.usuario], res=>{
@@ -705,13 +740,14 @@ function enviarContenido(txt, tema) {
   });
 }
 
-/* ===== ZONA DE PELIGRO ===== */
+/* ============================================================ ZONA DE PELIGRO ============================================================ */
 function eliminarPreguntas() {
   if (!confirm('⚠️ ¿Eliminar TODAS las preguntas? Esta acción es irreversible.')) return;
   if (prompt('Escribe ELIMINAR para confirmar:') !== 'ELIMINAR') { UI.alert('importAlert','warning','Cancelado'); return; }
   UI.spin('Eliminando…');
   call('eliminarTodasPreguntas',[App.ses.usuario], res=>{ UI.hide(); UI.alert('importAlert',res.success?'success':'error',res.message); });
 }
+
 function limpiarHistorial() {
   if (!confirm('⚠️ ¿Eliminar TODO el historial? Esta acción es irreversible.')) return;
   if (prompt('Escribe LIMPIAR para confirmar:') !== 'LIMPIAR') { UI.alert('importAlert','warning','Cancelado'); return; }
@@ -719,7 +755,7 @@ function limpiarHistorial() {
   call('limpiarHistorial',[App.ses.usuario], res=>{ UI.hide(); UI.alert('importAlert',res.success?'success':'error',res.message); });
 }
 
-/* ===== RANKING ===== */
+/* ============================================================ RANKING ============================================================ */
 function cargarRanking() {
   const cont = document.getElementById('rankingContainer');
   cont.innerHTML = '<div class="empty-state"><div class="spinner"></div><p>Cargando…</p></div>';
@@ -734,7 +770,10 @@ function cargarRanking() {
       if (mobile) {
         html += `<div class="data-card" style="text-align:center"><div style="font-size:2rem">${pos}</div><div style="font-weight:700;margin-top:6px;font-size:.95rem">${esc(r.nombre)}</div><div style="font-size:.75rem;color:#94a3b8">@${esc(r.usuario)} · ${r.intentos} quizzes</div><div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:${c};margin-top:8px">${r.promedio}%</div></div>`;
       } else {
-        html += `<div style="display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:var(--radius-md);background:var(--cream-100);margin-bottom:8px;border:1px solid var(--cream-300);transition:all .2s" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform=''"><div style="font-size:1.5rem;width:36px;text-align:center">${pos}</div><div style="flex:1"><div style="font-weight:700;color:var(--navy-800)">${esc(r.nombre)}</div><div style="font-size:.78rem;color:#94a3b8">@${esc(r.usuario)} · ${r.intentos} quiz(zes) · Mejor: ${r.mejor}%</div></div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:${c}">${r.promedio}%</div></div>`;
+        html += `<div style="display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:var(--radius-md);background:var(--cream-100);margin-bottom:8px;border:1px solid var(--cream-300);transition:all .2s" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform=''">
+          <div style="font-size:1.5rem;width:36px;text-align:center">${pos}</div>
+          <div style="flex:1"><div style="font-weight:700;color:var(--navy-800)">${esc(r.nombre)}</div><div style="font-size:.78rem;color:#94a3b8">@${esc(r.usuario)} · ${r.intentos} quiz(zes) · Mejor: ${r.mejor}%</div></div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:${c}">${r.promedio}%</div></div>`;
       }
     });
     if (mobile) html += '</div>';
@@ -742,7 +781,7 @@ function cargarRanking() {
   });
 }
 
-/* ===== HISTORIAL ===== */
+/* ============================================================ HISTORIAL ============================================================ */
 function cargarHistorial() {
   const cont = document.getElementById('historialContainer');
   cont.innerHTML = '<div class="empty-state"><div class="spinner"></div><p>Cargando…</p></div>';
@@ -755,11 +794,16 @@ function cargarHistorial() {
       const p = parseInt(String(h.porcentaje).replace('%',''))||0;
       const c = color(p);
       const user = (App.ses.rol==='admin'||App.ses.rol==='super_admin') ? `👤 ${h.nombre||h.usuario} · ` : '';
-      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-radius:var(--radius-md);background:var(--cream-100);margin-bottom:8px;border-left:4px solid ${c};border:1px solid var(--cream-300);border-left:4px solid ${c};flex-wrap:wrap;gap:8px;transition:all .2s" onmouseover="this.style.background='#fff'" onmouseout="this.style.background='var(--cream-100)'"><div style="flex:1"><div style="font-size:.75rem;color:#94a3b8;margin-bottom:3px">📅 ${h.fecha}</div><div style="font-weight:600;color:var(--navy-800)">${user}✅ ${h.correctas} / ❌ ${h.incorrectas} (${h.total})${h.tema?` · 📂 ${h.tema}`:''}</div></div><div style="text-align:right"><div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:${c}">${p}%</div><div style="font-size:.7rem;font-weight:600;padding:2px 10px;border-radius:20px;color:#fff;background:${c};display:inline-block;margin-top:3px">${h.nivel}</div></div></div>`;
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-radius:var(--radius-md);background:var(--cream-100);margin-bottom:8px;border-left:4px solid ${c};border:1px solid var(--cream-300);border-left:4px solid ${c};flex-wrap:wrap;gap:8px;transition:all .2s" onmouseover="this.style.background='#fff'" onmouseout="this.style.background='var(--cream-100)'">
+        <div style="flex:1"><div style="font-size:.75rem;color:#94a3b8;margin-bottom:3px">📅 ${h.fecha}</div>
+        <div style="font-weight:600;color:var(--navy-800)">${user}✅ ${h.correctas} / ❌ ${h.incorrectas} (${h.total})${h.tema?` · 📂 ${h.tema}`:''}</div></div>
+        <div style="text-align:right"><div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:${c}">${p}%</div>
+        <div style="font-size:.7rem;font-weight:600;padding:2px 10px;border-radius:20px;color:#fff;background:${c};display:inline-block;margin-top:3px">${h.nivel}</div></div></div>`;
     });
     cont.innerHTML = html;
   });
 }
+
 function exportarPDF() {
   UI.spin('Generando PDF…');
   call('generarPDFResultados',[App.ses.usuario,App.ses.rol,App.ses.adminId], res=>{
@@ -768,6 +812,7 @@ function exportarPDF() {
     else UI.alert('historialAlert','error',res.message);
   });
 }
+
 function enviarPDFemail() {
   const e = prompt('📧 Email destino:');
   if (!e?.trim()||!e.includes('@')) { if(e!==null) UI.alert('historialAlert','error','Email inválido'); return; }
@@ -775,10 +820,11 @@ function enviarPDFemail() {
   call('enviarPDFporEmail',[App.ses.usuario,App.ses.rol,e.trim(),App.ses.adminId], res=>{ UI.hide(); UI.alert('historialAlert',res.success?'success':'error',res.message); });
 }
 
-/* ===== CONFIGURACIONES ===== */
+/* ============================================================ CONFIGURACIONES ============================================================ */
 function toggleTiempoUI()   { document.getElementById('tiempoPanel').style.display   = document.getElementById('swTiempo').checked    ? 'block':'none'; }
 function toggleTemaLibreUI(){ document.getElementById('temaFijoPanel').style.display = document.getElementById('swTemaLibre').checked ? 'none':'block'; }
 function toggleCantLibreUI(){ document.getElementById('cantFijaPanel').style.display = document.getElementById('swCantLibre').checked ? 'none':'block'; }
+
 function cargarTemasAdmin() {
   call('obtenerTemas',[App.ses.adminId], res=>{
     const sel = document.getElementById('adminTema'); if(!sel) return;
@@ -786,6 +832,7 @@ function cargarTemasAdmin() {
     if (res.success) res.temas.forEach(t=>{ const o=document.createElement('option'); o.value=o.textContent=t; sel.appendChild(o); });
   });
 }
+
 function cargarCfgTiempo() {
   call('obtenerConfigTiempo',[], res=>{
     if (!res.success) return;
@@ -798,6 +845,7 @@ function cargarCfgTiempo() {
     const est= document.getElementById('tiempoEstado'); if(est) est.innerHTML=App.cfg.tiempoActivo?`✅ ACTIVADO — ${App.cfg.tiempoLimite} min`:'❌ DESACTIVADO';
   });
 }
+
 function guardarTiempoBtn() {
   const activo  = document.getElementById('swTiempo').checked ? 'si':'no';
   const minutos = parseInt(document.getElementById('inputMinutos').value)||30;
@@ -806,6 +854,7 @@ function guardarTiempoBtn() {
   UI.spin('Guardando…');
   call('guardarConfigTiempo',[App.ses.usuario,minutos,activo,msg], res=>{ UI.hide(); UI.alert('tiempoAlert',res.success?'success':'error',res.message); if(res.success) cargarCfgTiempo(); });
 }
+
 function cargarCfgQuiz() {
   call('obtenerConfigQuiz',[], res=>{
     if (!res.success) return;
@@ -819,10 +868,13 @@ function cargarCfgQuiz() {
     }
   });
 }
+
 function guardarQuizCfgBtn() {
   UI.spin('Guardando…');
-  call('guardarConfigQuiz',[App.ses.usuario,document.getElementById('adminTema').value,parseInt(document.getElementById('adminCant').value),document.getElementById('swTemaLibre').checked,document.getElementById('swCantLibre').checked], res=>{ UI.hide(); UI.alert('quizCfgAlert',res.success?'success':'error',res.message); if(res.success) cargarCfgQuiz(); });
+  call('guardarConfigQuiz',[App.ses.usuario,document.getElementById('adminTema').value,parseInt(document.getElementById('adminCant').value),document.getElementById('swTemaLibre').checked,document.getElementById('swCantLibre').checked],
+    res=>{ UI.hide(); UI.alert('quizCfgAlert',res.success?'success':'error',res.message); if(res.success) cargarCfgQuiz(); });
 }
+
 function cargarCfgAcceso() {
   call('obtenerConfigQuiz',[], res=>{
     if (!res.success) return;
@@ -833,10 +885,13 @@ function cargarCfgAcceso() {
     if(est) est.innerHTML = `${res.config.quizActivo==='si'?'✅ Activo':'🔒 Inactivo'} | Intentos: ${res.config.quizMaxIntentos===0?'Ilimitados':res.config.quizMaxIntentos}`;
   });
 }
+
 function guardarAccesoBtn() {
   UI.spin('Guardando…');
-  call('guardarConfigAcceso',[App.ses.usuario,document.getElementById('swQuizActivo').checked,parseInt(document.getElementById('selMaxIntentos').value)], res=>{ UI.hide(); UI.alert('accesoAlert',res.success?'success':'error',res.message); if(res.success) cargarCfgAcceso(); });
+  call('guardarConfigAcceso',[App.ses.usuario,document.getElementById('swQuizActivo').checked,parseInt(document.getElementById('selMaxIntentos').value)],
+    res=>{ UI.hide(); UI.alert('accesoAlert',res.success?'success':'error',res.message); if(res.success) cargarCfgAcceso(); });
 }
+
 function cargarCfgEmail() {
   call('obtenerConfigQuiz',[], res=>{
     if (!res.success) return;
@@ -846,6 +901,7 @@ function cargarCfgEmail() {
     if(est) est.innerHTML = res.config.emailActivo==='si'?`✅ Activo → ${res.config.emailNotificacion||'Sin email'}`:'❌ Desactivado';
   });
 }
+
 function guardarEmailBtn() {
   const activo = document.getElementById('swEmail').checked;
   const email  = document.getElementById('inputEmails').value.trim();
@@ -854,13 +910,14 @@ function guardarEmailBtn() {
   call('guardarConfigEmail',[App.ses.usuario,activo,email], res=>{ UI.hide(); UI.alert('emailAlert',res.success?'success':'error',res.message); if(res.success) cargarCfgEmail(); });
 }
 
-/* ===== MI PERFIL ===== */
+/* ============================================================ MI PERFIL ============================================================ */
 function cargarPerfil() {
   document.getElementById('pUsuario').textContent = App.ses.usuario;
   document.getElementById('pNombre').textContent  = App.ses.nombre;
   document.getElementById('pRol').textContent     = App.ses.rol==='super_admin'?'👑 Super Admin':App.ses.rol==='admin'?'👨‍💼 Administrador':'📚 Estudiante';
   ['pNuevoUser','pNuevoPass','pConfirmPass','pNuevoNombre'].forEach(id=>document.getElementById(id).value='');
 }
+
 function guardarPerfil() {
   const nu = document.getElementById('pNuevoUser').value.trim();
   const np = document.getElementById('pNuevoPass').value.trim();
@@ -879,7 +936,7 @@ function guardarPerfil() {
   });
 }
 
-/* ===== QUIZ ===== */
+/* ============================================================ QUIZ ============================================================ */
 function cargarCfgQuizEstudiante() {
   ['quizBloqueado','quizConfigPanel','quizMotor','quizResultados'].forEach(id=>document.getElementById(id).style.display='none');
   UI.spin('Verificando acceso…');
@@ -908,6 +965,7 @@ function cargarCfgQuizEstudiante() {
     });
   });
 }
+
 function _setupQuizUI() {
   const esAdm = App.ses.rol==='admin'||App.ses.rol==='super_admin';
   const tg = document.getElementById('quizTemaGroup');
@@ -921,6 +979,7 @@ function _setupQuizUI() {
     if (!esAdm&&!App.cfg.quizTemaLibre&&App.cfg.quizTema!=='Todos') sel.value=App.cfg.quizTema;
   });
 }
+
 function iniciarQuiz() {
   const esAdm = App.ses.rol==='admin'||App.ses.rol==='super_admin';
   const tema   = (esAdm||App.cfg.quizTemaLibre) ? document.getElementById('selectTema').value : App.cfg.quizTema;
@@ -937,6 +996,7 @@ function iniciarQuiz() {
     if (App.ses.rol==='estudiante') activarAntiPlagio();
   });
 }
+
 function mostrarPregunta() {
   const p = App.quiz.preguntas[App.quiz.indice];
   const n = App.quiz.indice+1, tot = App.quiz.preguntas.length;
@@ -961,6 +1021,7 @@ function mostrarPregunta() {
   document.getElementById('quizFeedback').style.display='none';
   document.getElementById('btnSig').style.display='none';
 }
+
 function seleccionar(letraOrig) {
   if (App.quiz.respondida) return;
   App.quiz.respondida = true;
@@ -985,10 +1046,12 @@ function seleccionar(letraOrig) {
   bs.style.display='block';
   bs.textContent = App.quiz.indice>=App.quiz.preguntas.length-1?'🏆 Ver Resultados':'Siguiente ➡️';
 }
+
 function siguientePregunta() {
   App.quiz.indice++;
   if (App.quiz.indice>=App.quiz.preguntas.length) finalizarQuiz(); else mostrarPregunta();
 }
+
 function finalizarQuiz() {
   desactivarAntiPlagio(); _detenerTimer();
   document.getElementById('timerBox').style.display='none';
@@ -1010,12 +1073,14 @@ function finalizarQuiz() {
   document.getElementById('rInc').textContent   = App.quiz.incorrectas;
   document.getElementById('rPct').textContent   = `${pct}%`;
   const tema = App.cfg.quizTemaLibre||(App.ses.rol==='admin'||App.ses.rol==='super_admin') ? (document.getElementById('selectTema')?.value||'General') : App.cfg.quizTema||'General';
-  call('guardarEstadisticas',[App.ses.usuario,App.ses.nombre,App.quiz.correctas,App.quiz.incorrectas,tema,App.ses.adminId], ()=>{});
+  google.script.run.guardarEstadisticas(App.ses.usuario,App.ses.nombre,App.quiz.correctas,App.quiz.incorrectas,tema,App.ses.adminId);
 }
+
 function animNum(el,start,end,dur,suf) {
   const t0=performance.now();
   (function frame(t){ const p=Math.min((t-t0)/dur,1); el.textContent=Math.round(start+(end-start)*(1-Math.pow(1-p,3)))+(suf||''); if(p<1) requestAnimationFrame(frame); })(t0);
 }
+
 function reiniciarQuiz() {
   desactivarAntiPlagio(); _detenerTimer();
   App.quiz={preguntas:[],indice:0,correctas:0,incorrectas:0,respondida:false};
@@ -1024,7 +1089,7 @@ function reiniciarQuiz() {
   cargarCfgQuizEstudiante();
 }
 
-/* ===== TEMPORIZADOR ===== */
+/* ============================================================ TEMPORIZADOR ============================================================ */
 function iniciarTimer() {
   const timerBox = document.getElementById('timerBox');
   if (!App.cfg.tiempoActivo) { timerBox.style.display='none'; return; }
@@ -1043,15 +1108,18 @@ function iniciarTimer() {
   tick();
   App.ui.timer = setInterval(tick,1000);
 }
+
 const pad = n => n<10?'0'+n:n;
+
 function _detenerTimer() { if(App.ui.timer){ clearInterval(App.ui.timer); App.ui.timer=null; } }
+
 function tiempoAgotado() {
   alert(`⏱️ ${App.cfg.mensajeTiempo}`);
   App.quiz.incorrectas += App.quiz.preguntas.length-(App.quiz.correctas+App.quiz.incorrectas);
   finalizarQuiz();
 }
 
-/* ===== ANTI-PLAGIO ===== */
+/* ============================================================ ANTI-PLAGIO ============================================================ */
 function activarAntiPlagio() {
   App.antiPlagio.activo=true; App.antiPlagio.intentos=0;
   ['contextmenu','selectstart','dragstart','copy','cut','paste'].forEach(e=>document.addEventListener(e,_blockEv));
@@ -1060,6 +1128,7 @@ function activarAntiPlagio() {
   window.addEventListener('blur',_detectBlur);
   document.body.style.userSelect='none';
 }
+
 function desactivarAntiPlagio() {
   App.antiPlagio.activo=false;
   ['contextmenu','selectstart','dragstart','copy','cut','paste'].forEach(e=>document.removeEventListener(e,_blockEv));
@@ -1068,15 +1137,20 @@ function desactivarAntiPlagio() {
   window.removeEventListener('blur',_detectBlur);
   document.body.style.userSelect='';
 }
+
 function _blockEv(e){ if(!App.antiPlagio.activo) return; e.preventDefault(); e.stopPropagation(); _toast('🚫 Acción bloqueada'); }
+
 function _blockKeys(e){
   if(!App.antiPlagio.activo) return;
   if(e.keyCode===123){ e.preventDefault(); return false; }
   if((e.ctrlKey||e.metaKey)&&['c','v','x','u','s','p','a','f'].includes(e.key?.toLowerCase())){ e.preventDefault(); return false; }
   if(e.keyCode===9){ e.preventDefault(); return false; }
 }
+
 function _detectSalida(){ if(App.antiPlagio.activo&&(document.hidden||document.visibilityState==='hidden')) _salida(); }
+
 function _detectBlur(){ if(App.antiPlagio.activo) setTimeout(()=>{ if(!document.hasFocus()) _salida(); },200); }
+
 function _salida(){
   App.antiPlagio.intentos++;
   const rest = App.antiPlagio.max - App.antiPlagio.intentos;
@@ -1088,12 +1162,14 @@ function _salida(){
     _modal(`⚠️ ADVERTENCIA ${App.antiPlagio.intentos}/${App.antiPlagio.max}`,`Saliste de la ventana. Si lo haces ${rest} vez(es) más, el quiz se enviará automáticamente.`);
   }
 }
+
 function _toast(msg){
   const t=document.createElement('div');
   t.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--navy-950);color:#fff;padding:10px 22px;border-radius:50px;font-size:.85rem;font-weight:600;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1)';
   t.textContent=msg; document.body.appendChild(t);
   setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); },2000);
 }
+
 function _modal(titulo,msg){
   const ov=document.createElement('div');
   ov.style.cssText='position:fixed;inset:0;background:rgba(5,13,26,.8);z-index:99999;display:flex;justify-content:center;align-items:center;backdrop-filter:blur(10px)';
@@ -1101,10 +1177,13 @@ function _modal(titulo,msg){
   document.body.appendChild(ov);
 }
 
-/* ===== USUARIOS EN LÍNEA ===== */
+/* ============================================================ USUARIOS EN LÍNEA ============================================================ */
 function iniciarPing() { _enviarPing(); App.ui.ping=setInterval(_enviarPing,30000); }
-function _enviarPing() { if(App.ses.usuario) call('registrarActividad',[App.ses.usuario,App.ses.nombre,App.ses.rol,App.ses.adminId], ()=>{}); }
+
+function _enviarPing() { if(App.ses.usuario) google.script.run.registrarActividad(App.ses.usuario,App.ses.nombre,App.ses.rol,App.ses.adminId); }
+
 function _detenerIntervals() { ['ping','onlineInterval'].forEach(k=>{ if(App.ui[k]){ clearInterval(App.ui[k]); App.ui[k]=null; } }); }
+
 function cargarEnLinea() {
   const cont = document.getElementById('onlineContainer');
   if(cont) cont.innerHTML='<div class="empty-state"><div class="spinner"></div><p>Cargando…</p></div>';
@@ -1119,6 +1198,7 @@ function cargarEnLinea() {
     renderOnline(App.online.filtro);
   });
 }
+
 function renderOnline(filtro) {
   const cont = document.getElementById('onlineContainer');
   let datos = App.online.datos;
@@ -1136,14 +1216,21 @@ function renderOnline(filtro) {
     const bgCard = u.enLinea?'rgba(16,185,129,.04)':'var(--cream-100)';
     const estadoDot = `<div style="display:flex;align-items:center;gap:5px;padding:3px 10px;border-radius:50px;background:${u.enLinea?'rgba(16,185,129,.1)':'rgba(148,163,184,.1)'};font-size:.72rem;font-weight:600;color:${clr};border:1px solid ${u.enLinea?'rgba(16,185,129,.2)':'rgba(148,163,184,.2)'}"><span style="width:7px;height:7px;border-radius:50%;background:${clr}"></span>${u.enLinea?'En línea':'Desconectado'}</div>`;
     if (mobile) {
-      html += `<div class="data-card" style="background:${bgCard}"><div class="data-card-header"><div class="data-card-title">${u.nombre} ${emoji}</div>${estadoDot}</div><div class="data-card-field"><span class="data-card-label">Usuario:</span><span class="data-card-value">@${u.usuario}</span></div><div class="data-card-field"><span class="data-card-label">Rol:</span><span class="data-card-value">${rol}</span></div><div class="data-card-field"><span class="data-card-label">Actividad:</span><span class="data-card-value">${tact}</span></div></div>`;
+      html += `<div class="data-card" style="background:${bgCard}"><div class="data-card-header"><div class="data-card-title">${u.nombre} ${emoji}</div>${estadoDot}</div>
+        <div class="data-card-field"><span class="data-card-label">Usuario:</span><span class="data-card-value">@${u.usuario}</span></div>
+        <div class="data-card-field"><span class="data-card-label">Rol:</span><span class="data-card-value">${rol}</span></div>
+        <div class="data-card-field"><span class="data-card-label">Actividad:</span><span class="data-card-value">${tact}</span></div></div>`;
     } else {
-      html += `<div style="display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:var(--radius-md);margin-bottom:8px;border-left:3px solid ${clr};background:${bgCard};border:1px solid var(--cream-300);border-left:3px solid ${clr}"><div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;background:linear-gradient(135deg,var(--navy-800),var(--navy-600));color:#fff">${ini}</div><div style="flex:1"><div style="font-weight:700;color:var(--navy-800)">${u.nombre} ${emoji}</div><div style="font-size:.78rem;color:#94a3b8">@${u.usuario} · ${rol}</div></div><div style="text-align:right">${estadoDot}<div style="font-size:.73rem;color:#94a3b8;margin-top:4px">${tact}</div></div></div>`;
+      html += `<div style="display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:var(--radius-md);margin-bottom:8px;border-left:3px solid ${clr};background:${bgCard};border:1px solid var(--cream-300);border-left:3px solid ${clr}">
+        <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;background:linear-gradient(135deg,var(--navy-800),var(--navy-600));color:#fff">${ini}</div>
+        <div style="flex:1"><div style="font-weight:700;color:var(--navy-800)">${u.nombre} ${emoji}</div><div style="font-size:.78rem;color:#94a3b8">@${u.usuario} · ${rol}</div></div>
+        <div style="text-align:right">${estadoDot}<div style="font-size:.73rem;color:#94a3b8;margin-top:4px">${tact}</div></div></div>`;
     }
   });
   if (mobile) html+='</div>';
   cont.innerHTML = html;
 }
+
 function filtrarOnline(filtro, btn) {
   App.online.filtro = filtro;
   document.querySelectorAll('.ftab').forEach(t=>{
@@ -1152,11 +1239,12 @@ function filtrarOnline(filtro, btn) {
   if(btn){ btn.style.background='var(--navy-800)'; btn.style.borderColor='var(--navy-700)'; btn.style.color='#fff'; }
   renderOnline(filtro);
 }
+
 function iniciarAutoRefresh() {
   App.ui.onlineInterval=setInterval(()=>{ if(document.getElementById('sec-enlinea')?.classList.contains('active')) cargarEnLinea(); },30000);
 }
 
-/* ===== PERSONALIZACIÓN LOGIN ===== */
+/* ============================================================ PERSONALIZACIÓN LOGIN ============================================================ */
 function prevFondo(inp) {
   const f=inp.files[0]; if(!f) return;
   if(f.size>800*1024){ UI.alert('loginPersAlert','error','La imagen no debe superar 800KB'); inp.value=''; return; }
@@ -1165,6 +1253,7 @@ function prevFondo(inp) {
   r.onload=e=>{ App.pers.fondoB64=e.target.result; document.getElementById('prevFondoImg').src=e.target.result; document.getElementById('prevFondoWrap').style.display='block'; applyFondo(e.target.result,document.getElementById('inputBlur').value); };
   r.readAsDataURL(f);
 }
+
 function prevLogo(inp) {
   const f=inp.files[0]; if(!f) return;
   if(f.size>300*1024){ UI.alert('loginPersAlert','error','El logo no debe superar 300KB'); inp.value=''; return; }
@@ -1173,17 +1262,20 @@ function prevLogo(inp) {
   r.onload=e=>{ App.pers.logoB64=e.target.result; document.getElementById('prevLogoImg').src=e.target.result; document.getElementById('prevLogoWrap').style.display='block'; applyLogo(e.target.result); };
   r.readAsDataURL(f);
 }
+
 function applyFondo(url,blur) {
   const bg=document.getElementById('loginBg'); if(!bg) return;
   if(url){ bg.style.backgroundImage=`url(${url})`; bg.style.filter=`blur(${blur||5}px)`; }
   else { bg.style.backgroundImage=''; bg.style.filter=''; }
 }
+
 function applyLogo(url) {
   const icon=document.getElementById('loginIconDefault'), img=document.getElementById('loginLogoImg');
   if(icon&&img){ if(url){ img.src=url; img.style.display='block'; icon.style.display='none'; } else { img.style.display='none'; icon.style.display='flex'; } }
   const sw=document.getElementById('sidebarLogoWrap'), si=document.getElementById('sidebarLogoImg'), st=document.getElementById('sidebarTitulo');
   if(sw&&si&&st){ if(url){ si.src=url; sw.style.display='block'; st.style.display='none'; } else { sw.style.display='none'; st.style.display='block'; } }
 }
+
 function guardarLoginPers() {
   const blur=document.getElementById('inputBlur').value;
   const hasFondo=!!App.pers.fondoB64, hasLogo=!!App.pers.logoB64;
@@ -1195,6 +1287,7 @@ function guardarLoginPers() {
   if(hasFondo) call('subirImagenLogin',[App.ses.usuario,App.pers.fondoB64,App.pers.fondoMime,'fondo'], res=>{ if(!res?.success) errs.push('Fondo: '+(res?.message||'Error')); check(); });
   if(hasLogo)  call('subirImagenLogin',[App.ses.usuario,App.pers.logoB64,App.pers.logoMime,'logo'],   res=>{ if(!res?.success) errs.push('Logo: '+(res?.message||'Error'));  check(); });
 }
+
 function eliminarLoginPers() {
   if(!confirm('¿Quitar las imágenes del login?')) return;
   UI.spin('Eliminando…');
@@ -1204,6 +1297,7 @@ function eliminarLoginPers() {
     else UI.alert('loginPersAlert','error',res?.message||'Error');
   });
 }
+
 function cargarLoginPers() {
   call('obtenerPersonalizacionLogin',[], res=>{
     if(!res?.success) return;
@@ -1213,7 +1307,7 @@ function cargarLoginPers() {
   });
 }
 
-/* ===== INICIALIZACIÓN ===== */
+/* ============================================================ INICIALIZACIÓN ============================================================ */
 window.addEventListener('DOMContentLoaded',()=>{
   call('obtenerPersonalizacionLogin',[], res=>{ if(res?.success){ if(res.fondo) applyFondo(res.fondo,res.blur); if(res.logo) applyLogo(res.logo); } });
   const saved = sessionStorage.getItem('ses');
@@ -1229,7 +1323,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('loginPass').addEventListener('keydown', e=>{ if(e.key==='Enter') hacerLogin(); });
   document.getElementById('loginUser').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('loginPass').focus(); });
 });
-window.addEventListener('beforeunload',()=>{ if(App.ses.usuario) { navigator.sendBeacon(API_URL, JSON.stringify({ action: 'registrarCierreSesion', args: [App.ses.usuario] })); } });
+
+window.addEventListener('beforeunload',()=>{ if(App.ses.usuario) google.script.run.registrarCierreSesion(App.ses.usuario); });
 </script>
 </body>
 </html>
