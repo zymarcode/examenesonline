@@ -255,6 +255,146 @@ a{color:inherit;text-decoration:none}
 .tb-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text)}
 .tb-sub{font-size:.72rem;color:var(--text-3);margin-top:1px}
 .tb-right{display:flex;align-items:center;gap:8px}
+/* NOTIFICACIONES BELL */
+.notif-bell {
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  transition: all 0.2s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notif-bell:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+.bell-icon {
+  font-size: 1.2rem;
+  display: block;
+}
+.bell-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--red);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 20px;
+  min-width: 18px;
+  text-align: center;
+  box-shadow: 0 0 0 2px var(--bg-2);
+  animation: pulse-bell 0.5s ease;
+}
+@keyframes pulse-bell {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.notif-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  background: var(--bg-3);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-2);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  overflow: hidden;
+  animation: fadeSlide .2s var(--ease);
+}
+@media (max-width: 768px) {
+  .notif-dropdown {
+    width: calc(100vw - 40px);
+    right: 20px;
+    left: 20px;
+    margin: 0 auto;
+  }
+}
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.notif-mark-all {
+  background: transparent;
+  border: none;
+  color: var(--accent-2);
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  transition: all 0.2s;
+}
+.notif-mark-all:hover {
+  background: var(--accent-bg);
+}
+.notif-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+.notif-item:hover {
+  background: var(--surface);
+}
+.notif-item.unread {
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+}
+.notif-mensaje {
+  font-size: 0.8rem;
+  color: var(--text-2);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.notif-fecha {
+  font-size: 0.65rem;
+  color: var(--text-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notif-de {
+  font-size: 0.6rem;
+  color: var(--accent-2);
+}
+.notif-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 0.8rem;
+}
+.btn-mark-read {
+  background: transparent;
+  border: none;
+  color: var(--accent-2);
+  font-size: 0.65rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+}
+.btn-mark-read:hover {
+  background: var(--surface-2);
+}
 .tb-user{
   display:flex;align-items:center;gap:7px;padding:6px 14px;
   background:var(--surface);border:1px solid var(--border-2);
@@ -761,6 +901,21 @@ textarea.form-input{resize:vertical;min-height:78px}
       <span class="tb-sub" id="topSub">Panel general</span>
     </div>
     <div class="tb-right">
+      <!-- CAMPANITA DE NOTIFICACIONES -->
+      <div class="notif-bell" id="notifBell" onclick="toggleNotifDropdown(event)">
+        <span class="bell-icon">🔔</span>
+        <span class="bell-badge" id="notifBadge" style="display:none">0</span>
+      </div>
+      <!-- DROPDOWN DE NOTIFICACIONES -->
+      <div class="notif-dropdown" id="notifDropdown" style="display:none">
+        <div class="notif-header">
+          <span>📢 Notificaciones</span>
+          <button class="notif-mark-all" onclick="marcarTodasLeidas()">✓ Marcar todas</button>
+        </div>
+        <div class="notif-list" id="notifList">
+          <div class="notif-empty">No hay notificaciones</div>
+        </div>
+      </div>
       <span class="tb-user" id="tbUser">👤</span>
       <button class="btn-logout" onclick="cerrarSesion()">🚪 Salir</button>
     </div>
@@ -844,25 +999,6 @@ textarea.form-input{resize:vertical;min-height:78px}
       <div class="card">
         <div class="card-hd"><div class="card-title"><span class="card-ic">👥</span>Estudiantes Registrados</div><div class="tbl-search" style="width:210px"><span class="tbl-search-ic">🔍</span><input type="text" placeholder="Buscar…" oninput="filtrarUsuarios(this.value)"></div></div>
         <div id="listaUsuarios"><div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div></div>
-      </div>
-    </div>
-
-    <!-- ═══ NOTIFICACIONES ═══ -->
-    <div class="section" id="sec-notificaciones">
-      <div class="card">
-        <div class="card-hd"><div class="card-title"><span class="card-ic">📢</span>Notificaciones</div><button class="btn btn-ghost btn-sm" onclick="cargarNotificaciones()">🔄 Actualizar</button></div>
-        <div id="notifAdminPanel" style="display:none" class="form-box">
-          <div class="form-box-title">➕ Enviar Nueva Notificación</div>
-          <div class="form-row"><label class="form-label">Mensaje</label><textarea id="notifMensaje" class="form-input" rows="3" placeholder="Escribe el mensaje de la notificación..."></textarea></div>
-          <div class="form-row"><label class="form-label">Destinatarios</label>
-            <select id="notifTipo" class="form-input"><option value="estudiantes">📚 Mis Estudiantes (solo los que me pertenecen)</option></select>
-            <select id="notifTipoSuper" class="form-input" style="display:none"><option value="todos">🌐 Todos (SuperAdmin + Admins + Estudiantes)</option><option value="admins">👑 Solo Administradores</option><option value="estudiantes">📚 Mis Estudiantes</option></select>
-          </div>
-          <div id="notifAlert"></div>
-          <button class="btn btn-primary" onclick="enviarNotificacion()">📨 Enviar Notificación</button>
-        </div>
-        <div class="card-hd" style="margin-top:16px"><div class="card-title"><span class="card-ic">📬</span>Notificaciones Recibidas</div></div>
-        <div id="notificacionesContainer"><div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando...</p></div></div>
       </div>
     </div>
 
@@ -970,7 +1106,7 @@ const App = {
             quizCantidadLibre:false, quizActivo:true, quizMaxIntentos:0 },
   upload: { archivo:null },
   online: { datos:[], filtro:'todos' },
-  timers: { ping:null, interval:null, quiz:null },
+  timers: { ping:null, interval:null, quiz:null, notifInterval:null },
   ap:     { activo:false, intentos:0, max:3 },
   adminsData:   [],
   usuariosData: [],
@@ -1004,6 +1140,96 @@ function call(fn, args, cb) {
 }
 function callSpin(txt, fn, args, cb) { spin(txt); call(fn, args, cb); }
 
+// ────────────────────────────────────────────── NOTIFICACIONES BELL
+let notifDropdownOpen = false;
+
+function cargarNotificacionesBell() {
+  if (!App.ses.usuario) return;
+  call('obtenerNotificaciones', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => {
+    if (res.success) {
+      App.notificaciones = res.notificaciones || [];
+      actualizarBellBadge();
+      renderNotifDropdown();
+    }
+  });
+}
+
+function actualizarBellBadge() {
+  const badge = $('notifBadge');
+  const count = App.notificaciones.length;
+  if (count > 0) {
+    badge.textContent = count > 9 ? '9+' : count;
+    badge.style.display = 'block';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function renderNotifDropdown() {
+  const list = $('notifList');
+  if (!list) return;
+  
+  if (App.notificaciones.length === 0) {
+    list.innerHTML = '<div class="notif-empty">📭 No hay notificaciones nuevas</div>';
+    return;
+  }
+  
+  list.innerHTML = App.notificaciones.map(n => `
+    <div class="notif-item unread" data-id="${n.id}">
+      <div class="notif-mensaje">${esc(n.mensaje)}</div>
+      <div class="notif-fecha">
+        <span>📅 ${n.fecha}</span>
+        <span class="notif-de">👤 ${esc(n.creadaPor)}</span>
+        <button class="btn-mark-read" onclick="marcarNotificacionLeida('${n.id}')">✓ Leer</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function marcarNotificacionLeida(id) {
+  call('marcarNotificacionLeida', [App.ses.usuario, id], res => {
+    if (res.success) {
+      App.notificaciones = App.notificaciones.filter(n => n.id !== id);
+      actualizarBellBadge();
+      renderNotifDropdown();
+    }
+  });
+}
+
+function marcarTodasLeidas() {
+  if (App.notificaciones.length === 0) return;
+  const promises = App.notificaciones.map(n => 
+    new Promise(resolve => call('marcarNotificacionLeida', [App.ses.usuario, n.id], resolve))
+  );
+  Promise.all(promises).then(() => {
+    App.notificaciones = [];
+    actualizarBellBadge();
+    renderNotifDropdown();
+  });
+}
+
+function toggleNotifDropdown(event) {
+  event.stopPropagation();
+  const dropdown = $('notifDropdown');
+  if (notifDropdownOpen) {
+    dropdown.style.display = 'none';
+    notifDropdownOpen = false;
+  } else {
+    dropdown.style.display = 'block';
+    notifDropdownOpen = true;
+  }
+}
+
+// Cerrar dropdown al hacer clic fuera
+document.addEventListener('click', function(event) {
+  const bell = $('notifBell');
+  const dropdown = $('notifDropdown');
+  if (bell && dropdown && !bell.contains(event.target) && !dropdown.contains(event.target)) {
+    dropdown.style.display = 'none';
+    notifDropdownOpen = false;
+  }
+});
+
 // ────────────────────────────────────────────── LOGIN
 function hacerLogin() {
   const u = $('loginUser').value.trim(), p = $('loginPass').value.trim();
@@ -1022,7 +1248,7 @@ function loginMsg(tipo, msg) {
 }
 function cerrarSesion() {
   if (App.ses.usuario) navigator.sendBeacon(API_URL, JSON.stringify({ action:'registrarCierreSesion', args:[App.ses.usuario] }));
-  clearInterval(App.timers.ping); clearInterval(App.timers.interval); clearInterval(App.timers.quiz);
+  clearInterval(App.timers.ping); clearInterval(App.timers.interval); clearInterval(App.timers.quiz); clearInterval(App.timers.notifInterval);
   App.ses = { usuario:'', nombre:'', rol:'', adminId:'' };
   sessionStorage.removeItem('ses');
   $('appMain').style.display = 'none'; $('loginScreen').style.display = 'flex'; $('hamburgerBtn').style.display = 'none';
@@ -1034,7 +1260,6 @@ const SECTIONS = [
   { id:'admins',    icon:'👑', label:'Administradores', admin:false, sup:true  },
   { id:'importar',  icon:'⚙️', label:'Configuración',   admin:true,  sup:false },
   { id:'usuarios',  icon:'👥', label:'Estudiantes',     admin:true,  sup:false },
-  { id:'notificaciones', icon:'📢', label:'Notificaciones', admin:true, sup:false },
   { id:'enlinea',   icon:'🟢', label:'En Línea',        admin:true,  sup:false },
   { id:'perfil',    icon:'👤', label:'Mi Perfil',       admin:false, sup:false },
   { id:'quiz',      icon:'📝', label:'Quiz',            admin:false, sup:false },
@@ -1043,9 +1268,9 @@ const SECTIONS = [
 ];
 const META = {
   inicio:   ['Inicio','Panel general'], admins: ['Administradores','Gestión del sistema'], importar: ['Configuración','Ajustes avanzados'],
-  usuarios: ['Estudiantes','Gestión de estudiantes'], notificaciones: ['Notificaciones','Mensajes del sistema'],
-  enlinea:  ['En Línea','Actividad en tiempo real'], perfil: ['Mi Perfil','Tu cuenta'], quiz: ['Quiz','Evaluación interactiva'],
-  historial:['Historial','Registro de resultados'], ranking: ['Ranking','Clasificación general'],
+  usuarios: ['Estudiantes','Gestión de estudiantes'], enlinea:  ['En Línea','Actividad en tiempo real'],
+  perfil:   ['Mi Perfil','Tu cuenta'], quiz: ['Quiz','Evaluación interactiva'], historial:['Historial','Registro de resultados'],
+  ranking:  ['Ranking','Clasificación general'],
 };
 function buildNav() {
   const esS = App.ses.rol === 'super_admin', esA = App.ses.rol === 'admin';
@@ -1059,8 +1284,7 @@ function mostrarSec(sec) {
   document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.sec === sec));
   if (window.innerWidth <= 768 && sidebarOpen) cerrarSidebar();
   ({ admins: cargarAdmins, importar: () => { cargarCfgTiempo(); cargarCfgQuiz(); cargarTemasAdmin(); cargarCfgAcceso(); cargarCfgEmail(); cargarLoginPers(); },
-     usuarios: cargarUsuarios, notificaciones: () => { cargarNotificaciones(); configurarPanelNotificaciones(); },
-     enlinea: cargarEnLinea, ranking: cargarRanking, perfil: cargarPerfil, quiz: cargarCfgQuizEstudiante, historial: cargarHistorial, inicio: cargarDashboard })[sec]?.();
+     usuarios: cargarUsuarios, enlinea: cargarEnLinea, ranking: cargarRanking, perfil: cargarPerfil, quiz: cargarCfgQuizEstudiante, historial: cargarHistorial, inicio: cargarDashboard })[sec]?.();
 }
 let sidebarOpen = false;
 function toggleSidebar() { sidebarOpen ? cerrarSidebar() : abrirSidebar(); }
@@ -1072,6 +1296,8 @@ function iniciarApp() {
   $('loginScreen').style.display = 'none'; $('appMain').style.display = 'flex'; $('hamburgerBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
   const esS = App.ses.rol === 'super_admin'; if ($('cardLoginPers')) $('cardLoginPers').style.display = esS ? 'block' : 'none';
   buildNav(); mostrarSec('inicio'); cargarCfgTiempo(); cargarCfgQuiz(); iniciarPing(); aplicarPersonalizacion();
+  cargarNotificacionesBell();
+  App.timers.notifInterval = setInterval(() => { cargarNotificacionesBell(); }, 60000);
   if (esS || App.ses.rol === 'admin') App.timers.interval = setInterval(() => { if ($('sec-enlinea')?.classList.contains('active')) cargarEnLinea(); }, 30000);
 }
 
@@ -1094,24 +1320,6 @@ function eliminarLoginPers() { if (!confirm('¿Quitar las imágenes y restablece
 
 // ────────────────────────────────────────────── DASHBOARD
 function cargarDashboard() { callSpin('Cargando…', 'obtenerEstadisticasGenerales', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => { if (!res?.success) return; const d = res.datos; $('d-preguntas').textContent = d.totalPreguntas ?? 0; $('d-quizzes').textContent = d.totalQuizzes ?? 0; $('d-temas').textContent = d.totalTemas ?? 0; $('d-promedio').textContent = (d.promedioGeneral ?? 0) + '%'; if (App.ses.rol !== 'estudiante') { $('dashAdminExtra').style.display = 'block'; $('d-estudiantes').textContent = d.totalEstudiantes ?? 0; $('d-mejor').textContent = (d.mejorNota ?? 0) + '%'; $('d-enlinea').textContent = d.usuariosEnLinea ?? 0; $('d-hoy').textContent = d.quizzesHoy ?? 0; } }); }
-
-// ────────────────────────────────────────────── NOTIFICACIONES
-function configurarPanelNotificaciones() {
-  const esSuper = App.ses.rol === 'super_admin';
-  const esAdmin = App.ses.rol === 'admin';
-  const adminPanel = document.getElementById('notifAdminPanel');
-  const selectNormal = document.getElementById('notifTipo');
-  const selectSuper = document.getElementById('notifTipoSuper');
-  if (esSuper || esAdmin) {
-    adminPanel.style.display = 'block';
-    if (esSuper) { selectNormal.style.display = 'none'; selectSuper.style.display = 'block'; }
-    else { selectNormal.style.display = 'block'; selectSuper.style.display = 'none'; }
-  } else { adminPanel.style.display = 'none'; }
-}
-function cargarNotificaciones() { if (!App.ses.usuario) return; call('obtenerNotificaciones', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => { if (res.success) { App.notificaciones = res.notificaciones || []; mostrarNotificaciones(); } else { document.getElementById('notificacionesContainer').innerHTML = '<div class="empty"><p>Error al cargar notificaciones</p></div>'; } }); }
-function mostrarNotificaciones() { const container = document.getElementById('notificacionesContainer'); if (!container) return; if (App.notificaciones.length === 0) { container.innerHTML = '<div class="empty"><div class="empty-ic">📭</div><p>No hay notificaciones nuevas</p></div>'; return; } container.innerHTML = App.notificaciones.map(n => `<div class="result-row" style="border-left-color:var(--accent)" data-id="${n.id}"><div style="flex:1"><div class="result-meta">📢 ${n.fecha} · De: <strong>${esc(n.creadaPor)}</strong></div><div class="result-detail" style="margin-top:6px">${esc(n.mensaje)}</div></div><button class="btn btn-sm btn-ghost" onclick="marcarNotificacionLeida('${n.id}')">✓ Marcar como leída</button></div>`).join(''); }
-function marcarNotificacionLeida(id) { call('marcarNotificacionLeida', [App.ses.usuario, id], res => { if (res.success) { App.notificaciones = App.notificaciones.filter(n => n.id !== id); mostrarNotificaciones(); } }); }
-function enviarNotificacion() { const esSuper = App.ses.rol === 'super_admin'; const mensaje = document.getElementById('notifMensaje').value.trim(); const tipo = esSuper ? document.getElementById('notifTipoSuper').value : document.getElementById('notifTipo').value; if (!mensaje) { alerta('notifAlert', 'err', 'Escribe un mensaje'); return; } callSpin('Enviando notificación...', 'enviarNotificacion', [App.ses.usuario, mensaje, tipo], res => { if (res.success) { alerta('notifAlert', 'ok', `Notificación enviada a ${res.total} usuario(s)`); document.getElementById('notifMensaje').value = ''; } else { alerta('notifAlert', 'err', res.message); } }); }
 
 // ────────────────────────────────────────────── ADMINS
 let editAdminTarget = '', programarTarget = '';
@@ -1200,7 +1408,7 @@ function enviarPDFemail() { const e = prompt('📧 Email destino:'); if (!e?.tri
 function cargarRanking() { $('rankingContainer').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>'; callSpin('Cargando…', 'obtenerRanking', [App.ses.usuario], res => { if (!res.success || !res.ranking?.length) { $('rankingContainer').innerHTML = '<div class="empty"><div class="empty-ic">🏅</div><p>Sin datos</p></div>'; return; } const colorPct = p => p >= 90 ? 'var(--purple)' : p >= 70 ? 'var(--green)' : p >= 40 ? 'var(--amber)' : 'var(--red)'; $('rankingContainer').innerHTML = res.ranking.map((r, i) => { const pos = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1); return `<div class="rank-row"><div class="rank-pos">${pos}</div><div class="rank-info"><div class="rank-name">${esc(r.nombre)}</div><div class="rank-meta">@${esc(r.usuario)} · ${r.intentos} quizzes · Mejor: ${r.mejor}%</div></div><div class="rank-pct" style="color:${colorPct(r.promedio)}">${r.promedio}%</div></div>`; }).join(''); }); }
 
 // ────────────────────────────────────────────── EN LÍNEA
-function iniciarPing() { _enviarPing(); App.timers.ping = setInterval(_enviarPing, 30000); setInterval(() => { if (App.ses.usuario && document.getElementById('sec-notificaciones')?.classList.contains('active')) { cargarNotificaciones(); } }, 120000); }
+function iniciarPing() { _enviarPing(); App.timers.ping = setInterval(_enviarPing, 30000); }
 function _enviarPing() { if (App.ses.usuario) call('registrarActividad', [App.ses.usuario, App.ses.nombre, App.ses.rol, App.ses.adminId], () => { }); }
 function cargarEnLinea() { callSpin('Cargando…', 'obtenerUsuariosEnLinea', [App.ses.usuario], res => { if (!res.success) return; App.online.datos = res.usuarios; $('onlineCount').textContent = `${res.enLinea} en línea`; $('sOnline').textContent = res.enLinea; $('sOffline').textContent = res.total - res.enLinea; $('sTotal').textContent = res.total; $('sPct').textContent = res.total > 0 ? Math.round((res.enLinea / res.total) * 100) + '%' : '0%'; renderOnline(App.online.filtro); }); }
 function renderOnline(filtro) { let datos = App.online.datos; if (filtro === 'online') datos = datos.filter(u => u.enLinea); if (filtro === 'offline') datos = datos.filter(u => !u.enLinea); const cont = $('onlineContainer'); if (!datos.length) { cont.innerHTML = '<div class="empty"><p>Sin usuarios</p></div>'; return; } cont.innerHTML = datos.map(u => { const ini = (u.nombre || '?').charAt(0).toUpperCase(); const rol = u.rol === 'admin' ? 'Admin' : u.rol === 'super_admin' ? 'Super Admin' : 'Estudiante'; return `<div class="online-row"><div class="online-av">${ini}</div><div class="online-info"><div class="online-name">${esc(u.nombre)} ${u.rol === 'admin' ? '👨‍💼' : u.rol === 'super_admin' ? '👑' : '📚'}</div><div class="online-meta">@${esc(u.usuario)} · ${rol}</div></div><div style="text-align:right"><span class="online-status ${u.enLinea ? 'os-on' : 'os-off'}">${u.enLinea ? '● En línea' : '● Desconectado'}</span><div style="font-size:.7rem;color:var(--text-3);margin-top:4px">${u.tiempoDesde || 'Sin actividad'}</div></div></div>`; }).join(''); }
