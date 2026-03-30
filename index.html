@@ -18,21 +18,17 @@
   --surface:     #1c2130;
   --surface-2:   #232b3e;
   --surface-3:   #2a3347;
-
   --border:      rgba(255,255,255,.07);
   --border-2:    rgba(255,255,255,.12);
   --border-3:    rgba(255,255,255,.18);
-
   --accent:      #5b8dee;
   --accent-2:    #7ba3f5;
   --accent-glow: rgba(91,141,238,.18);
   --accent-bg:   rgba(91,141,238,.08);
-
   --gold:        #f0c060;
   --gold-2:      #f8d98a;
   --gold-glow:   rgba(240,192,96,.16);
   --gold-bg:     rgba(240,192,96,.08);
-
   --green:       #34d399;
   --green-bg:    rgba(52,211,153,.09);
   --red:         #f87171;
@@ -41,30 +37,24 @@
   --amber-bg:    rgba(251,191,36,.09);
   --purple:      #a78bfa;
   --purple-bg:   rgba(167,139,250,.09);
-
   --text:        #f1f3f8;
   --text-2:      #9aa3b8;
   --text-3:      #5a6480;
   --text-inv:    #0a0c10;
-
   --sidebar-w:   256px;
   --topbar-h:    60px;
-
   --r-xs:  4px;
   --r-sm:  8px;
   --r-md:  12px;
   --r-lg:  16px;
   --r-xl:  20px;
   --r-2xl: 28px;
-
   --shadow-xs: 0 1px 3px rgba(0,0,0,.3);
   --shadow-sm: 0 2px 8px rgba(0,0,0,.35);
   --shadow-md: 0 8px 24px rgba(0,0,0,.4);
   --shadow-lg: 0 20px 60px rgba(0,0,0,.5);
-
   --ease:        cubic-bezier(.22,1,.36,1);
   --ease-spring: cubic-bezier(.34,1.56,.64,1);
-  --ease-in:     cubic-bezier(.55,.055,.675,.19);
 }
 
 /* ═══════════════════════════════════════════════ RESET */
@@ -79,20 +69,16 @@ a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:20px}
 ::selection{background:var(--accent-glow);color:var(--text)}
 
-/* ═══════════════════════════════════════════════
-   LOGIN SCREEN
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════ LOGIN SCREEN */
 #loginScreen {
   display:flex;align-items:stretch;min-height:100vh;
   position:fixed;inset:0;z-index:200;
 }
-/* Visual panel */
 .lv-panel {
   flex:0 0 55%;position:relative;overflow:hidden;
   background:var(--bg-2);display:none;
 }
 @media(min-width:1024px){.lv-panel{display:block}}
-
 .lv-bg {
   position:absolute;inset:0;
   background:radial-gradient(ellipse 70% 60% at 30% 20%,rgba(91,141,238,.12),transparent 55%),
@@ -140,8 +126,6 @@ a{color:inherit;text-decoration:none}
   font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;display:block;
 }
 .lv-stat-l{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
-
-/* Login form panel */
 .lf-panel {
   flex:1;background:var(--bg-2);display:flex;flex-direction:column;
   justify-content:center;padding:clamp(28px,6vw,64px) clamp(24px,5vw,56px);
@@ -149,7 +133,6 @@ a{color:inherit;text-decoration:none}
   border-left:1px solid var(--border);
 }
 @media(max-width:1023px){.lf-panel{max-width:100%;border-left:none}}
-
 .lf-logo-wrap{margin-bottom:28px}
 .lf-logo-icon{
   width:54px;height:54px;border-radius:16px;
@@ -158,14 +141,12 @@ a{color:inherit;text-decoration:none}
   box-shadow:var(--shadow-md);border:1px solid var(--border-2);
 }
 .lf-logo-img{max-height:52px;max-width:150px;object-fit:contain;display:none;border-radius:8px}
-
 .lf-head{margin-bottom:32px}
 .lf-head h2{
   font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;
   color:var(--text);margin-bottom:6px;letter-spacing:-.01em;
 }
 .lf-head p{font-size:.875rem;color:var(--text-3)}
-
 .lf-field{margin-bottom:16px}
 .lf-label{display:block;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2);margin-bottom:7px}
 .lf-input-wrap{position:relative}
@@ -182,7 +163,6 @@ a{color:inherit;text-decoration:none}
 .lf-input::placeholder{color:var(--text-3)}
 .lf-input:focus{border-color:var(--accent);background:var(--surface-2);box-shadow:0 0 0 3px var(--accent-glow)}
 .lf-field:focus-within .lf-icon{color:var(--accent)}
-
 .lf-submit {
   width:100%;padding:13px;
   background:linear-gradient(135deg,var(--accent),var(--accent-2));
@@ -194,7 +174,6 @@ a{color:inherit;text-decoration:none}
 }
 .lf-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--accent-glow)}
 .lf-submit:active{transform:translateY(0)}
-
 .lf-msg {
   padding:10px 14px;border-radius:var(--r-sm);font-size:.85rem;font-weight:500;
   display:flex;align-items:flex-start;gap:8px;margin-bottom:16px;
@@ -205,9 +184,7 @@ a{color:inherit;text-decoration:none}
 .lf-footer{margin-top:24px;font-size:.73rem;color:var(--text-3);text-align:center}
 .lf-footer strong{color:var(--accent)}
 
-/* ═══════════════════════════════════════════════
-   APP LAYOUT
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════ APP LAYOUT */
 .app-sidebar {
   width:var(--sidebar-w);background:var(--bg-2);
   position:fixed;top:0;left:0;bottom:0;z-index:50;
@@ -231,7 +208,6 @@ a{color:inherit;text-decoration:none}
   color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .sb-tagline{font-size:.65rem;color:var(--text-3);margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
-
 .sb-nav{flex:1;padding:10px 10px;display:flex;flex-direction:column;gap:1px;overflow-y:auto}
 .sb-group-lbl{
   font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
@@ -254,7 +230,6 @@ a{color:inherit;text-decoration:none}
   margin-left:auto;background:var(--accent);color:#fff;
   font-size:.62rem;font-weight:700;padding:1px 6px;border-radius:20px;
 }
-
 .sb-user{padding:12px 10px;border-top:1px solid var(--border)}
 .su-wrap{
   display:flex;align-items:center;gap:10px;padding:10px 12px;
@@ -270,11 +245,7 @@ a{color:inherit;text-decoration:none}
 .su-name{font-size:.825rem;font-weight:600;color:var(--text);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .su-role{font-size:.68rem;color:var(--text-3);margin-top:1px}
 .su-dot{width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:auto;flex-shrink:0;animation:pulse-dot 2s infinite}
-
-/* MAIN */
 .app-main{flex:1;margin-left:var(--sidebar-w);min-height:100vh;display:flex;flex-direction:column;transition:margin-left .3s var(--ease)}
-
-/* TOPBAR */
 .topbar{
   background:rgba(15,17,23,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   padding:0 24px;height:var(--topbar-h);display:flex;justify-content:space-between;align-items:center;
@@ -296,19 +267,9 @@ a{color:inherit;text-decoration:none}
   cursor:pointer;transition:all .2s;
 }
 .btn-logout:hover{background:rgba(248,113,113,.15)}
-
-/* CONTENT */
 .content{padding:20px 22px 40px;flex:1}
-
-/* ═══════════════════════════════════════════════
-   SECTIONS
-═══════════════════════════════════════════════ */
 .section{display:none;animation:fadeUp .28s var(--ease)}
 .section.active{display:block}
-
-/* ═══════════════════════════════════════════════
-   CARDS
-═══════════════════════════════════════════════ */
 .card{
   background:var(--bg-3);border-radius:var(--r-xl);
   border:1px solid var(--border);padding:20px;
@@ -326,8 +287,6 @@ a{color:inherit;text-decoration:none}
   width:30px;height:30px;border-radius:9px;
   background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:.85rem;
 }
-
-/* HERO BANNER */
 .hero-banner{
   background:var(--bg-3);border-radius:var(--r-xl);padding:24px 28px;
   margin-bottom:16px;position:relative;overflow:hidden;
@@ -348,8 +307,6 @@ a{color:inherit;text-decoration:none}
 }
 .hero-banner h2 em{font-style:normal;color:var(--accent-2)}
 .hero-banner p{font-size:.85rem;color:var(--text-3)}
-
-/* STATS GRID */
 .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px}
 .stat-chip{
   background:var(--surface);border:1px solid var(--border);
@@ -362,8 +319,6 @@ a{color:inherit;text-decoration:none}
 .stat-ic{font-size:1.2rem;margin-bottom:6px;position:relative;z-index:1}
 .stat-val{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:800;color:var(--text);line-height:1;position:relative;z-index:1}
 .stat-lbl{font-size:.68rem;color:var(--text-3);margin-top:4px;text-transform:uppercase;letter-spacing:.07em;position:relative;z-index:1}
-
-/* TABLE */
 .tbl-wrap{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--border)}
 .tbl{width:100%;border-collapse:collapse;font-size:.85rem;min-width:520px}
 .tbl thead th{
@@ -376,7 +331,6 @@ a{color:inherit;text-decoration:none}
 .tbl tbody tr{transition:background .12s}
 .tbl tbody tr:hover td{background:var(--surface)}
 .tbl td strong{color:var(--text)}
-
 .tbl-search{position:relative}
 .tbl-search input{
   width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--border-2);
@@ -385,8 +339,6 @@ a{color:inherit;text-decoration:none}
 }
 .tbl-search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 .tbl-search-ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:.85rem;pointer-events:none}
-
-/* CARDS GRID */
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
 .d-card{
   background:var(--surface);border:1px solid var(--border);
@@ -399,8 +351,6 @@ a{color:inherit;text-decoration:none}
 .d-card-lbl{color:var(--text-3);width:76px;flex-shrink:0}
 .d-card-val{color:var(--text-2);flex:1;word-break:break-word}
 .d-card-foot{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-
-/* FORMS */
 .form-row{margin-bottom:12px}
 .form-label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2);margin-bottom:6px}
 .form-input{
@@ -416,8 +366,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
 .form-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:16px}
 .form-box-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.875rem;margin-bottom:14px;color:var(--text)}
-
-/* BUTTONS */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
   padding:8px 18px;border:none;border-radius:50px;
@@ -441,23 +389,17 @@ textarea.form-input{resize:vertical;min-height:78px}
 .btn-sm{padding:5px 13px;font-size:.775rem}
 .btn-icon{width:30px;height:30px;padding:0;border-radius:var(--r-sm)}
 .btn-grp{display:flex;flex-wrap:wrap;gap:8px}
-
-/* BADGES */
 .badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:50px;font-size:.68rem;font-weight:700;letter-spacing:.02em}
 .badge-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(52,211,153,.2)}
 .badge-red{background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.18)}
 .badge-gold{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(240,192,96,.25)}
 .badge-blue{background:var(--accent-bg);color:var(--accent-2);border:1px solid rgba(91,141,238,.2)}
 .badge-purple{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
-
-/* ALERTS */
 .alert{padding:10px 14px;border-radius:var(--r-md);margin-bottom:12px;font-size:.85rem;font-weight:500;display:flex;align-items:flex-start;gap:8px;animation:fadeSlide .25s var(--ease)}
 .alert-ok  {background:var(--green-bg);color:var(--green);border:1px solid rgba(52,211,153,.2)}
 .alert-err {background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.18)}
 .alert-info{background:var(--accent-bg);color:var(--accent-2);border:1px solid rgba(91,141,238,.2)}
 .alert-warn{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(251,191,36,.2)}
-
-/* TOGGLES */
 .toggle-row{
   display:flex;align-items:center;justify-content:space-between;
   padding:11px 14px;background:var(--surface);border-radius:var(--r-md);
@@ -471,8 +413,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 .toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:all .25s var(--ease-spring);box-shadow:0 1px 4px rgba(0,0,0,.3)}
 .toggle input:checked + .toggle-slider{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
 .toggle input:checked + .toggle-slider::before{transform:translateX(20px)}
-
-/* UPLOAD */
 .upload-zone{
   border:2px dashed var(--border-2);border-radius:var(--r-lg);padding:28px 20px;
   text-align:center;cursor:pointer;background:var(--surface);transition:all .2s;
@@ -483,8 +423,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 .upload-txt{font-weight:600;font-size:.875rem;color:var(--text-2);margin-bottom:4px}
 .upload-sub{font-size:.75rem;color:var(--text-3)}
 .upload-fname{margin-top:8px;font-weight:600;color:var(--accent);font-size:.83rem}
-
-/* QUIZ CARDS */
 .q-card{
   background:var(--surface);border-radius:var(--r-lg);padding:20px 22px;
   margin-bottom:16px;position:relative;overflow:hidden;
@@ -493,8 +431,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 .q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--purple))}
 .q-num{font-size:.68rem;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
 .q-text{font-size:.95rem;font-weight:500;margin-top:8px;color:var(--text);line-height:1.65}
-
-/* OPTIONS */
 .opt-btn{
   display:flex;align-items:center;gap:12px;width:100%;padding:11px 15px;
   border:1.5px solid var(--border-2);border-radius:var(--r-md);
@@ -514,12 +450,8 @@ textarea.form-input{resize:vertical;min-height:78px}
 .opt-btn.wrong{border-color:var(--red);background:var(--red-bg);color:var(--red)}
 .opt-btn.wrong .opt-l{background:var(--red);border-color:transparent;color:#fff}
 .opt-btn.dis{cursor:not-allowed;opacity:.6}
-
-/* PROGRESS */
 .prog-bar{height:5px;background:var(--surface-2);border-radius:20px;overflow:hidden;margin-bottom:14px}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:20px;transition:width .5s var(--ease)}
-
-/* TIMER */
 .timer-box{
   display:flex;align-items:center;justify-content:center;gap:12px;
   padding:12px 18px;background:var(--surface);border-radius:var(--r-lg);
@@ -528,8 +460,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 .timer-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--gold);letter-spacing:.04em}
 .timer-val.warn  {color:var(--amber)}
 .timer-val.danger{color:var(--red);animation:pulse-timer .6s infinite alternate}
-
-/* SPINNER */
 .spin-overlay{
   display:none;position:fixed;inset:0;z-index:9999;
   background:rgba(10,12,16,.7);backdrop-filter:blur(8px);
@@ -545,8 +475,6 @@ textarea.form-input{resize:vertical;min-height:78px}
   width:36px;height:36px;border:2.5px solid var(--border-2);border-top-color:var(--accent);
   border-radius:50%;animation:spin .7s linear infinite;margin:0 auto;
 }
-
-/* MODAL */
 .modal-bg{
   display:none;position:fixed;inset:0;z-index:10000;
   background:rgba(10,12,16,.8);backdrop-filter:blur(10px);
@@ -561,8 +489,6 @@ textarea.form-input{resize:vertical;min-height:78px}
   border-top:2px solid var(--accent);
 }
 .modal h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:18px;color:var(--text)}
-
-/* HAMBURGER */
 .hamburger{
   display:none;position:fixed;bottom:20px;left:18px;z-index:60;
   width:48px;height:48px;border-radius:14px;border:1px solid var(--border-2);
@@ -577,22 +503,16 @@ textarea.form-input{resize:vertical;min-height:78px}
 .hamburger.open .ham-lines span:nth-child(2){opacity:0}
 .hamburger.open .ham-lines span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 .sidebar-overlay{display:none;position:fixed;inset:0;z-index:45;background:rgba(10,12,16,.6);cursor:pointer}
-
-/* INFO BOX */
 .info-box{padding:10px 14px;border-radius:var(--r-md);font-size:.82rem;margin-top:8px;border:1px solid}
 .ib-blue  {background:var(--accent-bg);border-color:rgba(91,141,238,.2);color:var(--accent-2)}
 .ib-green {background:var(--green-bg);border-color:rgba(52,211,153,.2);color:var(--green)}
 .ib-gold  {background:var(--gold-bg);border-color:rgba(240,192,96,.2);color:var(--gold)}
 .ib-amber {background:var(--amber-bg);border-color:rgba(251,191,36,.2);color:var(--amber)}
-
-/* CODE PREVIEW */
 .code-preview{
   background:var(--bg);border-radius:var(--r-md);padding:14px 16px;
   font-size:.78rem;color:#7dd3fc;overflow-x:auto;line-height:2;margin-top:6px;
   font-family:'DM Mono','Courier New',monospace;border:1px solid var(--border);
 }
-
-/* FILTER TABS */
 .filter-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
 .ftab{
   padding:6px 14px;border-radius:50px;border:1px solid var(--border-2);
@@ -601,13 +521,9 @@ textarea.form-input{resize:vertical;min-height:78px}
 }
 .ftab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .ftab:hover:not(.active){background:var(--surface-2);color:var(--text)}
-
-/* EMPTY STATE */
 .empty{text-align:center;padding:32px 20px;color:var(--text-3)}
 .empty-ic{font-size:2rem;margin-bottom:10px;opacity:.4}
 .empty p{font-size:.875rem}
-
-/* DANGER ZONE */
 .danger-zone{
   border:1px solid rgba(248,113,113,.18);border-radius:var(--r-xl);
   padding:20px;margin-bottom:16px;background:rgba(248,113,113,.03);
@@ -618,8 +534,6 @@ textarea.form-input{resize:vertical;min-height:78px}
   color:var(--red);margin-bottom:10px;
 }
 .danger-zone p{font-size:.82rem;color:var(--text-3);margin-bottom:14px}
-
-/* RESULT ROW */
 .result-row{
   display:flex;justify-content:space-between;align-items:center;
   padding:12px 16px;border-radius:var(--r-md);background:var(--surface);
@@ -633,8 +547,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 .result-score{text-align:right;flex-shrink:0}
 .result-pct{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800}
 .result-lvl{font-size:.68rem;font-weight:700;padding:2px 9px;border-radius:50px;color:#fff;display:inline-block;margin-top:3px}
-
-/* ONLINE */
 .online-row{
   display:flex;align-items:center;gap:12px;padding:11px 14px;
   border-radius:var(--r-md);background:var(--surface);
@@ -655,8 +567,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 }
 .os-on {background:var(--green-bg);color:var(--green);border-color:rgba(52,211,153,.2)}
 .os-off{background:var(--surface-2);color:var(--text-3);border-color:var(--border)}
-
-/* RANKING */
 .rank-row{
   display:flex;align-items:center;gap:12px;padding:12px 14px;
   border-radius:var(--r-md);background:var(--surface);margin-bottom:8px;
@@ -668,8 +578,6 @@ textarea.form-input{resize:vertical;min-height:78px}
 .rank-name{font-weight:700;font-size:.875rem;color:var(--text)}
 .rank-meta{font-size:.72rem;color:var(--text-3);margin-top:2px}
 .rank-pct{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800}
-
-/* PERSONALIZAR */
 .pers-preview{
   position:relative;height:88px;border-radius:var(--r-md);overflow:hidden;
   margin-bottom:10px;border:1px solid var(--border-2);background:var(--surface);display:none;
@@ -679,9 +587,7 @@ textarea.form-input{resize:vertical;min-height:78px}
 .pers-logo-preview{display:none;margin-bottom:10px;padding:10px;background:var(--surface);border-radius:var(--r-md);text-align:center;border:1px solid var(--border)}
 .pers-logo-preview img{max-height:48px;max-width:130px;object-fit:contain}
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════ RESPONSIVE */
 @media(max-width:768px){
   .app-sidebar{transform:translateX(-100%);z-index:55}
   .app-sidebar.open{transform:translateX(0)}
@@ -706,9 +612,7 @@ textarea.form-input{resize:vertical;min-height:78px}
   .content{padding:16px 18px}
 }
 
-/* ═══════════════════════════════════════════════
-   ANIMATIONS
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════ ANIMATIONS */
 @keyframes fadeSlide{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -769,11 +673,8 @@ textarea.form-input{resize:vertical;min-height:78px}
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     LOGIN SCREEN
-═══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ LOGIN SCREEN -->
 <div id="loginScreen">
-  <!-- Visual Panel -->
   <div class="lv-panel">
     <div class="lv-bg"></div>
     <div id="loginCustomBg"></div>
@@ -794,8 +695,6 @@ textarea.form-input{resize:vertical;min-height:78px}
       </div>
     </div>
   </div>
-
-  <!-- Form Panel -->
   <div class="lf-panel">
     <div class="lf-logo-wrap" id="loginLogoWrap">
       <div class="lf-logo-icon" id="loginIconDefault">🎓</div>
@@ -821,7 +720,7 @@ textarea.form-input{resize:vertical;min-height:78px}
       </div>
     </div>
     <button class="lf-submit" onclick="hacerLogin()">Iniciar sesión →</button>
-    <div class="lf-footer"> Desarrolado por Zymar Code +51927027986 · <strong>v1.0</strong></div>
+    <div class="lf-footer"> Desarrollado por Zymar Code +51927027986 · <strong>v1.0</strong></div>
   </div>
 </div>
 
@@ -831,9 +730,7 @@ textarea.form-input{resize:vertical;min-height:78px}
   <div class="ham-lines"><span></span><span></span><span></span></div>
 </button>
 
-<!-- ═══════════════════════════════════════════════
-     SIDEBAR
-═══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ SIDEBAR -->
 <aside class="app-sidebar" id="appSidebar">
   <div class="sb-head">
     <div class="sb-brand">
@@ -856,11 +753,8 @@ textarea.form-input{resize:vertical;min-height:78px}
   </div>
 </aside>
 
-<!-- ═══════════════════════════════════════════════
-     MAIN APP
-═══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ MAIN APP -->
 <div class="app-main" id="appMain" style="display:none">
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="tb-left">
       <span class="tb-title" id="topTitle">Inicio</span>
@@ -871,8 +765,6 @@ textarea.form-input{resize:vertical;min-height:78px}
       <button class="btn-logout" onclick="cerrarSesion()">🚪 Salir</button>
     </div>
   </div>
-
-  <!-- CONTENT -->
   <div class="content">
 
     <!-- ═══ INICIO ═══ -->
@@ -895,9 +787,7 @@ textarea.form-input{resize:vertical;min-height:78px}
           <div class="stats-row">
             <div class="stat-chip"><div class="stat-ic">👥</div><div class="stat-val" id="d-estudiantes">—</div><div class="stat-lbl">Estudiantes</div></div>
             <div class="stat-chip"><div class="stat-ic">⭐</div><div class="stat-val" id="d-mejor">—</div><div class="stat-lbl">Mejor Nota</div></div>
-            <div class="stat-chip" onclick="mostrarSec('enlinea')" style="cursor:pointer">
-              <div class="stat-ic">🟢</div><div class="stat-val" id="d-enlinea">—</div><div class="stat-lbl">En Línea</div>
-            </div>
+            <div class="stat-chip" onclick="mostrarSec('enlinea')" style="cursor:pointer"><div class="stat-ic">🟢</div><div class="stat-val" id="d-enlinea">—</div><div class="stat-lbl">En Línea</div></div>
             <div class="stat-chip"><div class="stat-ic">📊</div><div class="stat-val" id="d-hoy">—</div><div class="stat-lbl">Quizzes Hoy</div></div>
           </div>
         </div>
@@ -928,18 +818,12 @@ textarea.form-input{resize:vertical;min-height:78px}
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <strong style="font-size:.875rem;color:var(--text)">Administradores del sistema</strong>
-          <div class="tbl-search" style="width:210px">
-            <span class="tbl-search-ic">🔍</span>
-            <input type="text" placeholder="Buscar…" oninput="filtrarAdmins(this.value)">
-          </div>
+          <div class="tbl-search" style="width:210px"><span class="tbl-search-ic">🔍</span><input type="text" placeholder="Buscar…" oninput="filtrarAdmins(this.value)"></div>
         </div>
         <div id="listaAdmins"><div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div></div>
       </div>
       <div class="card" id="histAdminCard" style="display:none">
-        <div class="card-hd">
-          <div class="card-title"><span class="card-ic">📜</span>Historial de Cambios</div>
-          <button class="btn btn-ghost btn-sm" onclick="$('histAdminCard').style.display='none'">✕ Cerrar</button>
-        </div>
+        <div class="card-hd"><div class="card-title"><span class="card-ic">📜</span>Historial de Cambios</div><button class="btn btn-ghost btn-sm" onclick="$('histAdminCard').style.display='none'">✕ Cerrar</button></div>
         <div id="histAdminCont"></div>
       </div>
     </div>
@@ -958,327 +842,126 @@ textarea.form-input{resize:vertical;min-height:78px}
         <button class="btn btn-green" onclick="crearUsuario()">👤 Crear Estudiante</button>
       </div>
       <div class="card">
-        <div class="card-hd">
-          <div class="card-title"><span class="card-ic">👥</span>Estudiantes Registrados</div>
-          <div class="tbl-search" style="width:210px">
-            <span class="tbl-search-ic">🔍</span>
-            <input type="text" placeholder="Buscar…" oninput="filtrarUsuarios(this.value)">
-          </div>
-        </div>
+        <div class="card-hd"><div class="card-title"><span class="card-ic">👥</span>Estudiantes Registrados</div><div class="tbl-search" style="width:210px"><span class="tbl-search-ic">🔍</span><input type="text" placeholder="Buscar…" oninput="filtrarUsuarios(this.value)"></div></div>
         <div id="listaUsuarios"><div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ NOTIFICACIONES ═══ -->
+    <div class="section" id="sec-notificaciones">
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="card-ic">📢</span>Notificaciones</div><button class="btn btn-ghost btn-sm" onclick="cargarNotificaciones()">🔄 Actualizar</button></div>
+        <div id="notifAdminPanel" style="display:none" class="form-box">
+          <div class="form-box-title">➕ Enviar Nueva Notificación</div>
+          <div class="form-row"><label class="form-label">Mensaje</label><textarea id="notifMensaje" class="form-input" rows="3" placeholder="Escribe el mensaje de la notificación..."></textarea></div>
+          <div class="form-row"><label class="form-label">Destinatarios</label>
+            <select id="notifTipo" class="form-input"><option value="estudiantes">📚 Mis Estudiantes (solo los que me pertenecen)</option></select>
+            <select id="notifTipoSuper" class="form-input" style="display:none"><option value="todos">🌐 Todos (SuperAdmin + Admins + Estudiantes)</option><option value="admins">👑 Solo Administradores</option><option value="estudiantes">📚 Mis Estudiantes</option></select>
+          </div>
+          <div id="notifAlert"></div>
+          <button class="btn btn-primary" onclick="enviarNotificacion()">📨 Enviar Notificación</button>
+        </div>
+        <div class="card-hd" style="margin-top:16px"><div class="card-title"><span class="card-ic">📬</span>Notificaciones Recibidas</div></div>
+        <div id="notificacionesContainer"><div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando...</p></div></div>
       </div>
     </div>
 
     <!-- ═══ CONFIGURACIÓN ═══ -->
     <div class="section" id="sec-importar">
-
-      <!-- Importar preguntas -->
       <div class="card">
         <div class="card-hd"><div class="card-title"><span class="card-ic">📤</span>Importar Preguntas</div></div>
         <div class="form-row"><label class="form-label">Tema / Categoría</label><input type="text" class="form-input" id="inputTema" placeholder="Ej: Matemáticas, Historia…"></div>
-        <div class="upload-zone" id="uploadZone">
-          <input type="file" id="fileInput" accept=".txt,.docx">
-          <div class="upload-icon">📁</div>
-          <div class="upload-txt">Arrastra tu archivo o haz clic</div>
-          <div class="upload-sub">Formatos: .TXT o .DOCX</div>
-          <div class="upload-fname" id="fileName"></div>
-        </div>
+        <div class="upload-zone" id="uploadZone"><input type="file" id="fileInput" accept=".txt,.docx"><div class="upload-icon">📁</div><div class="upload-txt">Arrastra tu archivo o haz clic</div><div class="upload-sub">Formatos: .TXT o .DOCX</div><div class="upload-fname" id="fileName"></div></div>
         <div id="importAlert" style="margin-top:10px"></div>
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="importarArchivo()">🚀 Importar Preguntas</button>
-        </div>
-        <div class="code-preview" style="margin-top:14px">Pregunta: ¿Cuál es la capital de Francia?
-A) Madrid
-B) París
-C) Roma
-D) Berlín
-Respuesta: B</div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn btn-primary" onclick="importarArchivo()">🚀 Importar Preguntas</button></div>
+        <div class="code-preview" style="margin-top:14px">Pregunta: ¿Cuál es la capital de Francia?\nA) Madrid\nB) París\nC) Roma\nD) Berlín\nRespuesta: B</div>
       </div>
-
-      <!-- Temporizador -->
       <div class="card">
         <div class="card-hd"><div class="card-title"><span class="card-ic">⏱️</span>Temporizador</div></div>
-        <div class="toggle-row">
-          <span class="toggle-label">Activar límite de tiempo</span>
-          <label class="toggle"><input type="checkbox" id="swTiempo" onchange="$('tiempoPanel').style.display=this.checked?'block':'none'"><span class="toggle-slider"></span></label>
-        </div>
-        <div id="tiempoPanel" style="display:none">
-          <div class="form-row"><label class="form-label">Minutos</label><input type="number" class="form-input" id="inputMinutos" min="1" max="300" value="30"></div>
-          <div class="form-row"><label class="form-label">Mensaje al agotar</label><input type="text" class="form-input" id="inputMsgTiempo" value="Se acabó el tiempo. Tu quiz fue enviado automáticamente."></div>
-        </div>
-        <div id="tiempoAlert"></div>
-        <button class="btn btn-dark" onclick="guardarTiempoBtn()">💾 Guardar</button>
+        <div class="toggle-row"><span class="toggle-label">Activar límite de tiempo</span><label class="toggle"><input type="checkbox" id="swTiempo" onchange="$('tiempoPanel').style.display=this.checked?'block':'none'"><span class="toggle-slider"></span></label></div>
+        <div id="tiempoPanel" style="display:none"><div class="form-row"><label class="form-label">Minutos</label><input type="number" class="form-input" id="inputMinutos" min="1" max="300" value="30"></div><div class="form-row"><label class="form-label">Mensaje al agotar</label><input type="text" class="form-input" id="inputMsgTiempo" value="Se acabó el tiempo. Tu quiz fue enviado automáticamente."></div></div>
+        <div id="tiempoAlert"></div><button class="btn btn-dark" onclick="guardarTiempoBtn()">💾 Guardar</button>
         <div class="info-box ib-blue" style="margin-top:10px"><strong>Estado:</strong> <span id="tiempoEstado">Cargando…</span></div>
       </div>
-
-      <!-- Config Quiz -->
       <div class="card">
         <div class="card-hd"><div class="card-title"><span class="card-ic">🎮</span>Configurar Quiz</div></div>
-        <div class="toggle-row">
-          <span class="toggle-label">Permitir elegir tema</span>
-          <label class="toggle"><input type="checkbox" id="swTemaLibre" onchange="$('temaFijoPanel').style.display=this.checked?'none':'block'"><span class="toggle-slider"></span></label>
-        </div>
-        <div id="temaFijoPanel">
-          <div class="form-row"><label class="form-label">Tema fijo</label>
-            <select class="form-input" id="adminTema"><option value="Todos">Todos los temas</option></select>
-          </div>
-        </div>
-        <div class="toggle-row">
-          <span class="toggle-label">Permitir elegir cantidad</span>
-          <label class="toggle"><input type="checkbox" id="swCantLibre" onchange="$('cantFijaPanel').style.display=this.checked?'none':'block'"><span class="toggle-slider"></span></label>
-        </div>
-        <div id="cantFijaPanel">
-          <div class="form-row"><label class="form-label">Cantidad fija</label>
-            <select class="form-input" id="adminCant">
-              <option value="5">5 preguntas</option><option value="10" selected>10 preguntas</option>
-              <option value="15">15 preguntas</option><option value="20">20 preguntas</option><option value="0">Todas</option>
-            </select>
-          </div>
-        </div>
-        <div id="quizCfgAlert"></div>
-        <button class="btn btn-green" onclick="guardarQuizCfgBtn()">💾 Guardar</button>
+        <div class="toggle-row"><span class="toggle-label">Permitir elegir tema</span><label class="toggle"><input type="checkbox" id="swTemaLibre" onchange="$('temaFijoPanel').style.display=this.checked?'none':'block'"><span class="toggle-slider"></span></label></div>
+        <div id="temaFijoPanel"><div class="form-row"><label class="form-label">Tema fijo</label><select class="form-input" id="adminTema"><option value="Todos">Todos los temas</option></select></div></div>
+        <div class="toggle-row"><span class="toggle-label">Permitir elegir cantidad</span><label class="toggle"><input type="checkbox" id="swCantLibre" onchange="$('cantFijaPanel').style.display=this.checked?'none':'block'"><span class="toggle-slider"></span></label></div>
+        <div id="cantFijaPanel"><div class="form-row"><label class="form-label">Cantidad fija</label><select class="form-input" id="adminCant"><option value="5">5 preguntas</option><option value="10" selected>10 preguntas</option><option value="15">15 preguntas</option><option value="20">20 preguntas</option><option value="0">Todas</option></select></div></div>
+        <div id="quizCfgAlert"></div><button class="btn btn-green" onclick="guardarQuizCfgBtn()">💾 Guardar</button>
         <div class="info-box ib-gold" style="margin-top:10px"><strong>Config:</strong> <span id="quizCfgEstado">Cargando…</span></div>
       </div>
-
-      <!-- Control de Acceso -->
       <div class="card">
         <div class="card-hd"><div class="card-title"><span class="card-ic">🔐</span>Control de Acceso</div></div>
-        <div class="toggle-row">
-          <span class="toggle-label">Quiz activo</span>
-          <label class="toggle"><input type="checkbox" id="swQuizActivo" checked><span class="toggle-slider"></span></label>
-        </div>
-        <div class="form-row"><label class="form-label">Máximo intentos por estudiante</label>
-          <select class="form-input" id="selMaxIntentos">
-            <option value="0">Ilimitados</option><option value="1">1 intento</option>
-            <option value="2">2 intentos</option><option value="3">3 intentos</option>
-            <option value="5">5 intentos</option><option value="10">10 intentos</option>
-          </select>
-        </div>
-        <div id="accesoAlert"></div>
-        <button class="btn btn-dark" onclick="guardarAccesoBtn()">💾 Guardar</button>
+        <div class="toggle-row"><span class="toggle-label">Quiz activo</span><label class="toggle"><input type="checkbox" id="swQuizActivo" checked><span class="toggle-slider"></span></label></div>
+        <div class="form-row"><label class="form-label">Máximo intentos por estudiante</label><select class="form-input" id="selMaxIntentos"><option value="0">Ilimitados</option><option value="1">1 intento</option><option value="2">2 intentos</option><option value="3">3 intentos</option><option value="5">5 intentos</option><option value="10">10 intentos</option></select></div>
+        <div id="accesoAlert"></div><button class="btn btn-dark" onclick="guardarAccesoBtn()">💾 Guardar</button>
         <div class="info-box ib-green" style="margin-top:10px"><strong>Estado:</strong> <span id="accesoEstado">Cargando…</span></div>
       </div>
-
-      <!-- Email -->
       <div class="card">
         <div class="card-hd"><div class="card-title"><span class="card-ic">📧</span>Notificaciones por Email</div></div>
-        <div class="toggle-row">
-          <span class="toggle-label">Activar notificaciones</span>
-          <label class="toggle"><input type="checkbox" id="swEmail"><span class="toggle-slider"></span></label>
-        </div>
+        <div class="toggle-row"><span class="toggle-label">Activar notificaciones</span><label class="toggle"><input type="checkbox" id="swEmail"><span class="toggle-slider"></span></label></div>
         <div class="form-row"><label class="form-label">Emails (separados por coma)</label><input type="text" class="form-input" id="inputEmails" placeholder="prof@gmail.com, dir@gmail.com"></div>
-        <div id="emailAlert"></div>
-        <button class="btn btn-dark" onclick="guardarEmailBtn()">💾 Guardar</button>
+        <div id="emailAlert"></div><button class="btn btn-dark" onclick="guardarEmailBtn()">💾 Guardar</button>
         <div class="info-box ib-blue" style="margin-top:10px"><strong>Estado:</strong> <span id="emailEstado">Cargando…</span></div>
       </div>
-
-      <!-- Personalizar Login (solo superadmin) -->
       <div class="card" id="cardLoginPers" style="display:none">
         <div class="card-hd"><div class="card-title"><span class="card-ic">🎨</span>Personalizar Login</div></div>
-        <div class="form-row">
-          <label class="form-label">🏷️ Nombre del sistema</label>
-          <input type="text" class="form-input" id="inputSiteName" placeholder="Ej: Colegio Nacional 2025">
-          <small style="color:var(--text-3);font-size:.72rem;margin-top:4px;display:block">Aparece en sidebar, login y título del navegador</small>
-        </div>
-        <div class="form-row">
-          <label class="form-label">🖼️ Imagen de fondo (URL)</label>
-          <div style="display:flex;gap:8px">
-            <input type="url" class="form-input" id="inputFondoUrl" placeholder="https://…/imagen.jpg" oninput="debouncePreviewFondo()">
-            <button class="btn btn-ghost btn-sm" style="flex-shrink:0" onclick="clearFondo()">✕</button>
-          </div>
-        </div>
+        <div class="form-row"><label class="form-label">🏷️ Nombre del sistema</label><input type="text" class="form-input" id="inputSiteName" placeholder="Ej: Colegio Nacional 2025"><small style="color:var(--text-3);font-size:.72rem;margin-top:4px;display:block">Aparece en sidebar, login y título del navegador</small></div>
+        <div class="form-row"><label class="form-label">🖼️ Imagen de fondo (URL)</label><div style="display:flex;gap:8px"><input type="url" class="form-input" id="inputFondoUrl" placeholder="https://…/imagen.jpg" oninput="debouncePreviewFondo()"><button class="btn btn-ghost btn-sm" style="flex-shrink:0" onclick="clearFondo()">✕</button></div></div>
         <div class="pers-preview" id="fondoPrevWrap"><img id="fondoPrevImg" alt=""><div class="pers-preview-lbl">Fondo</div></div>
-        <div class="form-row">
-          <label class="form-label">🏷️ Logo (URL)</label>
-          <div style="display:flex;gap:8px">
-            <input type="url" class="form-input" id="inputLogoUrl" placeholder="https://…/logo.png" oninput="debouncePreviewLogo()">
-            <button class="btn btn-ghost btn-sm" style="flex-shrink:0" onclick="clearLogo()">✕</button>
-          </div>
-        </div>
+        <div class="form-row"><label class="form-label">🏷️ Logo (URL)</label><div style="display:flex;gap:8px"><input type="url" class="form-input" id="inputLogoUrl" placeholder="https://…/logo.png" oninput="debouncePreviewLogo()"><button class="btn btn-ghost btn-sm" style="flex-shrink:0" onclick="clearLogo()">✕</button></div></div>
         <div class="pers-logo-preview" id="logoPrevWrap"><img id="logoPrevImg" alt="Logo"></div>
-        <div class="form-row">
-          <label class="form-label">💧 Desenfoque fondo: <strong id="blurLabel">5px</strong></label>
-          <input type="range" id="inputBlur" min="0" max="20" value="5" style="width:100%;accent-color:var(--accent)" oninput="onBlurChange(this.value)">
-        </div>
+        <div class="form-row"><label class="form-label">💧 Desenfoque fondo: <strong id="blurLabel">5px</strong></label><input type="range" id="inputBlur" min="0" max="20" value="5" style="width:100%;accent-color:var(--accent)" oninput="onBlurChange(this.value)"></div>
         <div id="loginPersAlert"></div>
-        <div class="btn-grp">
-          <button class="btn btn-primary" onclick="guardarLoginPers()">💾 Guardar</button>
-          <button class="btn btn-ghost" onclick="eliminarLoginPers()">🗑️ Quitar imágenes</button>
-        </div>
+        <div class="btn-grp"><button class="btn btn-primary" onclick="guardarLoginPers()">💾 Guardar</button><button class="btn btn-ghost" onclick="eliminarLoginPers()">🗑️ Quitar imágenes</button></div>
       </div>
-
-      <!-- Danger Zone -->
-      <div class="danger-zone">
-        <div class="danger-zone-title"><span>⚠️</span> Zona de Peligro</div>
-        <p>Estas acciones son irreversibles. Procede con cautela.</p>
-        <div class="btn-grp">
-          <button class="btn btn-red" onclick="eliminarPreguntas()">🗑️ Eliminar Todas las Preguntas</button>
-          <button class="btn btn-amber" onclick="limpiarHistorial()">🧹 Limpiar Historial</button>
-        </div>
-      </div>
+      <div class="danger-zone"><div class="danger-zone-title"><span>⚠️</span> Zona de Peligro</div><p>Estas acciones son irreversibles. Procede con cautela.</p><div class="btn-grp"><button class="btn btn-red" onclick="eliminarPreguntas()">🗑️ Eliminar Todas las Preguntas</button><button class="btn btn-amber" onclick="limpiarHistorial()">🧹 Limpiar Historial</button></div></div>
     </div>
 
     <!-- ═══ PERFIL ═══ -->
     <div class="section" id="sec-perfil">
       <div class="card">
         <div class="card-hd"><div class="card-title"><span class="card-ic">👤</span>Mi Perfil</div></div>
-        <div style="background:var(--surface);border-radius:var(--r-lg);padding:16px;margin-bottom:18px;border:1px solid var(--border)">
-          <div style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Datos actuales</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="padding:8px 12px;background:var(--bg-3);border-radius:var(--r-sm);font-size:.875rem;border:1px solid var(--border)"><strong style="color:var(--text-3)">Usuario: </strong><span id="pUsuario" style="color:var(--text)">-</span></div>
-            <div style="padding:8px 12px;background:var(--bg-3);border-radius:var(--r-sm);font-size:.875rem;border:1px solid var(--border)"><strong style="color:var(--text-3)">Nombre: </strong><span id="pNombre" style="color:var(--text)">-</span></div>
-            <div style="padding:8px 12px;background:var(--bg-3);border-radius:var(--r-sm);font-size:.875rem;border:1px solid var(--border)"><strong style="color:var(--text-3)">Rol: </strong><span id="pRol" style="color:var(--accent-2)">-</span></div>
-          </div>
-        </div>
-        <div class="form-grid">
-          <div class="form-row"><label class="form-label">Nuevo usuario</label><input type="text" class="form-input" id="pNuevoUser" placeholder="Vacío = sin cambios"></div>
-          <div class="form-row"><label class="form-label">Nueva contraseña</label><input type="password" class="form-input" id="pNuevoPass" placeholder="Vacío = sin cambios"></div>
-          <div class="form-row"><label class="form-label">Confirmar contraseña</label><input type="password" class="form-input" id="pConfirmPass" placeholder="Repite la contraseña"></div>
-          <div class="form-row"><label class="form-label">Nuevo nombre</label><input type="text" class="form-input" id="pNuevoNombre" placeholder="Vacío = sin cambios"></div>
-        </div>
-        <div id="perfilAlert"></div>
-        <button class="btn btn-primary" onclick="guardarPerfil()">💾 Guardar Cambios</button>
+        <div style="background:var(--surface);border-radius:var(--r-lg);padding:16px;margin-bottom:18px;border:1px solid var(--border)"><div style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Datos actuales</div><div style="display:flex;flex-direction:column;gap:6px"><div style="padding:8px 12px;background:var(--bg-3);border-radius:var(--r-sm);font-size:.875rem;border:1px solid var(--border)"><strong style="color:var(--text-3)">Usuario: </strong><span id="pUsuario" style="color:var(--text)">-</span></div><div style="padding:8px 12px;background:var(--bg-3);border-radius:var(--r-sm);font-size:.875rem;border:1px solid var(--border)"><strong style="color:var(--text-3)">Nombre: </strong><span id="pNombre" style="color:var(--text)">-</span></div><div style="padding:8px 12px;background:var(--bg-3);border-radius:var(--r-sm);font-size:.875rem;border:1px solid var(--border)"><strong style="color:var(--text-3)">Rol: </strong><span id="pRol" style="color:var(--accent-2)">-</span></div></div></div>
+        <div class="form-grid"><div class="form-row"><label class="form-label">Nuevo usuario</label><input type="text" class="form-input" id="pNuevoUser" placeholder="Vacío = sin cambios"></div><div class="form-row"><label class="form-label">Nueva contraseña</label><input type="password" class="form-input" id="pNuevoPass" placeholder="Vacío = sin cambios"></div><div class="form-row"><label class="form-label">Confirmar contraseña</label><input type="password" class="form-input" id="pConfirmPass" placeholder="Repite la contraseña"></div><div class="form-row"><label class="form-label">Nuevo nombre</label><input type="text" class="form-input" id="pNuevoNombre" placeholder="Vacío = sin cambios"></div></div>
+        <div id="perfilAlert"></div><button class="btn btn-primary" onclick="guardarPerfil()">💾 Guardar Cambios</button>
       </div>
     </div>
 
     <!-- ═══ EN LÍNEA ═══ -->
     <div class="section" id="sec-enlinea">
-      <div class="card">
-        <div class="card-hd">
-          <div class="card-title"><span class="card-ic">🟢</span>Usuarios en Línea</div>
-          <button class="btn btn-ghost btn-sm" onclick="cargarEnLinea()">🔄 Actualizar</button>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-          <div style="display:flex;align-items:center;gap:8px;padding:7px 16px;background:var(--surface);border-radius:50px;border:1px solid var(--border)">
-            <span style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-dot 1.5s infinite"></span>
-            <span id="onlineCount" style="font-weight:700;font-size:.85rem">0 en línea</span>
-          </div>
-          <div class="filter-tabs">
-            <button class="ftab active" onclick="filtrarOnline('todos',this)">👥 Todos</button>
-            <button class="ftab" onclick="filtrarOnline('online',this)">🟢 En línea</button>
-            <button class="ftab" onclick="filtrarOnline('offline',this)">⚫ Desconectados</button>
-          </div>
-        </div>
-        <div id="onlineContainer"></div>
-      </div>
-      <div class="card">
-        <div class="card-hd"><div class="card-title"><span class="card-ic">📊</span>Resumen</div></div>
-        <div class="stats-row">
-          <div class="stat-chip"><div class="stat-ic">🟢</div><div class="stat-val" id="sOnline">0</div><div class="stat-lbl">En línea</div></div>
-          <div class="stat-chip"><div class="stat-ic">⚫</div><div class="stat-val" id="sOffline">0</div><div class="stat-lbl">Desconectados</div></div>
-          <div class="stat-chip"><div class="stat-ic">👥</div><div class="stat-val" id="sTotal">0</div><div class="stat-lbl">Total</div></div>
-          <div class="stat-chip"><div class="stat-ic">📈</div><div class="stat-val" id="sPct">0%</div><div class="stat-lbl">% Activos</div></div>
-        </div>
-      </div>
+      <div class="card"><div class="card-hd"><div class="card-title"><span class="card-ic">🟢</span>Usuarios en Línea</div><button class="btn btn-ghost btn-sm" onclick="cargarEnLinea()">🔄 Actualizar</button></div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px"><div style="display:flex;align-items:center;gap:8px;padding:7px 16px;background:var(--surface);border-radius:50px;border:1px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-dot 1.5s infinite"></span><span id="onlineCount" style="font-weight:700;font-size:.85rem">0 en línea</span></div><div class="filter-tabs"><button class="ftab active" onclick="filtrarOnline('todos',this)">👥 Todos</button><button class="ftab" onclick="filtrarOnline('online',this)">🟢 En línea</button><button class="ftab" onclick="filtrarOnline('offline',this)">⚫ Desconectados</button></div></div><div id="onlineContainer"></div></div>
+      <div class="card"><div class="card-hd"><div class="card-title"><span class="card-ic">📊</span>Resumen</div></div><div class="stats-row"><div class="stat-chip"><div class="stat-ic">🟢</div><div class="stat-val" id="sOnline">0</div><div class="stat-lbl">En línea</div></div><div class="stat-chip"><div class="stat-ic">⚫</div><div class="stat-val" id="sOffline">0</div><div class="stat-lbl">Desconectados</div></div><div class="stat-chip"><div class="stat-ic">👥</div><div class="stat-val" id="sTotal">0</div><div class="stat-lbl">Total</div></div><div class="stat-chip"><div class="stat-ic">📈</div><div class="stat-val" id="sPct">0%</div><div class="stat-lbl">% Activos</div></div></div></div>
     </div>
 
     <!-- ═══ RANKING ═══ -->
-    <div class="section" id="sec-ranking">
-      <div class="card">
-        <div class="card-hd"><div class="card-title"><span class="card-ic">🏅</span>Ranking de Estudiantes</div></div>
-        <div id="rankingContainer"><div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div></div>
-      </div>
-    </div>
+    <div class="section" id="sec-ranking"><div class="card"><div class="card-hd"><div class="card-title"><span class="card-ic">🏅</span>Ranking de Estudiantes</div></div><div id="rankingContainer"><div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div></div></div></div>
 
     <!-- ═══ QUIZ ═══ -->
     <div class="section" id="sec-quiz">
-      <div id="quizBloqueado" style="display:none">
-        <div class="card">
-          <div style="background:var(--surface);border-radius:var(--r-lg);padding:40px;text-align:center">
-            <div style="font-size:3rem;margin-bottom:12px">🔒</div>
-            <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:6px">Quiz no disponible</div>
-            <div id="blockedMsg" style="font-size:.875rem;color:var(--text-3)"></div>
-          </div>
-        </div>
-      </div>
-      <div id="quizConfigPanel" style="display:none">
-        <div class="card">
-          <div class="card-hd"><div class="card-title"><span class="card-ic">⚙️</span>Configurar Quiz</div></div>
-          <div id="intentosInfoQuiz" style="display:none;padding:10px;background:var(--green-bg);border-radius:var(--r-md);margin-bottom:12px;font-size:.85rem;border:1px solid rgba(52,211,153,.15);color:var(--green)"></div>
-          <div id="quizTemaGroup"><div class="form-row"><label class="form-label">Tema</label><select class="form-input" id="selectTema"><option value="Todos">Todos los temas</option></select></div></div>
-          <div id="quizCantGroup">
-            <div class="form-row"><label class="form-label">Cantidad de preguntas</label>
-              <select class="form-input" id="selectCant">
-                <option value="5">5</option><option value="10" selected>10</option>
-                <option value="15">15</option><option value="20">20</option><option value="0">Todas</option>
-              </select>
-            </div>
-          </div>
-          <div id="quizTimerInfo" style="display:none;padding:10px;background:var(--amber-bg);border-radius:var(--r-md);margin-bottom:12px;font-size:.85rem;border:1px solid rgba(251,191,36,.2);color:var(--amber)">
-            ⏱️ Quiz con límite de tiempo: <strong id="quizTimerText">30 min</strong>
-          </div>
-          <button class="btn btn-green" onclick="iniciarQuiz()">🚀 Comenzar Quiz</button>
-        </div>
-      </div>
-      <div id="quizMotor" style="display:none">
-        <div class="card">
-          <div class="timer-box" id="timerBox" style="display:none">
-            <span style="font-size:1.1rem">⏱️</span>
-            <div>
-              <div class="timer-val" id="timerDisplay">00:00:00</div>
-              <div style="font-size:.68rem;color:var(--text-3);margin-top:2px">Tiempo restante</div>
-            </div>
-          </div>
-          <div id="quizProgress" style="text-align:center;font-weight:600;color:var(--text-2);font-size:.875rem;margin-bottom:8px">Pregunta 1 de 10</div>
-          <div class="prog-bar"><div class="prog-fill" id="quizBar" style="width:0%"></div></div>
-          <div class="q-card"><div class="q-num" id="qNum">PREGUNTA 1</div><div class="q-text" id="qText">…</div></div>
-          <div id="optionsList"></div>
-          <div id="quizFeedback" style="display:none"></div>
-          <button class="btn btn-primary" id="btnSig" onclick="siguientePregunta()" style="display:none;margin-top:10px">Siguiente →</button>
-        </div>
-      </div>
-      <div id="quizResultados" style="display:none">
-        <div class="card" style="text-align:center">
-          <div class="card-hd" style="justify-content:center"><div class="card-title"><span class="card-ic">🏆</span>Resultados del Quiz</div></div>
-          <div id="resPct" style="font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;margin:12px 0">0%</div>
-          <div id="resNivel" style="font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--text-2)"></div>
-          <div class="prog-bar" style="height:12px"><div class="prog-fill" id="resBar" style="width:0%;transition:width 1.2s var(--ease)"></div></div>
-          <div class="stats-row" style="margin-top:16px">
-            <div class="stat-chip"><div class="stat-ic">📝</div><div class="stat-val" id="rTotal">0</div><div class="stat-lbl">Total</div></div>
-            <div class="stat-chip"><div class="stat-ic">✅</div><div class="stat-val" id="rCorr">0</div><div class="stat-lbl">Correctas</div></div>
-            <div class="stat-chip"><div class="stat-ic">❌</div><div class="stat-val" id="rInc">0</div><div class="stat-lbl">Incorrectas</div></div>
-            <div class="stat-chip"><div class="stat-ic">📊</div><div class="stat-val" id="rPct">0%</div><div class="stat-lbl">Porcentaje</div></div>
-          </div>
-          <div class="btn-grp" style="justify-content:center;margin-top:18px">
-            <button class="btn btn-dark" onclick="reiniciarQuiz()">🔄 Nuevo Quiz</button>
-            <button class="btn btn-green" onclick="mostrarSec('historial')">📊 Ver Historial</button>
-          </div>
-        </div>
-      </div>
+      <div id="quizBloqueado" style="display:none"><div class="card"><div style="background:var(--surface);border-radius:var(--r-lg);padding:40px;text-align:center"><div style="font-size:3rem;margin-bottom:12px">🔒</div><div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:6px">Quiz no disponible</div><div id="blockedMsg" style="font-size:.875rem;color:var(--text-3)"></div></div></div></div>
+      <div id="quizConfigPanel" style="display:none"><div class="card"><div class="card-hd"><div class="card-title"><span class="card-ic">⚙️</span>Configurar Quiz</div></div><div id="intentosInfoQuiz" style="display:none;padding:10px;background:var(--green-bg);border-radius:var(--r-md);margin-bottom:12px;font-size:.85rem;border:1px solid rgba(52,211,153,.15);color:var(--green)"></div><div id="quizTemaGroup"><div class="form-row"><label class="form-label">Tema</label><select class="form-input" id="selectTema"><option value="Todos">Todos los temas</option></select></div></div><div id="quizCantGroup"><div class="form-row"><label class="form-label">Cantidad de preguntas</label><select class="form-input" id="selectCant"><option value="5">5</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option><option value="0">Todas</option></select></div></div><div id="quizTimerInfo" style="display:none;padding:10px;background:var(--amber-bg);border-radius:var(--r-md);margin-bottom:12px;font-size:.85rem;border:1px solid rgba(251,191,36,.2);color:var(--amber)">⏱️ Quiz con límite de tiempo: <strong id="quizTimerText">30 min</strong></div><button class="btn btn-green" onclick="iniciarQuiz()">🚀 Comenzar Quiz</button></div></div>
+      <div id="quizMotor" style="display:none"><div class="card"><div class="timer-box" id="timerBox" style="display:none"><span style="font-size:1.1rem">⏱️</span><div><div class="timer-val" id="timerDisplay">00:00:00</div><div style="font-size:.68rem;color:var(--text-3);margin-top:2px">Tiempo restante</div></div></div><div id="quizProgress" style="text-align:center;font-weight:600;color:var(--text-2);font-size:.875rem;margin-bottom:8px">Pregunta 1 de 10</div><div class="prog-bar"><div class="prog-fill" id="quizBar" style="width:0%"></div></div><div class="q-card"><div class="q-num" id="qNum">PREGUNTA 1</div><div class="q-text" id="qText">…</div></div><div id="optionsList"></div><div id="quizFeedback" style="display:none"></div><button class="btn btn-primary" id="btnSig" onclick="siguientePregunta()" style="display:none;margin-top:10px">Siguiente →</button></div></div>
+      <div id="quizResultados" style="display:none"><div class="card" style="text-align:center"><div class="card-hd" style="justify-content:center"><div class="card-title"><span class="card-ic">🏆</span>Resultados del Quiz</div></div><div id="resPct" style="font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;margin:12px 0">0%</div><div id="resNivel" style="font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--text-2)"></div><div class="prog-bar" style="height:12px"><div class="prog-fill" id="resBar" style="width:0%;transition:width 1.2s var(--ease)"></div></div><div class="stats-row" style="margin-top:16px"><div class="stat-chip"><div class="stat-ic">📝</div><div class="stat-val" id="rTotal">0</div><div class="stat-lbl">Total</div></div><div class="stat-chip"><div class="stat-ic">✅</div><div class="stat-val" id="rCorr">0</div><div class="stat-lbl">Correctas</div></div><div class="stat-chip"><div class="stat-ic">❌</div><div class="stat-val" id="rInc">0</div><div class="stat-lbl">Incorrectas</div></div><div class="stat-chip"><div class="stat-ic">📊</div><div class="stat-val" id="rPct">0%</div><div class="stat-lbl">Porcentaje</div></div></div><div class="btn-grp" style="justify-content:center;margin-top:18px"><button class="btn btn-dark" onclick="reiniciarQuiz()">🔄 Nuevo Quiz</button><button class="btn btn-green" onclick="mostrarSec('historial')">📊 Ver Historial</button></div></div></div>
     </div>
 
     <!-- ═══ HISTORIAL ═══ -->
     <div class="section" id="sec-historial">
-      <div class="card">
-        <div class="card-hd">
-          <div class="card-title"><span class="card-ic">📊</span><span id="histTitulo">Mi Historial</span></div>
-          <div class="btn-grp">
-            <button class="btn btn-dark btn-sm" onclick="exportarPDF()">📄 PDF</button>
-            <button class="btn btn-green btn-sm" onclick="enviarPDFemail()">📧 Email</button>
-          </div>
-        </div>
-        <div id="histAlert"></div>
-        <div id="historialContainer"><div class="empty"><div class="empty-ic">📭</div><p>Aún no hay resultados.</p></div></div>
-      </div>
+      <div class="card"><div class="card-hd"><div class="card-title"><span class="card-ic">📊</span><span id="histTitulo">Mi Historial</span></div><div class="btn-grp"><button class="btn btn-dark btn-sm" onclick="exportarPDF()">📄 PDF</button><button class="btn btn-green btn-sm" onclick="enviarPDFemail()">📧 Email</button></div></div><div id="histAlert"></div><div id="historialContainer"><div class="empty"><div class="empty-ic">📭</div><p>Aún no hay resultados.</p></div></div></div>
     </div>
 
-  </div><!-- /content -->
-</div><!-- /app-main -->
+  </div>
+</div>
 
-<!-- ═══════════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════════ -->
 <script>
 'use strict';
 
-// ──────────────────────────────────────────────
-// CONFIG
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── CONFIG
 const API_URL = 'https://script.google.com/macros/s/AKfycbyUWqptaVmEyZuN7gtHqEeaHlf77s9n047K7XoNk_VspuvhYIGQUL1tyB3xEuZcG21h/exec';
 
-// ──────────────────────────────────────────────
-// STATE  (todo centralizado)
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── STATE
 const App = {
   ses:    { usuario:'', nombre:'', rol:'', adminId:'' },
   quiz:   { preguntas:[], indice:0, correctas:0, incorrectas:0, respondida:false },
@@ -1291,19 +974,15 @@ const App = {
   ap:     { activo:false, intentos:0, max:3 },
   adminsData:   [],
   usuariosData: [],
+  notificaciones: []
 };
 
-// ──────────────────────────────────────────────
-// HELPERS
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── HELPERS
 const $   = id => document.getElementById(id);
 const esc = s  => s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const pad = n  => n < 10 ? '0'+n : n;
 const fechaCorta = s => s ? s.split(' ')[0] : '';
 
-// ──────────────────────────────────────────────
-// ALERT  (auto-dismiss 6 s)
-// ──────────────────────────────────────────────
 function alerta(id, tipo, msg) {
   const el = $(id); if (!el) return;
   const ic = { ok:'✅', err:'❌', info:'ℹ️', warn:'⚠️' };
@@ -1312,37 +991,20 @@ function alerta(id, tipo, msg) {
   el._t = setTimeout(() => el.innerHTML = '', 6000);
 }
 
-// ──────────────────────────────────────────────
-// SPINNER
-// ──────────────────────────────────────────────
 const spin   = txt => { $('spinTxt').textContent = txt || 'Procesando…'; $('spinOverlay').classList.add('show'); };
 const unspin = ()  => $('spinOverlay').classList.remove('show');
 
-// ──────────────────────────────────────────────
-// API  — POST JSON, timeout 30 s
-// ──────────────────────────────────────────────
 function call(fn, args, cb) {
   const ctrl = new AbortController();
   const to   = setTimeout(() => ctrl.abort(), 30000);
-  fetch(API_URL, {
-    method: 'POST',
-    body:   JSON.stringify({ action: fn, args }),
-    signal: ctrl.signal
-  })
-  .then(r => r.json())
-  .then(d => { clearTimeout(to); unspin(); cb && cb(d); })
-  .catch(e => {
-    clearTimeout(to); unspin();
-    console.error(fn, e);
-    cb && cb({ success: false, message: e.name === 'AbortError' ? 'Tiempo de espera agotado' : 'Error de conexión' });
-  });
+  fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: fn, args }), signal: ctrl.signal })
+    .then(r => r.json())
+    .then(d => { clearTimeout(to); unspin(); cb && cb(d); })
+    .catch(e => { clearTimeout(to); unspin(); cb && cb({ success: false, message: e.name === 'AbortError' ? 'Tiempo de espera agotado' : 'Error de conexión' }); });
 }
-
 function callSpin(txt, fn, args, cb) { spin(txt); call(fn, args, cb); }
 
-// ──────────────────────────────────────────────
-// LOGIN
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── LOGIN
 function hacerLogin() {
   const u = $('loginUser').value.trim(), p = $('loginPass').value.trim();
   if (!u || !p) { loginMsg('err', 'Ingresa usuario y contraseña'); return; }
@@ -1351,1039 +1013,215 @@ function hacerLogin() {
       App.ses = res.datos;
       sessionStorage.setItem('ses', JSON.stringify(App.ses));
       iniciarApp();
-    } else {
-      loginMsg('err', res.message);
-    }
+    } else { loginMsg('err', res.message); }
   });
 }
-
 function loginMsg(tipo, msg) {
   $('loginAlert').innerHTML = `<div class="lf-msg lf-msg-${tipo}">${tipo==='err'?'❌':'✅'} ${msg}</div>`;
-  clearTimeout(window._lt);
-  window._lt = setTimeout(() => $('loginAlert').innerHTML = '', 6000);
+  clearTimeout(window._lt); window._lt = setTimeout(() => $('loginAlert').innerHTML = '', 6000);
 }
-
 function cerrarSesion() {
-  if (App.ses.usuario)
-    navigator.sendBeacon(API_URL, JSON.stringify({ action:'registrarCierreSesion', args:[App.ses.usuario] }));
-  clearInterval(App.timers.ping);
-  clearInterval(App.timers.interval);
-  clearInterval(App.timers.quiz);
+  if (App.ses.usuario) navigator.sendBeacon(API_URL, JSON.stringify({ action:'registrarCierreSesion', args:[App.ses.usuario] }));
+  clearInterval(App.timers.ping); clearInterval(App.timers.interval); clearInterval(App.timers.quiz);
   App.ses = { usuario:'', nombre:'', rol:'', adminId:'' };
   sessionStorage.removeItem('ses');
-  $('appMain').style.display   = 'none';
-  $('loginScreen').style.display = 'flex';
-  $('hamburgerBtn').style.display = 'none';
+  $('appMain').style.display = 'none'; $('loginScreen').style.display = 'flex'; $('hamburgerBtn').style.display = 'none';
 }
 
-// ──────────────────────────────────────────────
-// NAV
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── NAV
 const SECTIONS = [
   { id:'inicio',    icon:'🏠', label:'Inicio',          admin:false, sup:false },
-  { id:'admins',    icon:'👑', label:'Administradores',  admin:false, sup:true  },
-  { id:'importar',  icon:'⚙️', label:'Configuración',    admin:true,  sup:false },
-  { id:'usuarios',  icon:'👥', label:'Estudiantes',      admin:true,  sup:false },
-  { id:'enlinea',   icon:'🟢', label:'En Línea',         admin:true,  sup:false },
-  { id:'perfil',    icon:'👤', label:'Mi Perfil',        admin:false, sup:false },
-  { id:'quiz',      icon:'📝', label:'Quiz',             admin:false, sup:false },
-  { id:'historial', icon:'📊', label:'Historial',        admin:false, sup:false },
-  { id:'ranking',   icon:'🏅', label:'Ranking',          admin:true,  sup:false },
+  { id:'admins',    icon:'👑', label:'Administradores', admin:false, sup:true  },
+  { id:'importar',  icon:'⚙️', label:'Configuración',   admin:true,  sup:false },
+  { id:'usuarios',  icon:'👥', label:'Estudiantes',     admin:true,  sup:false },
+  { id:'notificaciones', icon:'📢', label:'Notificaciones', admin:true, sup:false },
+  { id:'enlinea',   icon:'🟢', label:'En Línea',        admin:true,  sup:false },
+  { id:'perfil',    icon:'👤', label:'Mi Perfil',       admin:false, sup:false },
+  { id:'quiz',      icon:'📝', label:'Quiz',            admin:false, sup:false },
+  { id:'historial', icon:'📊', label:'Historial',       admin:false, sup:false },
+  { id:'ranking',   icon:'🏅', label:'Ranking',         admin:true,  sup:false },
 ];
-
 const META = {
-  inicio:   ['Inicio','Panel general'],
-  admins:   ['Administradores','Gestión del sistema'],
-  importar: ['Configuración','Ajustes avanzados'],
-  usuarios: ['Estudiantes','Gestión de estudiantes'],
-  enlinea:  ['En Línea','Actividad en tiempo real'],
-  perfil:   ['Mi Perfil','Tu cuenta'],
-  quiz:     ['Quiz','Evaluación interactiva'],
-  historial:['Historial','Registro de resultados'],
-  ranking:  ['Ranking','Clasificación general'],
+  inicio:   ['Inicio','Panel general'], admins: ['Administradores','Gestión del sistema'], importar: ['Configuración','Ajustes avanzados'],
+  usuarios: ['Estudiantes','Gestión de estudiantes'], notificaciones: ['Notificaciones','Mensajes del sistema'],
+  enlinea:  ['En Línea','Actividad en tiempo real'], perfil: ['Mi Perfil','Tu cuenta'], quiz: ['Quiz','Evaluación interactiva'],
+  historial:['Historial','Registro de resultados'], ranking: ['Ranking','Clasificación general'],
 };
-
 function buildNav() {
   const esS = App.ses.rol === 'super_admin', esA = App.ses.rol === 'admin';
-  $('sidebarNav').innerHTML = SECTIONS
-    .filter(s => !(s.sup && !esS) && !(s.admin && !esA && !esS))
-    .map(s => `<button class="nav-item" data-sec="${s.id}" onclick="mostrarSec('${s.id}')">
-      <span class="ni">${s.icon}</span>${s.label}
-    </button>`).join('');
-  $('suName').textContent   = App.ses.nombre;
-  $('suRole').textContent   = esS ? '👑 Super Admin' : esA ? '👨‍💼 Admin' : '📚 Estudiante';
-  $('suAvatar').textContent = (App.ses.nombre || '?').charAt(0).toUpperCase();
-  $('tbUser').textContent   = `${esS?'👑':esA?'👨‍💼':'👤'} ${App.ses.nombre}`;
-  $('heroName').textContent = App.ses.nombre;
+  $('sidebarNav').innerHTML = SECTIONS.filter(s => !(s.sup && !esS) && !(s.admin && !esA && !esS)).map(s => `<button class="nav-item" data-sec="${s.id}" onclick="mostrarSec('${s.id}')"><span class="ni">${s.icon}</span>${s.label}</button>`).join('');
+  $('suName').textContent = App.ses.nombre; $('suRole').textContent = esS ? '👑 Super Admin' : esA ? '👨‍💼 Admin' : '📚 Estudiante';
+  $('suAvatar').textContent = (App.ses.nombre || '?').charAt(0).toUpperCase(); $('tbUser').textContent = `${esS?'👑':esA?'👨‍💼':'👤'} ${App.ses.nombre}`; $('heroName').textContent = App.ses.nombre;
 }
-
 function mostrarSec(sec) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  const el = $(`sec-${sec}`); if (el) el.classList.add('active');
-  const m = META[sec] || ['Panel', ''];
-  $('topTitle').textContent = m[0];
-  $('topSub').textContent   = m[1];
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); const el = $(`sec-${sec}`); if (el) el.classList.add('active');
+  const m = META[sec] || ['Panel', '']; $('topTitle').textContent = m[0]; $('topSub').textContent = m[1];
   document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.sec === sec));
   if (window.innerWidth <= 768 && sidebarOpen) cerrarSidebar();
-  ({
-    admins:   cargarAdmins,
-    importar: () => { cargarCfgTiempo(); cargarCfgQuiz(); cargarTemasAdmin(); cargarCfgAcceso(); cargarCfgEmail(); cargarLoginPers(); },
-    usuarios: cargarUsuarios,
-    enlinea:  cargarEnLinea,
-    ranking:  cargarRanking,
-    perfil:   cargarPerfil,
-    quiz:     cargarCfgQuizEstudiante,
-    historial:cargarHistorial,
-    inicio:   cargarDashboard,
-  })[sec]?.();
+  ({ admins: cargarAdmins, importar: () => { cargarCfgTiempo(); cargarCfgQuiz(); cargarTemasAdmin(); cargarCfgAcceso(); cargarCfgEmail(); cargarLoginPers(); },
+     usuarios: cargarUsuarios, notificaciones: () => { cargarNotificaciones(); configurarPanelNotificaciones(); },
+     enlinea: cargarEnLinea, ranking: cargarRanking, perfil: cargarPerfil, quiz: cargarCfgQuizEstudiante, historial: cargarHistorial, inicio: cargarDashboard })[sec]?.();
 }
-
-// ──────────────────────────────────────────────
-// SIDEBAR
-// ──────────────────────────────────────────────
 let sidebarOpen = false;
 function toggleSidebar() { sidebarOpen ? cerrarSidebar() : abrirSidebar(); }
 function abrirSidebar()  { $('appSidebar').classList.add('open'); $('sidebarOverlay').classList.add('show'); $('hamburgerBtn').classList.add('open'); sidebarOpen = true; }
 function cerrarSidebar() { $('appSidebar').classList.remove('open'); $('sidebarOverlay').classList.remove('show'); $('hamburgerBtn').classList.remove('open'); sidebarOpen = false; }
 
-// ──────────────────────────────────────────────
-// INIT APP
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── INIT
 function iniciarApp() {
-  $('loginScreen').style.display  = 'none';
-  $('appMain').style.display      = 'flex';
-  $('hamburgerBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
-  const esS = App.ses.rol === 'super_admin';
-  if ($('cardLoginPers')) $('cardLoginPers').style.display = esS ? 'block' : 'none';
-  buildNav();
-  mostrarSec('inicio');
-  cargarCfgTiempo();
-  cargarCfgQuiz();
-  iniciarPing();
-  aplicarPersonalizacion();
-  if (esS || App.ses.rol === 'admin') {
-    App.timers.interval = setInterval(() => {
-      if ($('sec-enlinea')?.classList.contains('active')) cargarEnLinea();
-    }, 30000);
-  }
+  $('loginScreen').style.display = 'none'; $('appMain').style.display = 'flex'; $('hamburgerBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+  const esS = App.ses.rol === 'super_admin'; if ($('cardLoginPers')) $('cardLoginPers').style.display = esS ? 'block' : 'none';
+  buildNav(); mostrarSec('inicio'); cargarCfgTiempo(); cargarCfgQuiz(); iniciarPing(); aplicarPersonalizacion();
+  if (esS || App.ses.rol === 'admin') App.timers.interval = setInterval(() => { if ($('sec-enlinea')?.classList.contains('active')) cargarEnLinea(); }, 30000);
 }
 
-// ──────────────────────────────────────────────
-// PERSONALIZACIÓN
-// ──────────────────────────────────────────────
-function applyFondo(url, blur) {
-  const bg = $('loginCustomBg'); if (!bg) return;
-  if (url) { bg.style.backgroundImage = `url(${url})`; bg.style.filter = `blur(${blur||5}px)`; }
-  else     { bg.style.backgroundImage = ''; bg.style.filter = ''; }
-}
-function applyLogo(url) {
-  const icon = $('loginIconDefault'), img = $('loginLogoImg');
-  if (url) { img.src = url; img.style.display = 'block'; icon.style.display = 'none'; }
-  else     { img.style.display = 'none'; icon.style.display = 'flex'; }
-  const sw = $('sidebarLogoImg'), si = $('sidebarIcon');
-  if (url) { sw.src = url; sw.style.display = 'inline'; si.style.display = 'none'; }
-  else     { sw.style.display = 'none'; si.style.display = 'flex'; }
-}
-function applySiteName(name) {
-  if (!name) return;
-  $('sidebarSiteName').textContent = name;
-  $('loginBrandName').textContent  = name;
-  document.title = name;
-  const el = $('pageTabTitle'); if (el) el.textContent = name;
-}
-
-function aplicarPersonalizacion() {
-  call('obtenerPersonalizacionLogin', [], res => {
-    if (!res?.success) return;
-    if (res.fondo)    applyFondo(res.fondo, res.blur);
-    if (res.logo)     applyLogo(res.logo);
-    if (res.siteName) applySiteName(res.siteName);
-  });
-}
-
-function cargarLoginPers() {
-  if (App.ses.rol !== 'super_admin') return;
-  call('obtenerPersonalizacionLogin', [], res => {
-    if (!res?.success) return;
-    const blur = res.blur || '5';
-    $('inputBlur').value = blur;
-    $('blurLabel').textContent = blur + 'px';
-    if (res.siteName) $('inputSiteName').value = res.siteName;
-    if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; }
-    if (res.logo)  { $('inputLogoUrl').value  = res.logo;  $('logoPrevImg').src  = res.logo;  $('logoPrevWrap').style.display  = 'block'; }
-  });
-}
-
+// ────────────────────────────────────────────── PERSONALIZACIÓN
+function applyFondo(url, blur) { const bg = $('loginCustomBg'); if (!bg) return; if (url) { bg.style.backgroundImage = `url(${url})`; bg.style.filter = `blur(${blur||5}px)`; } else { bg.style.backgroundImage = ''; bg.style.filter = ''; } }
+function applyLogo(url) { const icon = $('loginIconDefault'), img = $('loginLogoImg'); if (url) { img.src = url; img.style.display = 'block'; icon.style.display = 'none'; } else { img.style.display = 'none'; icon.style.display = 'flex'; } const sw = $('sidebarLogoImg'), si = $('sidebarIcon'); if (url) { sw.src = url; sw.style.display = 'inline'; si.style.display = 'none'; } else { sw.style.display = 'none'; si.style.display = 'flex'; } }
+function applySiteName(name) { if (!name) return; $('sidebarSiteName').textContent = name; $('loginBrandName').textContent = name; document.title = name; const el = $('pageTabTitle'); if (el) el.textContent = name; }
+function aplicarPersonalizacion() { call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; if (res.fondo) applyFondo(res.fondo, res.blur); if (res.logo) applyLogo(res.logo); if (res.siteName) applySiteName(res.siteName); }); }
+function cargarLoginPers() { if (App.ses.rol !== 'super_admin') return; call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; const blur = res.blur || '5'; $('inputBlur').value = blur; $('blurLabel').textContent = blur + 'px'; if (res.siteName) $('inputSiteName').value = res.siteName; if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; } if (res.logo) { $('inputLogoUrl').value = res.logo; $('logoPrevImg').src = res.logo; $('logoPrevWrap').style.display = 'block'; } }); }
 let _dFondo, _dLogo;
 function debouncePreviewFondo() { clearTimeout(_dFondo); _dFondo = setTimeout(previewFondo, 600); }
 function debouncePreviewLogo()  { clearTimeout(_dLogo);  _dLogo  = setTimeout(previewLogo,  600); }
-function previewFondo() {
-  const url = $('inputFondoUrl').value.trim();
-  if (url) { $('fondoPrevImg').src = url; $('fondoPrevWrap').style.display = 'block'; applyFondo(url, $('inputBlur').value); }
-  else     { $('fondoPrevWrap').style.display = 'none'; applyFondo('', 5); }
-}
-function previewLogo() {
-  const url = $('inputLogoUrl').value.trim();
-  if (url) { $('logoPrevImg').src = url; $('logoPrevWrap').style.display = 'block'; }
-  else     { $('logoPrevWrap').style.display = 'none'; }
-}
+function previewFondo() { const url = $('inputFondoUrl').value.trim(); if (url) { $('fondoPrevImg').src = url; $('fondoPrevWrap').style.display = 'block'; applyFondo(url, $('inputBlur').value); } else { $('fondoPrevWrap').style.display = 'none'; applyFondo('', 5); } }
+function previewLogo() { const url = $('inputLogoUrl').value.trim(); if (url) { $('logoPrevImg').src = url; $('logoPrevWrap').style.display = 'block'; } else { $('logoPrevWrap').style.display = 'none'; } }
 function clearFondo() { $('inputFondoUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; applyFondo('', 5); }
-function clearLogo()  { $('inputLogoUrl').value  = ''; $('logoPrevWrap').style.display  = 'none'; }
-function onBlurChange(val) {
-  $('blurLabel').textContent = val + 'px';
-  const url = $('inputFondoUrl').value.trim();
-  if (url) applyFondo(url, val);
-}
+function clearLogo()  { $('inputLogoUrl').value = ''; $('logoPrevWrap').style.display = 'none'; }
+function onBlurChange(val) { $('blurLabel').textContent = val + 'px'; const url = $('inputFondoUrl').value.trim(); if (url) applyFondo(url, val); }
+function guardarLoginPers() { const siteName = $('inputSiteName').value.trim(), fondo = $('inputFondoUrl').value.trim(), logo = $('inputLogoUrl').value.trim(), blur = $('inputBlur').value; const cfg = { loginBlur: blur }; if (fondo) cfg.loginFondo = fondo; if (logo) cfg.loginLogo = logo; if (siteName) cfg.loginSiteName = siteName; callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => { if (res.success) { alerta('loginPersAlert', 'ok', 'Personalización guardada'); if (fondo) applyFondo(fondo, blur); if (logo) applyLogo(logo); if (siteName) applySiteName(siteName); } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar'); }); }
+function eliminarLoginPers() { if (!confirm('¿Quitar las imágenes y restablecer el login?')) return; callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; alerta('loginPersAlert', 'ok', 'Imágenes eliminadas'); } else alerta('loginPersAlert', 'err', res.message); }); }
 
-function guardarLoginPers() {
-  const siteName = $('inputSiteName').value.trim();
-  const fondo    = $('inputFondoUrl').value.trim();
-  const logo     = $('inputLogoUrl').value.trim();
-  const blur     = $('inputBlur').value;
-  const cfg = { loginBlur: blur };
-  if (fondo)    cfg.loginFondo    = fondo;
-  if (logo)     cfg.loginLogo     = logo;
-  if (siteName) cfg.loginSiteName = siteName;
-  callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => {
-    if (res.success) {
-      alerta('loginPersAlert', 'ok', 'Personalización guardada');
-      if (fondo)    applyFondo(fondo, blur);
-      if (logo)     applyLogo(logo);
-      if (siteName) applySiteName(siteName);
-    } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar');
-  });
-}
+// ────────────────────────────────────────────── DASHBOARD
+function cargarDashboard() { callSpin('Cargando…', 'obtenerEstadisticasGenerales', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => { if (!res?.success) return; const d = res.datos; $('d-preguntas').textContent = d.totalPreguntas ?? 0; $('d-quizzes').textContent = d.totalQuizzes ?? 0; $('d-temas').textContent = d.totalTemas ?? 0; $('d-promedio').textContent = (d.promedioGeneral ?? 0) + '%'; if (App.ses.rol !== 'estudiante') { $('dashAdminExtra').style.display = 'block'; $('d-estudiantes').textContent = d.totalEstudiantes ?? 0; $('d-mejor').textContent = (d.mejorNota ?? 0) + '%'; $('d-enlinea').textContent = d.usuariosEnLinea ?? 0; $('d-hoy').textContent = d.quizzesHoy ?? 0; } }); }
 
-function eliminarLoginPers() {
-  if (!confirm('¿Quitar las imágenes y restablecer el login?')) return;
-  callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => {
-    if (res.success) {
-      applyFondo('', 5); applyLogo('');
-      $('inputFondoUrl').value = ''; $('inputLogoUrl').value = '';
-      $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none';
-      alerta('loginPersAlert', 'ok', 'Imágenes eliminadas');
-    } else alerta('loginPersAlert', 'err', res.message);
-  });
+// ────────────────────────────────────────────── NOTIFICACIONES
+function configurarPanelNotificaciones() {
+  const esSuper = App.ses.rol === 'super_admin';
+  const esAdmin = App.ses.rol === 'admin';
+  const adminPanel = document.getElementById('notifAdminPanel');
+  const selectNormal = document.getElementById('notifTipo');
+  const selectSuper = document.getElementById('notifTipoSuper');
+  if (esSuper || esAdmin) {
+    adminPanel.style.display = 'block';
+    if (esSuper) { selectNormal.style.display = 'none'; selectSuper.style.display = 'block'; }
+    else { selectNormal.style.display = 'block'; selectSuper.style.display = 'none'; }
+  } else { adminPanel.style.display = 'none'; }
 }
+function cargarNotificaciones() { if (!App.ses.usuario) return; call('obtenerNotificaciones', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => { if (res.success) { App.notificaciones = res.notificaciones || []; mostrarNotificaciones(); } else { document.getElementById('notificacionesContainer').innerHTML = '<div class="empty"><p>Error al cargar notificaciones</p></div>'; } }); }
+function mostrarNotificaciones() { const container = document.getElementById('notificacionesContainer'); if (!container) return; if (App.notificaciones.length === 0) { container.innerHTML = '<div class="empty"><div class="empty-ic">📭</div><p>No hay notificaciones nuevas</p></div>'; return; } container.innerHTML = App.notificaciones.map(n => `<div class="result-row" style="border-left-color:var(--accent)" data-id="${n.id}"><div style="flex:1"><div class="result-meta">📢 ${n.fecha} · De: <strong>${esc(n.creadaPor)}</strong></div><div class="result-detail" style="margin-top:6px">${esc(n.mensaje)}</div></div><button class="btn btn-sm btn-ghost" onclick="marcarNotificacionLeida('${n.id}')">✓ Marcar como leída</button></div>`).join(''); }
+function marcarNotificacionLeida(id) { call('marcarNotificacionLeida', [App.ses.usuario, id], res => { if (res.success) { App.notificaciones = App.notificaciones.filter(n => n.id !== id); mostrarNotificaciones(); } }); }
+function enviarNotificacion() { const esSuper = App.ses.rol === 'super_admin'; const mensaje = document.getElementById('notifMensaje').value.trim(); const tipo = esSuper ? document.getElementById('notifTipoSuper').value : document.getElementById('notifTipo').value; if (!mensaje) { alerta('notifAlert', 'err', 'Escribe un mensaje'); return; } callSpin('Enviando notificación...', 'enviarNotificacion', [App.ses.usuario, mensaje, tipo], res => { if (res.success) { alerta('notifAlert', 'ok', `Notificación enviada a ${res.total} usuario(s)`); document.getElementById('notifMensaje').value = ''; } else { alerta('notifAlert', 'err', res.message); } }); }
 
-// ──────────────────────────────────────────────
-// DASHBOARD  (dos llamadas en paralelo con Promise.all)
-// ──────────────────────────────────────────────
-function cargarDashboard() {
-  // Primero cargamos estadísticas generales
-  callSpin('Cargando…', 'obtenerEstadisticasGenerales', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => {
-    if (!res?.success) return;
-    const d = res.datos;
-    $('d-preguntas').textContent = d.totalPreguntas ?? 0;
-    $('d-quizzes').textContent   = d.totalQuizzes   ?? 0;
-    $('d-temas').textContent     = d.totalTemas      ?? 0;
-    $('d-promedio').textContent  = (d.promedioGeneral ?? 0) + '%';
-    if (App.ses.rol !== 'estudiante') {
-      $('dashAdminExtra').style.display = 'block';
-      $('d-estudiantes').textContent    = d.totalEstudiantes ?? 0;
-      $('d-mejor').textContent          = (d.mejorNota ?? 0) + '%';
-      // Carga en paralelo en segundo plano
-      call('obtenerUsuariosEnLinea', [App.ses.usuario], r => { if (r?.success) $('d-enlinea').textContent = r.enLinea ?? 0; });
-      call('obtenerQuizzesHoy',      [App.ses.usuario], r => { if (r?.success) $('d-hoy').textContent     = r.cantidad ?? 0; });
-    }
-  });
-}
-
-// ──────────────────────────────────────────────
-// ADMINS
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── ADMINS
 let editAdminTarget = '', programarTarget = '';
+function cargarAdmins() { $('listaAdmins').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>'; callSpin('Cargando…', 'obtenerAdministradores', [App.ses.usuario], res => { App.adminsData = res.admins || []; renderAdmins(App.adminsData); }); }
+function filtrarAdmins(q) { const f = q.toLowerCase(); renderAdmins(App.adminsData.filter(a => (a.usuario + a.nombre + a.email).toLowerCase().includes(f))); }
+function renderAdmins(list) { const cont = $('listaAdmins'); if (!list.length) { cont.innerHTML = '<div class="empty"><div class="empty-ic">👑</div><p>Sin administradores</p></div>'; return; } if (window.innerWidth <= 768) { cont.innerHTML = '<div class="cards-grid">' + list.map(adminCard).join('') + '</div>'; } else { cont.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Usuario</th><th>Nombre</th><th>Estado</th><th>Registro</th><th>Período</th><th>Acciones</th></tr></thead><tbody>${list.map(adminRow).join('')}</tbody></table></div>`; } }
+const adminBadge = a => a.estado === 'activo' ? '<span class="badge badge-green">● Activo</span>' : '<span class="badge badge-red">● Inactivo</span>';
+const adminPeriodo = a => (a.fechaInicioProgramada || a.fechaFinProgramada) ? `<span class="badge badge-gold" style="font-size:.66rem">📅 ${fechaCorta(a.fechaInicioProgramada)} – ${fechaCorta(a.fechaFinProgramada)}</span>` : '-';
+function adminAcciones(a) { const tog = a.estado === 'activo' ? `<button class="btn btn-amber btn-sm btn-icon" title="Desactivar" onclick="cambiarEstAdmin('${esc(a.usuario)}','inactivo')">🔴</button>` : `<button class="btn btn-green btn-sm btn-icon" title="Activar" onclick="cambiarEstAdmin('${esc(a.usuario)}','activo')">🟢</button>`; return `<button class="btn btn-ghost btn-sm btn-icon" title="Historial" onclick="verHistAdmin('${esc(a.usuario)}')">📜</button><button class="btn btn-ghost btn-sm btn-icon" title="Editar" onclick="abrirEditAdmin('${esc(a.usuario)}')">✏️</button>${tog}<button class="btn btn-gold btn-sm btn-icon" title="Programar" onclick="abrirModalProg('${esc(a.usuario)}')">📅</button><button class="btn btn-red btn-sm btn-icon" title="Eliminar" onclick="eliminarAdmin('${esc(a.usuario)}')">🗑️</button>`; }
+function adminRow(a) { return `<tr><td><strong>${esc(a.usuario)}</strong></td><td>${esc(a.nombre)}</td><td>${adminBadge(a)}</td><td>${fechaCorta(a.fechaRegistro)}</td><td>${adminPeriodo(a)}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap">${adminAcciones(a)}</div></td></tr>`; }
+function adminCard(a) { return `<div class="d-card"><div class="d-card-hd"><div class="d-card-name">${esc(a.nombre)}</div>${adminBadge(a)}</div><div class="d-card-row"><span class="d-card-lbl">Usuario:</span><span class="d-card-val">@${esc(a.usuario)}</span></div><div class="d-card-row"><span class="d-card-lbl">Email:</span><span class="d-card-val">${esc(a.email||'-')}</span></div><div class="d-card-foot">${adminAcciones(a)}</div></div>`; }
+function crearAdmin() { const u = $('nAdminUser').value.trim(), p = $('nAdminPass').value.trim(), n = $('nAdminNombre').value.trim(), e = $('nAdminEmail').value.trim(); if (!u || !p || !n) { alerta('adminAlert','err','Todos los campos son obligatorios'); return; } if (p.length < 6) { alerta('adminAlert','err','La contraseña debe tener al menos 6 caracteres'); return; } callSpin('Creando…', 'crearAdministrador', [App.ses.usuario, u, p, n, e], res => { if (res.success) { alerta('adminAlert','ok', res.message); ['nAdminUser','nAdminPass','nAdminNombre','nAdminEmail'].forEach(id => $(id).value = ''); cargarAdmins(); } else alerta('adminAlert','err', res.message); }); }
+function cambiarEstAdmin(usuario, estado) { const motivo = prompt(`Motivo de ${estado==='activo'?'activación':'desactivación'}:`, 'Manual'); if (motivo === null) return; callSpin('Actualizando…', 'cambiarEstadoAdmin', [usuario, estado, App.ses.usuario, motivo||'Manual'], res => { alerta('adminAlert', res.success?'ok':'err', res.message); if (res.success) cargarAdmins(); }); }
+function abrirEditAdmin(usuario) { editAdminTarget = usuario; $('eAdminUser').value = usuario; $('eAdminPass').value = ''; $('eAdminAlert').innerHTML = ''; $('modalEditAdmin').classList.add('show'); }
+function guardarEditAdmin() { const pass = $('eAdminPass').value.trim(); if (!pass) { cerrarModal('modalEditAdmin'); return; } callSpin('Guardando…', 'resetearContrasena', [App.ses.usuario, editAdminTarget, pass], res => { if (res.success) { cerrarModal('modalEditAdmin'); alerta('adminAlert','ok','Contraseña actualizada'); } else alerta('eAdminAlert','err', res.message); }); }
+function eliminarAdmin(usuario) { if (!confirm(`⚠️ ¿Eliminar al administrador "${usuario}"?`)) return; callSpin('Eliminando…', 'eliminarUsuario', [App.ses.usuario, usuario], res => { alerta('adminAlert', res.success?'ok':'err', res.message); if (res.success) cargarAdmins(); }); }
+function verHistAdmin(usuario) { callSpin('Cargando…', 'obtenerHistorialAdmin', [App.ses.usuario, usuario], res => { $('histAdminCard').style.display = 'block'; const cont = $('histAdminCont'); if (!res.historial?.length) { cont.innerHTML = '<div class="empty"><p>Sin historial</p></div>'; return; } cont.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Fecha</th><th>Acción</th><th>Anterior</th><th>Nuevo</th><th>Por</th><th>Notas</th></tr></thead><tbody>${res.historial.map(h => `<tr><td>${h.fecha}</td><td><span class="badge ${h.accion==='ACTIVACIÓN'?'badge-green':h.accion==='DESACTIVACIÓN'?'badge-red':'badge-gold'}">${h.accion}</span></td><td>${h.estadoAnterior||'-'}</td><td>${h.estadoNuevo||'-'}</td><td>${h.realizadoPor}</td><td>${h.observaciones||'-'}</td></tr>`).join('')}</tbody></table></div>`; }); }
+function abrirModalProg(usuario) { programarTarget = usuario; $('mAdminUser').value = usuario; const min = new Date(); min.setHours(min.getHours()+1); $('mFechaInicio').value = min.toISOString().slice(0,16); const fin = new Date(min); fin.setDate(fin.getDate()+30); $('mFechaFin').value = fin.toISOString().slice(0,16); $('mMotivo').value = ''; $('mAlert').innerHTML = ''; $('modalProgramar').classList.add('show'); }
+function confirmarProgramacion() { const fi = $('mFechaInicio').value, ff = $('mFechaFin').value; if (!fi || !ff) { alerta('mAlert','err','Selecciona ambas fechas'); return; } if (new Date(fi) <= new Date()) { alerta('mAlert','err','La fecha de inicio debe ser futura'); return; } if (new Date(ff) <= new Date(fi)) { alerta('mAlert','err','El fin debe ser posterior al inicio'); return; } callSpin('Programando…', 'programarCambioEstadoFechas', [programarTarget, fi, ff, App.ses.usuario, $('mMotivo').value.trim()||'Período programado'], res => { if (res.success) { alerta('mAlert','ok', res.message); setTimeout(() => { cerrarModal('modalProgramar'); cargarAdmins(); }, 2000); } else alerta('mAlert','err', res.message); }); }
 
-function cargarAdmins() {
-  $('listaAdmins').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>';
-  callSpin('Cargando…', 'obtenerAdministradores', [App.ses.usuario], res => {
-    App.adminsData = res.admins || [];
-    renderAdmins(App.adminsData);
-  });
-}
-function filtrarAdmins(q) {
-  const f = q.toLowerCase();
-  renderAdmins(App.adminsData.filter(a => (a.usuario + a.nombre + a.email).toLowerCase().includes(f)));
-}
-function renderAdmins(list) {
-  const cont = $('listaAdmins');
-  if (!list.length) { cont.innerHTML = '<div class="empty"><div class="empty-ic">👑</div><p>Sin administradores</p></div>'; return; }
-  if (window.innerWidth <= 768) {
-    cont.innerHTML = '<div class="cards-grid">' + list.map(adminCard).join('') + '</div>';
-  } else {
-    cont.innerHTML = `<div class="tbl-wrap"><table class="tbl">
-      <thead><tr><th>Usuario</th><th>Nombre</th><th>Estado</th><th>Registro</th><th>Período</th><th>Acciones</th></tr></thead>
-      <tbody>${list.map(adminRow).join('')}</tbody></table></div>`;
-  }
-}
-const adminBadge = a => a.estado === 'activo'
-  ? '<span class="badge badge-green">● Activo</span>'
-  : '<span class="badge badge-red">● Inactivo</span>';
-const adminPeriodo = a => (a.fechaInicioProgramada || a.fechaFinProgramada)
-  ? `<span class="badge badge-gold" style="font-size:.66rem">📅 ${fechaCorta(a.fechaInicioProgramada)} – ${fechaCorta(a.fechaFinProgramada)}</span>`
-  : '-';
-function adminAcciones(a) {
-  const tog = a.estado === 'activo'
-    ? `<button class="btn btn-amber btn-sm btn-icon" title="Desactivar" onclick="cambiarEstAdmin('${esc(a.usuario)}','inactivo')">🔴</button>`
-    : `<button class="btn btn-green btn-sm btn-icon" title="Activar" onclick="cambiarEstAdmin('${esc(a.usuario)}','activo')">🟢</button>`;
-  return `
-    <button class="btn btn-ghost btn-sm btn-icon" title="Historial" onclick="verHistAdmin('${esc(a.usuario)}')">📜</button>
-    <button class="btn btn-ghost btn-sm btn-icon" title="Editar"    onclick="abrirEditAdmin('${esc(a.usuario)}')">✏️</button>
-    ${tog}
-    <button class="btn btn-gold btn-sm btn-icon"  title="Programar" onclick="abrirModalProg('${esc(a.usuario)}')">📅</button>
-    <button class="btn btn-red btn-sm btn-icon"   title="Eliminar"  onclick="eliminarAdmin('${esc(a.usuario)}')">🗑️</button>`;
-}
-function adminRow(a) {
-  return `<tr><td><strong>${esc(a.usuario)}</strong></td><td>${esc(a.nombre)}</td><td>${adminBadge(a)}</td><td>${fechaCorta(a.fechaRegistro)}</td><td>${adminPeriodo(a)}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap">${adminAcciones(a)}</div></td></tr>`;
-}
-function adminCard(a) {
-  return `<div class="d-card"><div class="d-card-hd"><div class="d-card-name">${esc(a.nombre)}</div>${adminBadge(a)}</div>
-    <div class="d-card-row"><span class="d-card-lbl">Usuario:</span><span class="d-card-val">@${esc(a.usuario)}</span></div>
-    <div class="d-card-row"><span class="d-card-lbl">Email:</span><span class="d-card-val">${esc(a.email||'-')}</span></div>
-    <div class="d-card-foot">${adminAcciones(a)}</div></div>`;
-}
-function crearAdmin() {
-  const u = $('nAdminUser').value.trim(), p = $('nAdminPass').value.trim();
-  const n = $('nAdminNombre').value.trim(), e = $('nAdminEmail').value.trim();
-  if (!u || !p || !n) { alerta('adminAlert','err','Todos los campos son obligatorios'); return; }
-  if (p.length < 6)   { alerta('adminAlert','err','La contraseña debe tener al menos 6 caracteres'); return; }
-  callSpin('Creando…', 'crearAdministrador', [App.ses.usuario, u, p, n, e], res => {
-    if (res.success) {
-      alerta('adminAlert','ok', res.message);
-      ['nAdminUser','nAdminPass','nAdminNombre','nAdminEmail'].forEach(id => $(id).value = '');
-      cargarAdmins();
-    } else alerta('adminAlert','err', res.message);
-  });
-}
-function cambiarEstAdmin(usuario, estado) {
-  const motivo = prompt(`Motivo de ${estado==='activo'?'activación':'desactivación'}:`,'Manual');
-  if (motivo === null) return;
-  callSpin('Actualizando…','cambiarEstadoAdmin',[usuario, estado, App.ses.usuario, motivo||'Manual'], res => {
-    alerta('adminAlert', res.success?'ok':'err', res.message);
-    if (res.success) cargarAdmins();
-  });
-}
-function abrirEditAdmin(usuario) {
-  editAdminTarget = usuario;
-  $('eAdminUser').value = usuario; $('eAdminPass').value = ''; $('eAdminAlert').innerHTML = '';
-  $('modalEditAdmin').classList.add('show');
-}
-function guardarEditAdmin() {
-  const pass = $('eAdminPass').value.trim();
-  if (!pass) { cerrarModal('modalEditAdmin'); return; }
-  callSpin('Guardando…','resetearContrasena',[App.ses.usuario, editAdminTarget, pass], res => {
-    if (res.success) { cerrarModal('modalEditAdmin'); alerta('adminAlert','ok','Contraseña actualizada'); }
-    else alerta('eAdminAlert','err', res.message);
-  });
-}
-function eliminarAdmin(usuario) {
-  if (!confirm(`⚠️ ¿Eliminar al administrador "${usuario}"?`)) return;
-  callSpin('Eliminando…','eliminarUsuario',[App.ses.usuario, usuario], res => {
-    alerta('adminAlert', res.success?'ok':'err', res.message);
-    if (res.success) cargarAdmins();
-  });
-}
-function verHistAdmin(usuario) {
-  callSpin('Cargando…','obtenerHistorialAdmin',[App.ses.usuario, usuario], res => {
-    $('histAdminCard').style.display = 'block';
-    const cont = $('histAdminCont');
-    if (!res.historial?.length) { cont.innerHTML = '<div class="empty"><p>Sin historial</p></div>'; return; }
-    cont.innerHTML = `<div class="tbl-wrap"><table class="tbl">
-      <thead><tr><th>Fecha</th><th>Acción</th><th>Anterior</th><th>Nuevo</th><th>Por</th><th>Notas</th></tr></thead>
-      <tbody>${res.historial.map(h => `<tr>
-        <td>${h.fecha}</td>
-        <td><span class="badge ${h.accion==='ACTIVACIÓN'?'badge-green':h.accion==='DESACTIVACIÓN'?'badge-red':'badge-gold'}">${h.accion}</span></td>
-        <td>${h.estadoAnterior||'-'}</td><td>${h.estadoNuevo||'-'}</td>
-        <td>${h.realizadoPor}</td><td>${h.observaciones||'-'}</td>
-      </tr>`).join('')}</tbody></table></div>`;
-  });
-}
-function abrirModalProg(usuario) {
-  programarTarget = usuario;
-  $('mAdminUser').value = usuario;
-  const min = new Date(); min.setHours(min.getHours()+1);
-  $('mFechaInicio').value = min.toISOString().slice(0,16);
-  const fin = new Date(min); fin.setDate(fin.getDate()+30);
-  $('mFechaFin').value = fin.toISOString().slice(0,16);
-  $('mMotivo').value = ''; $('mAlert').innerHTML = '';
-  $('modalProgramar').classList.add('show');
-}
-function confirmarProgramacion() {
-  const fi = $('mFechaInicio').value, ff = $('mFechaFin').value;
-  if (!fi || !ff) { alerta('mAlert','err','Selecciona ambas fechas'); return; }
-  if (new Date(fi) <= new Date())    { alerta('mAlert','err','La fecha de inicio debe ser futura'); return; }
-  if (new Date(ff) <= new Date(fi))  { alerta('mAlert','err','El fin debe ser posterior al inicio'); return; }
-  callSpin('Programando…','programarCambioEstadoFechas',[programarTarget, fi, ff, App.ses.usuario, $('mMotivo').value.trim()||'Período programado'], res => {
-    if (res.success) { alerta('mAlert','ok', res.message); setTimeout(() => { cerrarModal('modalProgramar'); cargarAdmins(); }, 2000); }
-    else alerta('mAlert','err', res.message);
-  });
-}
+// ────────────────────────────────────────────── USUARIOS
+function cargarUsuarios() { $('listaUsuarios').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>'; callSpin('Cargando…', 'obtenerUsuarios', [App.ses.usuario], res => { App.usuariosData = res.usuarios || []; renderUsuarios(App.usuariosData); }); }
+function filtrarUsuarios(q) { const f = q.toLowerCase(); renderUsuarios(App.usuariosData.filter(u => (u.usuario+u.nombre+u.email).toLowerCase().includes(f))); }
+function renderUsuarios(list) { const cont = $('listaUsuarios'); if (!list.length) { cont.innerHTML = '<div class="empty"><div class="empty-ic">👥</div><p>Sin estudiantes</p></div>'; return; } if (window.innerWidth <= 768) { cont.innerHTML = '<div class="cards-grid">' + list.map(userCard).join('') + '</div>'; } else { cont.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Usuario</th><th>Nombre</th><th>Email</th><th>Estado</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>${list.map(userRow).join('')}</tbody></table></div>`; } }
+const userBadge = u => u.estado === 'activo' ? '<span class="badge badge-green">● Activo</span>' : '<span class="badge badge-red">● Inactivo</span>';
+function userAcciones(u) { if (u.usuario === App.ses.usuario) return '<span style="color:var(--text-3);font-size:.8rem">Tu cuenta</span>'; const tog = u.estado === 'activo' ? `<button class="btn btn-amber btn-sm btn-icon" onclick="toggleUser('${esc(u.usuario)}','inactivo')">🚫</button>` : `<button class="btn btn-green btn-sm btn-icon" onclick="toggleUser('${esc(u.usuario)}','activo')">✅</button>`; return `<button class="btn btn-ghost btn-sm btn-icon" onclick="abrirEditUser('${esc(u.usuario)}')">✏️</button>${tog}<button class="btn btn-red btn-sm btn-icon" onclick="borrarUser('${esc(u.usuario)}')">🗑️</button>`; }
+function userRow(u) { return `<tr><td><strong>${esc(u.usuario)}</strong></td><td>${esc(u.nombre)}</td><td>${esc(u.email||'-')}</td><td>${userBadge(u)}</td><td>${fechaCorta(u.fecha)}</td><td><div style="display:flex;gap:4px">${userAcciones(u)}</div></td></tr>`; }
+function userCard(u) { return `<div class="d-card"><div class="d-card-hd"><div class="d-card-name">${esc(u.nombre)}</div>${userBadge(u)}</div><div class="d-card-row"><span class="d-card-lbl">Usuario:</span><span class="d-card-val">@${esc(u.usuario)}</span></div><div class="d-card-row"><span class="d-card-lbl">Email:</span><span class="d-card-val">${esc(u.email||'-')}</span></div><div class="d-card-foot">${userAcciones(u)}</div></div>`; }
+function crearUsuario() { const u = $('nUser').value.trim(), p = $('nPass').value.trim(), n = $('nNombre').value.trim(), e = $('nEmail').value.trim(); if (!u || !p || !n) { alerta('userAlert','err','Todos los campos son obligatorios'); return; } callSpin('Creando…', 'crearUsuario', [App.ses.usuario, u, p, n, 'estudiante', e], res => { if (res.success) { alerta('userAlert','ok', res.message); ['nUser','nPass','nNombre','nEmail'].forEach(id => $(id).value = ''); cargarUsuarios(); } else alerta('userAlert','err', res.message); }); }
+function toggleUser(usuario, estado) { if (!confirm(`¿${estado==='activo'?'Activar':'Desactivar'} a "${usuario}"?`)) return; callSpin('Actualizando…', 'cambiarEstadoUsuario', [App.ses.usuario, usuario, estado], res => { if (res.success) cargarUsuarios(); else alert(res.message); }); }
+function borrarUser(usuario) { if (!confirm(`⚠️ ¿Eliminar a "${usuario}"?`)) return; callSpin('Eliminando…', 'eliminarUsuario', [App.ses.usuario, usuario], res => { alert(res.message); if (res.success) cargarUsuarios(); }); }
+function abrirEditUser(usuario) { $('euUser').value = usuario; $('euPass').value = ''; $('euAlert').innerHTML = ''; $('modalEditUser').classList.add('show'); }
+function guardarEditUser() { const pass = $('euPass').value.trim(); if (!pass) { cerrarModal('modalEditUser'); return; } callSpin('Guardando…', 'resetearContrasena', [App.ses.usuario, $('euUser').value, pass], res => { if (res.success) { cerrarModal('modalEditUser'); cargarUsuarios(); } else alerta('euAlert','err', res.message); }); }
 
-// ──────────────────────────────────────────────
-// USUARIOS
-// ──────────────────────────────────────────────
-function cargarUsuarios() {
-  $('listaUsuarios').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>';
-  callSpin('Cargando…','obtenerUsuarios',[App.ses.usuario], res => {
-    App.usuariosData = res.usuarios || [];
-    renderUsuarios(App.usuariosData);
-  });
-}
-function filtrarUsuarios(q) {
-  const f = q.toLowerCase();
-  renderUsuarios(App.usuariosData.filter(u => (u.usuario+u.nombre+u.email).toLowerCase().includes(f)));
-}
-function renderUsuarios(list) {
-  const cont = $('listaUsuarios');
-  if (!list.length) { cont.innerHTML = '<div class="empty"><div class="empty-ic">👥</div><p>Sin estudiantes</p></div>'; return; }
-  if (window.innerWidth <= 768) {
-    cont.innerHTML = '<div class="cards-grid">' + list.map(userCard).join('') + '</div>';
-  } else {
-    cont.innerHTML = `<div class="tbl-wrap"><table class="tbl">
-      <thead><tr><th>Usuario</th><th>Nombre</th><th>Email</th><th>Estado</th><th>Registro</th><th>Acciones</th></tr></thead>
-      <tbody>${list.map(userRow).join('')}</tbody></table></div>`;
-  }
-}
-const userBadge = u => u.estado === 'activo'
-  ? '<span class="badge badge-green">● Activo</span>'
-  : '<span class="badge badge-red">● Inactivo</span>';
-function userAcciones(u) {
-  if (u.usuario === App.ses.usuario) return '<span style="color:var(--text-3);font-size:.8rem">Tu cuenta</span>';
-  const tog = u.estado === 'activo'
-    ? `<button class="btn btn-amber btn-sm btn-icon" onclick="toggleUser('${esc(u.usuario)}','inactivo')">🚫</button>`
-    : `<button class="btn btn-green btn-sm btn-icon" onclick="toggleUser('${esc(u.usuario)}','activo')">✅</button>`;
-  return `<button class="btn btn-ghost btn-sm btn-icon" onclick="abrirEditUser('${esc(u.usuario)}')">✏️</button>${tog}<button class="btn btn-red btn-sm btn-icon" onclick="borrarUser('${esc(u.usuario)}')">🗑️</button>`;
-}
-function userRow(u) {
-  return `<tr><td><strong>${esc(u.usuario)}</strong></td><td>${esc(u.nombre)}</td><td>${esc(u.email||'-')}</td><td>${userBadge(u)}</td><td>${fechaCorta(u.fecha)}</td><td><div style="display:flex;gap:4px">${userAcciones(u)}</div></td></tr>`;
-}
-function userCard(u) {
-  return `<div class="d-card"><div class="d-card-hd"><div class="d-card-name">${esc(u.nombre)}</div>${userBadge(u)}</div>
-    <div class="d-card-row"><span class="d-card-lbl">Usuario:</span><span class="d-card-val">@${esc(u.usuario)}</span></div>
-    <div class="d-card-row"><span class="d-card-lbl">Email:</span><span class="d-card-val">${esc(u.email||'-')}</span></div>
-    <div class="d-card-foot">${userAcciones(u)}</div></div>`;
-}
-function crearUsuario() {
-  const u = $('nUser').value.trim(), p = $('nPass').value.trim();
-  const n = $('nNombre').value.trim(), e = $('nEmail').value.trim();
-  if (!u || !p || !n) { alerta('userAlert','err','Todos los campos son obligatorios'); return; }
-  callSpin('Creando…','crearUsuario',[App.ses.usuario, u, p, n, 'estudiante', e], res => {
-    if (res.success) {
-      alerta('userAlert','ok', res.message);
-      ['nUser','nPass','nNombre','nEmail'].forEach(id => $(id).value = '');
-      cargarUsuarios();
-    } else alerta('userAlert','err', res.message);
-  });
-}
-function toggleUser(usuario, estado) {
-  if (!confirm(`¿${estado==='activo'?'Activar':'Desactivar'} a "${usuario}"?`)) return;
-  callSpin('Actualizando…','cambiarEstadoUsuario',[App.ses.usuario, usuario, estado], res => {
-    if (res.success) cargarUsuarios(); else alert(res.message);
-  });
-}
-function borrarUser(usuario) {
-  if (!confirm(`⚠️ ¿Eliminar a "${usuario}"?`)) return;
-  callSpin('Eliminando…','eliminarUsuario',[App.ses.usuario, usuario], res => {
-    alert(res.message); if (res.success) cargarUsuarios();
-  });
-}
-function abrirEditUser(usuario) {
-  $('euUser').value = usuario; $('euPass').value = ''; $('euAlert').innerHTML = '';
-  $('modalEditUser').classList.add('show');
-}
-function guardarEditUser() {
-  const pass = $('euPass').value.trim();
-  if (!pass) { cerrarModal('modalEditUser'); return; }
-  callSpin('Guardando…','resetearContrasena',[App.ses.usuario, $('euUser').value, pass], res => {
-    if (res.success) { cerrarModal('modalEditUser'); cargarUsuarios(); }
-    else alerta('euAlert','err', res.message);
-  });
-}
+// ────────────────────────────────────────────── UPLOAD / IMPORTAR
+(function() { const zone = $('uploadZone'), inp = $('fileInput'); if (!zone) return; zone.addEventListener('click', () => inp.click()); zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--accent)'; }); zone.addEventListener('dragleave', () => zone.style.borderColor = ''); zone.addEventListener('drop', e => { e.preventDefault(); zone.style.borderColor = ''; if (e.dataTransfer.files.length) { inp.files = e.dataTransfer.files; onFileSelect(); } }); inp.addEventListener('change', onFileSelect); })();
+function onFileSelect() { const f = $('fileInput').files[0]; if (!f) return; const ext = f.name.split('.').pop().toLowerCase(); if (ext !== 'txt' && ext !== 'docx') { alerta('importAlert','err','Solo .TXT o .DOCX'); return; } App.upload.archivo = f; $('fileName').textContent = `📄 ${f.name}`; }
+function importarArchivo() { if (!App.upload.archivo) { alerta('importAlert','err','Selecciona un archivo'); return; } const tema = $('inputTema').value.trim() || 'General'; const ext = App.upload.archivo.name.split('.').pop().toLowerCase(); spin('Leyendo archivo…'); if (ext === 'txt') { const r = new FileReader(); r.onload = e => enviarContenido(e.target.result, tema); r.onerror = () => { unspin(); alerta('importAlert','err','Error leyendo TXT'); }; r.readAsText(App.upload.archivo, 'UTF-8'); } else { const r = new FileReader(); r.onload = e => mammoth.extractRawText({ arrayBuffer: e.target.result }).then(res => enviarContenido(res.value, tema)).catch(e => { unspin(); alerta('importAlert','err','Error DOCX: ' + e.message); }); r.onerror = () => { unspin(); alerta('importAlert','err','Error leyendo DOCX'); }; r.readAsArrayBuffer(App.upload.archivo); } }
+function enviarContenido(txt, tema) { $('spinTxt').textContent = 'Importando preguntas…'; call('procesarContenidoTexto', [txt, tema, App.ses.usuario], res => { if (res.success) { let msg = res.message; if (res.duplicadas > 0) msg += ` (${res.duplicadas} duplicadas omitidas)`; msg += ` | Total: ${res.totalEnBanco}`; alerta('importAlert','ok', msg); $('fileInput').value = ''; App.upload.archivo = null; $('fileName').textContent = ''; } else alerta('importAlert','err', res.message); }); }
+function eliminarPreguntas() { if (!confirm('⚠️ ¿Eliminar TODAS las preguntas?')) return; if (prompt('Escribe ELIMINAR para confirmar:') !== 'ELIMINAR') return; callSpin('Eliminando…', 'eliminarTodasPreguntas', [App.ses.usuario], res => alerta('importAlert', res.success?'ok':'err', res.message)); }
+function limpiarHistorial() { if (!confirm('⚠️ ¿Eliminar TODO el historial?')) return; if (prompt('Escribe LIMPIAR para confirmar:') !== 'LIMPIAR') return; callSpin('Limpiando…', 'limpiarHistorial', [App.ses.usuario], res => alerta('importAlert', res.success?'ok':'err', res.message)); }
 
-// ──────────────────────────────────────────────
-// UPLOAD / IMPORTAR
-// ──────────────────────────────────────────────
-(function() {
-  const zone = $('uploadZone'), inp = $('fileInput');
-  if (!zone) return;
-  zone.addEventListener('click', () => inp.click());
-  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.style.borderColor = 'var(--accent)'; });
-  zone.addEventListener('dragleave', () => zone.style.borderColor = '');
-  zone.addEventListener('drop', e => {
-    e.preventDefault(); zone.style.borderColor = '';
-    if (e.dataTransfer.files.length) { inp.files = e.dataTransfer.files; onFileSelect(); }
-  });
-  inp.addEventListener('change', onFileSelect);
-})();
+// ────────────────────────────────────────────── CONFIGS
+function cargarTemasAdmin() { call('obtenerTemas', [App.ses.adminId], res => { const sel = $('adminTema'); if (!sel) return; while (sel.options.length > 1) sel.remove(1); res.temas?.forEach(t => { const o = document.createElement('option'); o.value = o.textContent = t; sel.appendChild(o); }); }); }
+function cargarCfgTiempo() { call('obtenerConfigTiempo', [], res => { if (!res?.success) return; App.cfg.tiempoLimite = res.config.tiempoLimite; App.cfg.tiempoActivo = res.config.tiempoActivo === 'si'; App.cfg.mensajeTiempo = res.config.mensajeTiempo; const sw = $('swTiempo'); if (!sw) return; sw.checked = App.cfg.tiempoActivo; $('tiempoPanel').style.display = App.cfg.tiempoActivo ? 'block' : 'none'; $('inputMinutos').value = App.cfg.tiempoLimite; $('inputMsgTiempo').value = App.cfg.mensajeTiempo; $('tiempoEstado').innerHTML = App.cfg.tiempoActivo ? `✅ Activo — ${App.cfg.tiempoLimite} min` : '❌ Desactivado'; }); }
+function guardarTiempoBtn() { const activo = $('swTiempo').checked ? 'si' : 'no'; const min = parseInt($('inputMinutos').value) || 30; const msg = $('inputMsgTiempo').value.trim() || 'Se acabó el tiempo.'; if (min < 1 || min > 300) { alerta('tiempoAlert','err','Entre 1 y 300 min'); return; } callSpin('Guardando…', 'guardarConfigTiempo', [App.ses.usuario, min, activo, msg], res => { alerta('tiempoAlert', res.success?'ok':'err', res.message); if (res.success) cargarCfgTiempo(); }); }
+function cargarCfgQuiz() { call('obtenerConfigQuiz', [], res => { if (!res?.success) return; const c = res.config; Object.assign(App.cfg, { quizTema: c.quizTema, quizCantidad: c.quizCantidad, quizTemaLibre: c.quizTemaLibre, quizCantidadLibre: c.quizCantidadLibre, quizActivo: c.quizActivo === 'si', quizMaxIntentos: c.quizMaxIntentos || 0 }); if (App.ses.rol !== 'estudiante') { const tl = $('swTemaLibre'), cl = $('swCantLibre'); if (tl) { tl.checked = c.quizTemaLibre; $('temaFijoPanel').style.display = c.quizTemaLibre ? 'none' : 'block'; } if (cl) { cl.checked = c.quizCantidadLibre; $('cantFijaPanel').style.display = c.quizCantidadLibre ? 'none' : 'block'; } const est = $('quizCfgEstado'); if (est) est.innerHTML = `${c.quizTemaLibre ? '📂 Libre' : '📂 ' + c.quizTema} | ${c.quizCantidadLibre ? '🔢 Libre' : '🔢 ' + (c.quizCantidad || 'Todas')}`; } }); }
+function guardarQuizCfgBtn() { callSpin('Guardando…', 'guardarConfigQuiz', [App.ses.usuario, $('adminTema').value, parseInt($('adminCant').value), $('swTemaLibre').checked, $('swCantLibre').checked], res => { alerta('quizCfgAlert', res.success?'ok':'err', res.message); if (res.success) cargarCfgQuiz(); }); }
+function cargarCfgAcceso() { call('obtenerConfigQuiz', [], res => { if (!res?.success) return; $('swQuizActivo').checked = res.config.quizActivo === 'si'; const sel = $('selMaxIntentos'); for (let i = 0; i < sel.options.length; i++) { if (parseInt(sel.options[i].value) === res.config.quizMaxIntentos) { sel.selectedIndex = i; break; } } $('accesoEstado').innerHTML = `${res.config.quizActivo === 'si' ? '✅ Activo' : '🔒 Inactivo'} | Intentos: ${res.config.quizMaxIntentos === 0 ? 'Ilimitados' : res.config.quizMaxIntentos}`; }); }
+function guardarAccesoBtn() { callSpin('Guardando…', 'guardarConfigAcceso', [App.ses.usuario, $('swQuizActivo').checked, parseInt($('selMaxIntentos').value)], res => { alerta('accesoAlert', res.success?'ok':'err', res.message); if (res.success) cargarCfgAcceso(); }); }
+function cargarCfgEmail() { call('obtenerConfigQuiz', [], res => { if (!res?.success) return; $('swEmail').checked = res.config.emailActivo === 'si'; $('inputEmails').value = res.config.emailNotificacion || ''; $('emailEstado').innerHTML = res.config.emailActivo === 'si' ? `✅ Activo → ${res.config.emailNotificacion || 'Sin email'}` : '❌ Desactivado'; }); }
+function guardarEmailBtn() { const activo = $('swEmail').checked, email = $('inputEmails').value.trim(); if (activo && !email) { alerta('emailAlert','err','Ingresa al menos un email'); return; } callSpin('Guardando…', 'guardarConfigEmail', [App.ses.usuario, activo, email], res => { alerta('emailAlert', res.success?'ok':'err', res.message); if (res.success) cargarCfgEmail(); }); }
 
-function onFileSelect() {
-  const f = $('fileInput').files[0]; if (!f) return;
-  const ext = f.name.split('.').pop().toLowerCase();
-  if (ext !== 'txt' && ext !== 'docx') { alerta('importAlert','err','Solo .TXT o .DOCX'); return; }
-  App.upload.archivo = f;
-  $('fileName').textContent = `📄 ${f.name}`;
-}
+// ────────────────────────────────────────────── PERFIL
+function cargarPerfil() { $('pUsuario').textContent = App.ses.usuario; $('pNombre').textContent = App.ses.nombre; $('pRol').textContent = App.ses.rol === 'super_admin' ? '👑 Super Admin' : App.ses.rol === 'admin' ? '👨‍💼 Admin' : '📚 Estudiante'; ['pNuevoUser', 'pNuevoPass', 'pConfirmPass', 'pNuevoNombre'].forEach(id => $(id).value = ''); }
+function guardarPerfil() { const nu = $('pNuevoUser').value.trim(), np = $('pNuevoPass').value.trim(), cp = $('pConfirmPass').value.trim(), nn = $('pNuevoNombre').value.trim(); if (!nu && !np && !nn) { alerta('perfilAlert','err','Ingresa al menos un campo'); return; } if (np && np !== cp) { alerta('perfilAlert','err','Las contraseñas no coinciden'); return; } callSpin('Guardando…', 'cambiarMiPerfil', [App.ses.usuario, nu, np, nn], res => { if (res.success) { alerta('perfilAlert','ok', res.message); if (nu || np) setTimeout(() => { alert('Inicia sesión con tus nuevos datos.'); cerrarSesion(); }, 1500); else if (res.nuevosDatos) { App.ses.nombre = res.nuevosDatos.nombre; sessionStorage.setItem('ses', JSON.stringify(App.ses)); cargarPerfil(); buildNav(); } } else alerta('perfilAlert','err', res.message); }); }
 
-function importarArchivo() {
-  if (!App.upload.archivo) { alerta('importAlert','err','Selecciona un archivo'); return; }
-  const tema = $('inputTema').value.trim() || 'General';
-  const ext  = App.upload.archivo.name.split('.').pop().toLowerCase();
-  spin('Leyendo archivo…');
-  if (ext === 'txt') {
-    const r = new FileReader();
-    r.onload  = e => enviarContenido(e.target.result, tema);
-    r.onerror = () => { unspin(); alerta('importAlert','err','Error leyendo TXT'); };
-    r.readAsText(App.upload.archivo, 'UTF-8');
-  } else {
-    const r = new FileReader();
-    r.onload  = e => mammoth.extractRawText({ arrayBuffer: e.target.result })
-      .then(res => enviarContenido(res.value, tema))
-      .catch(e => { unspin(); alerta('importAlert','err','Error DOCX: ' + e.message); });
-    r.onerror = () => { unspin(); alerta('importAlert','err','Error leyendo DOCX'); };
-    r.readAsArrayBuffer(App.upload.archivo);
-  }
-}
-
-function enviarContenido(txt, tema) {
-  $('spinTxt').textContent = 'Importando preguntas…';
-  call('procesarContenidoTexto', [txt, tema, App.ses.usuario], res => {
-    if (res.success) {
-      let msg = res.message;
-      if (res.duplicadas > 0) msg += ` (${res.duplicadas} duplicadas omitidas)`;
-      msg += ` | Total: ${res.totalEnBanco}`;
-      alerta('importAlert','ok', msg);
-      $('fileInput').value = ''; App.upload.archivo = null; $('fileName').textContent = '';
-    } else alerta('importAlert','err', res.message);
-  });
-}
-
-// ──────────────────────────────────────────────
-// DANGER ZONE
-// ──────────────────────────────────────────────
-function eliminarPreguntas() {
-  if (!confirm('⚠️ ¿Eliminar TODAS las preguntas?')) return;
-  if (prompt('Escribe ELIMINAR para confirmar:') !== 'ELIMINAR') return;
-  callSpin('Eliminando…','eliminarTodasPreguntas',[App.ses.usuario], res => alerta('importAlert', res.success?'ok':'err', res.message));
-}
-function limpiarHistorial() {
-  if (!confirm('⚠️ ¿Eliminar TODO el historial?')) return;
-  if (prompt('Escribe LIMPIAR para confirmar:') !== 'LIMPIAR') return;
-  callSpin('Limpiando…','limpiarHistorial',[App.ses.usuario], res => alerta('importAlert', res.success?'ok':'err', res.message));
-}
-
-// ──────────────────────────────────────────────
-// CONFIGS
-// ──────────────────────────────────────────────
-function cargarTemasAdmin() {
-  call('obtenerTemas',[App.ses.adminId], res => {
-    const sel = $('adminTema'); if (!sel) return;
-    while (sel.options.length > 1) sel.remove(1);
-    res.temas?.forEach(t => { const o = document.createElement('option'); o.value = o.textContent = t; sel.appendChild(o); });
-  });
-}
-function cargarCfgTiempo() {
-  call('obtenerConfigTiempo', [], res => {
-    if (!res?.success) return;
-    App.cfg.tiempoLimite  = res.config.tiempoLimite;
-    App.cfg.tiempoActivo  = res.config.tiempoActivo === 'si';
-    App.cfg.mensajeTiempo = res.config.mensajeTiempo;
-    const sw = $('swTiempo'); if (!sw) return;
-    sw.checked = App.cfg.tiempoActivo;
-    $('tiempoPanel').style.display = App.cfg.tiempoActivo ? 'block' : 'none';
-    $('inputMinutos').value   = App.cfg.tiempoLimite;
-    $('inputMsgTiempo').value = App.cfg.mensajeTiempo;
-    $('tiempoEstado').innerHTML = App.cfg.tiempoActivo ? `✅ Activo — ${App.cfg.tiempoLimite} min` : '❌ Desactivado';
-  });
-}
-function guardarTiempoBtn() {
-  const activo = $('swTiempo').checked ? 'si' : 'no';
-  const min    = parseInt($('inputMinutos').value) || 30;
-  const msg    = $('inputMsgTiempo').value.trim() || 'Se acabó el tiempo.';
-  if (min < 1 || min > 300) { alerta('tiempoAlert','err','Entre 1 y 300 min'); return; }
-  callSpin('Guardando…','guardarConfigTiempo',[App.ses.usuario, min, activo, msg], res => {
-    alerta('tiempoAlert', res.success?'ok':'err', res.message);
-    if (res.success) cargarCfgTiempo();
-  });
-}
-function cargarCfgQuiz() {
-  call('obtenerConfigQuiz', [], res => {
-    if (!res?.success) return;
-    const c = res.config;
-    Object.assign(App.cfg, {
-      quizTema:c.quizTema, quizCantidad:c.quizCantidad,
-      quizTemaLibre:c.quizTemaLibre, quizCantidadLibre:c.quizCantidadLibre,
-      quizActivo:c.quizActivo==='si', quizMaxIntentos:c.quizMaxIntentos||0
-    });
-    if (App.ses.rol !== 'estudiante') {
-      const tl = $('swTemaLibre'), cl = $('swCantLibre');
-      if (tl) { tl.checked = c.quizTemaLibre; $('temaFijoPanel').style.display = c.quizTemaLibre ? 'none' : 'block'; }
-      if (cl) { cl.checked = c.quizCantidadLibre; $('cantFijaPanel').style.display = c.quizCantidadLibre ? 'none' : 'block'; }
-      const est = $('quizCfgEstado');
-      if (est) est.innerHTML = `${c.quizTemaLibre?'📂 Libre':'📂 '+c.quizTema} | ${c.quizCantidadLibre?'🔢 Libre':'🔢 '+(c.quizCantidad||'Todas')}`;
-    }
-  });
-}
-function guardarQuizCfgBtn() {
-  callSpin('Guardando…','guardarConfigQuiz',[App.ses.usuario, $('adminTema').value, parseInt($('adminCant').value), $('swTemaLibre').checked, $('swCantLibre').checked], res => {
-    alerta('quizCfgAlert', res.success?'ok':'err', res.message);
-    if (res.success) cargarCfgQuiz();
-  });
-}
-function cargarCfgAcceso() {
-  call('obtenerConfigQuiz', [], res => {
-    if (!res?.success) return;
-    $('swQuizActivo').checked = res.config.quizActivo === 'si';
-    const sel = $('selMaxIntentos');
-    for (let i = 0; i < sel.options.length; i++) {
-      if (parseInt(sel.options[i].value) === res.config.quizMaxIntentos) { sel.selectedIndex = i; break; }
-    }
-    $('accesoEstado').innerHTML = `${res.config.quizActivo==='si'?'✅ Activo':'🔒 Inactivo'} | Intentos: ${res.config.quizMaxIntentos===0?'Ilimitados':res.config.quizMaxIntentos}`;
-  });
-}
-function guardarAccesoBtn() {
-  callSpin('Guardando…','guardarConfigAcceso',[App.ses.usuario, $('swQuizActivo').checked, parseInt($('selMaxIntentos').value)], res => {
-    alerta('accesoAlert', res.success?'ok':'err', res.message);
-    if (res.success) cargarCfgAcceso();
-  });
-}
-function cargarCfgEmail() {
-  call('obtenerConfigQuiz', [], res => {
-    if (!res?.success) return;
-    $('swEmail').checked = res.config.emailActivo === 'si';
-    $('inputEmails').value = res.config.emailNotificacion || '';
-    $('emailEstado').innerHTML = res.config.emailActivo==='si'
-      ? `✅ Activo → ${res.config.emailNotificacion||'Sin email'}`
-      : '❌ Desactivado';
-  });
-}
-function guardarEmailBtn() {
-  const activo = $('swEmail').checked, email = $('inputEmails').value.trim();
-  if (activo && !email) { alerta('emailAlert','err','Ingresa al menos un email'); return; }
-  callSpin('Guardando…','guardarConfigEmail',[App.ses.usuario, activo, email], res => {
-    alerta('emailAlert', res.success?'ok':'err', res.message);
-    if (res.success) cargarCfgEmail();
-  });
-}
-
-// ──────────────────────────────────────────────
-// PERFIL
-// ──────────────────────────────────────────────
-function cargarPerfil() {
-  $('pUsuario').textContent = App.ses.usuario;
-  $('pNombre').textContent  = App.ses.nombre;
-  $('pRol').textContent     = App.ses.rol==='super_admin'?'👑 Super Admin':App.ses.rol==='admin'?'👨‍💼 Admin':'📚 Estudiante';
-  ['pNuevoUser','pNuevoPass','pConfirmPass','pNuevoNombre'].forEach(id => $(id).value = '');
-}
-function guardarPerfil() {
-  const nu = $('pNuevoUser').value.trim(), np = $('pNuevoPass').value.trim();
-  const cp = $('pConfirmPass').value.trim(), nn = $('pNuevoNombre').value.trim();
-  if (!nu && !np && !nn) { alerta('perfilAlert','err','Ingresa al menos un campo'); return; }
-  if (np && np !== cp)   { alerta('perfilAlert','err','Las contraseñas no coinciden'); return; }
-  callSpin('Guardando…','cambiarMiPerfil',[App.ses.usuario, nu, np, nn], res => {
-    if (res.success) {
-      alerta('perfilAlert','ok', res.message);
-      if (nu || np) setTimeout(() => { alert('Inicia sesión con tus nuevos datos.'); cerrarSesion(); }, 1500);
-      else if (res.nuevosDatos) { App.ses.nombre = res.nuevosDatos.nombre; sessionStorage.setItem('ses',JSON.stringify(App.ses)); cargarPerfil(); buildNav(); }
-    } else alerta('perfilAlert','err', res.message);
-  });
-}
-
-// ──────────────────────────────────────────────
-// QUIZ
-// ──────────────────────────────────────────────
-function cargarCfgQuizEstudiante() {
-  ['quizBloqueado','quizConfigPanel','quizMotor','quizResultados'].forEach(id => $(id).style.display = 'none');
-  callSpin('Verificando…','verificarAccesoQuiz',[App.ses.usuario, App.ses.adminId], resA => {
-    call('obtenerConfigQuiz', [], resQ => {
-      if (resQ.success) {
-        const c = resQ.config;
-        Object.assign(App.cfg, { quizTema:c.quizTema, quizCantidad:c.quizCantidad, quizTemaLibre:c.quizTemaLibre, quizCantidadLibre:c.quizCantidadLibre });
-        $('quizTimerInfo').style.display = App.cfg.tiempoActivo ? 'block' : 'none';
-        $('quizTimerText').textContent   = App.cfg.tiempoLimite + ' min';
-      }
-      const esAdm = App.ses.rol !== 'estudiante';
-      if (esAdm) { $('quizConfigPanel').style.display = 'block'; setupQuizUI(); return; }
-      if (!resA.permitido) {
-        $('quizBloqueado').style.display = 'block';
-        $('blockedMsg').textContent = resA.message;
-        return;
-      }
-      $('quizConfigPanel').style.display = 'block';
-      const iq = $('intentosInfoQuiz');
-      iq.style.display = 'block';
-      iq.innerHTML = resA.maxIntentos > 0
-        ? `🎯 Intentos: <strong>${resA.intentosUsados}/${resA.maxIntentos}</strong>`
-        : `🎯 Intentos ilimitados (usados: ${resA.intentosUsados})`;
-      setupQuizUI();
-    });
-  });
-}
-
-function setupQuizUI() {
-  const esAdm = App.ses.rol !== 'estudiante';
-  $('quizTemaGroup').style.display = (esAdm || App.cfg.quizTemaLibre) ? 'block' : 'none';
-  $('quizCantGroup').style.display = (esAdm || App.cfg.quizCantidadLibre) ? 'block' : 'none';
-  call('obtenerTemas',[App.ses.adminId], res => {
-    const sel = $('selectTema'); if (!sel) return;
-    while (sel.options.length > 1) sel.remove(1);
-    res.temas?.forEach(t => { const o = document.createElement('option'); o.value = o.textContent = t; sel.appendChild(o); });
-    if (!esAdm && !App.cfg.quizTemaLibre && App.cfg.quizTema !== 'Todos') sel.value = App.cfg.quizTema;
-  });
-}
-
-function iniciarQuiz() {
-  const esAdm = App.ses.rol !== 'estudiante';
-  const tema  = (esAdm || App.cfg.quizTemaLibre) ? $('selectTema').value : App.cfg.quizTema;
-  const cant  = (esAdm || App.cfg.quizCantidadLibre) ? parseInt($('selectCant').value) : App.cfg.quizCantidad;
-  callSpin('Cargando preguntas…','obtenerPreguntas',[tema, cant, App.ses.adminId], res => {
-    if (!res.success || !res.preguntas?.length) { alert(res.message || 'No hay preguntas disponibles'); return; }
-    App.quiz = { preguntas: res.preguntas, indice:0, correctas:0, incorrectas:0, respondida:false };
-    $('quizConfigPanel').style.display = 'none';
-    $('quizMotor').style.display       = 'block';
-    mostrarPregunta();
-    iniciarTimer();
-    if (!esAdm) activarAP();
-  });
-}
-
-function mostrarPregunta() {
-  const p = App.quiz.preguntas[App.quiz.indice];
-  const n = App.quiz.indice + 1, tot = App.quiz.preguntas.length;
-  App.quiz.respondida = false;
-  $('quizProgress').textContent = `Pregunta ${n} de ${tot}`;
-  $('quizBar').style.width = `${(n / tot) * 100}%`;
-  $('qNum').textContent  = `PREGUNTA ${n}`;
-  $('qText').textContent = p.pregunta;
-  const letras = ['A','B','C','D'];
-  let opts = letras.map(l => ({ orig:l, texto:p[l] }));
-  // Shuffle opciones
-  for (let i = opts.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [opts[i],opts[j]] = [opts[j],opts[i]]; }
-  const lista = $('optionsList'); lista.innerHTML = '';
-  opts.forEach((o,i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn'; btn.dataset.orig = o.orig;
-    btn.innerHTML = `<span class="opt-l">${letras[i]}</span><span>${esc(o.texto)}</span>`;
-    btn.onclick = () => seleccionar(o.orig);
-    lista.appendChild(btn);
-  });
-  $('quizFeedback').style.display = 'none';
-  $('btnSig').style.display       = 'none';
-}
-
-function seleccionar(letraOrig) {
-  if (App.quiz.respondida) return;
-  App.quiz.respondida = true;
-  const p = App.quiz.preguntas[App.quiz.indice];
-  const correcta = p.correcta.toUpperCase(), esOk = letraOrig === correcta;
-  document.querySelectorAll('.opt-btn').forEach(btn => {
-    btn.classList.add('dis');
-    if (btn.dataset.orig === letraOrig) btn.classList.add(esOk ? 'correct' : 'wrong');
-  });
-  const fb = $('quizFeedback');
-  if (esOk) {
-    fb.className = 'alert alert-ok'; fb.innerHTML = '✅ ¡Correcto!'; App.quiz.correctas++;
-  } else {
-    let letraDisp = '';
-    document.querySelectorAll('.opt-btn').forEach(btn => { if (btn.dataset.orig === correcta) letraDisp = btn.querySelector('.opt-l').textContent; });
-    fb.className = 'alert alert-err';
-    fb.innerHTML = `❌ Incorrecto. Respuesta correcta: <strong>${letraDisp}) ${esc(p[correcta])}</strong>`;
-    App.quiz.incorrectas++;
-  }
-  fb.style.display = 'flex';
-  $('btnSig').style.display = 'block';
-  $('btnSig').textContent   = App.quiz.indice >= App.quiz.preguntas.length - 1 ? '🏆 Ver Resultados' : 'Siguiente →';
-}
-
-function siguientePregunta() {
-  App.quiz.indice++;
-  if (App.quiz.indice >= App.quiz.preguntas.length) finalizarQuiz();
-  else mostrarPregunta();
-}
-
-function finalizarQuiz() {
-  desactivarAP(); _detenerTimer();
-  $('timerBox').style.display  = 'none';
-  $('quizMotor').style.display = 'none';
-  $('quizResultados').style.display = 'block';
-  const total = App.quiz.correctas + App.quiz.incorrectas;
-  const pct   = total > 0 ? Math.round((App.quiz.correctas / total) * 100) : 0;
-  const [nivel,emoji] = pct>=90?['Nivel Experto','🏆']:pct>=70?['Nivel Bueno','📗']:pct>=40?['Nivel Medio','📙']:['Nivel Bajo','📕'];
-  const rp = $('resPct');
-  rp.style.color = pct>=70?'var(--green)':pct>=40?'var(--amber)':'var(--red)';
-  animNum(rp, 0, pct, 1200, '%');
-  $('resNivel').innerHTML = `${emoji} ${nivel}`;
-  const rb = $('resBar');
-  rb.style.background = pct>=90?'linear-gradient(90deg,#7c3aed,#a78bfa)':pct>=70?'linear-gradient(90deg,var(--green),#10b981)':pct>=40?'linear-gradient(90deg,var(--amber),#f59e0b)':'linear-gradient(90deg,var(--red),#dc2626)';
-  setTimeout(() => rb.style.width = `${pct}%`, 300);
-  $('rTotal').textContent = total;
-  $('rCorr').textContent  = App.quiz.correctas;
-  $('rInc').textContent   = App.quiz.incorrectas;
-  $('rPct').textContent   = `${pct}%`;
-  const tema = (App.cfg.quizTemaLibre || App.ses.rol !== 'estudiante') ? ($('selectTema')?.value || 'General') : App.cfg.quizTema || 'General';
-  call('guardarEstadisticas', [App.ses.usuario, App.ses.nombre, App.quiz.correctas, App.quiz.incorrectas, tema, App.ses.adminId], () => {});
-}
-
-function animNum(el, start, end, dur, suf) {
-  const t0 = performance.now();
-  (function f(t) {
-    const p = Math.min((t - t0) / dur, 1);
-    el.textContent = Math.round(start + (end - start) * (1 - Math.pow(1 - p, 3))) + (suf || '');
-    if (p < 1) requestAnimationFrame(f);
-  })(t0);
-}
-
-function reiniciarQuiz() {
-  desactivarAP(); _detenerTimer();
-  App.quiz = { preguntas:[], indice:0, correctas:0, incorrectas:0, respondida:false };
-  $('timerBox').style.display = 'none';
-  ['quizConfigPanel','quizMotor','quizResultados'].forEach(id => $(id).style.display = 'none');
-  cargarCfgQuizEstudiante();
-}
-
-// ──────────────────────────────────────────────
-// TIMER
-// ──────────────────────────────────────────────
-function iniciarTimer() {
-  if (!App.cfg.tiempoActivo) { $('timerBox').style.display = 'none'; return; }
-  $('timerBox').style.display = 'flex';
-  let secs = App.cfg.tiempoLimite * 60;
-  const total = secs, disp = $('timerDisplay');
-  const tick = () => {
-    const h = Math.floor(secs/3600), m = Math.floor((secs%3600)/60), s = secs%60;
-    disp.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
-    const pct = (secs / total) * 100;
-    disp.className = 'timer-val' + (pct<=10?' danger':pct<=25?' warn':'');
-    if (secs-- <= 0) { clearInterval(App.timers.quiz); App.timers.quiz = null; tiempoAgotado(); }
-  };
-  tick();
-  App.timers.quiz = setInterval(tick, 1000);
-}
+// ────────────────────────────────────────────── QUIZ
+function cargarCfgQuizEstudiante() { ['quizBloqueado', 'quizConfigPanel', 'quizMotor', 'quizResultados'].forEach(id => $(id).style.display = 'none'); callSpin('Verificando…', 'verificarAccesoQuiz', [App.ses.usuario, App.ses.adminId], resA => { call('obtenerConfigQuiz', [], resQ => { if (resQ.success) { const c = resQ.config; Object.assign(App.cfg, { quizTema: c.quizTema, quizCantidad: c.quizCantidad, quizTemaLibre: c.quizTemaLibre, quizCantidadLibre: c.quizCantidadLibre }); $('quizTimerInfo').style.display = App.cfg.tiempoActivo ? 'block' : 'none'; $('quizTimerText').textContent = App.cfg.tiempoLimite + ' min'; } const esAdm = App.ses.rol !== 'estudiante'; if (esAdm) { $('quizConfigPanel').style.display = 'block'; setupQuizUI(); return; } if (!resA.permitido) { $('quizBloqueado').style.display = 'block'; $('blockedMsg').textContent = resA.message; return; } $('quizConfigPanel').style.display = 'block'; const iq = $('intentosInfoQuiz'); iq.style.display = 'block'; iq.innerHTML = resA.maxIntentos > 0 ? `🎯 Intentos: <strong>${resA.intentosUsados}/${resA.maxIntentos}</strong>` : `🎯 Intentos ilimitados (usados: ${resA.intentosUsados})`; setupQuizUI(); }); }); }
+function setupQuizUI() { const esAdm = App.ses.rol !== 'estudiante'; $('quizTemaGroup').style.display = (esAdm || App.cfg.quizTemaLibre) ? 'block' : 'none'; $('quizCantGroup').style.display = (esAdm || App.cfg.quizCantidadLibre) ? 'block' : 'none'; call('obtenerTemas', [App.ses.adminId], res => { const sel = $('selectTema'); if (!sel) return; while (sel.options.length > 1) sel.remove(1); res.temas?.forEach(t => { const o = document.createElement('option'); o.value = o.textContent = t; sel.appendChild(o); }); if (!esAdm && !App.cfg.quizTemaLibre && App.cfg.quizTema !== 'Todos') sel.value = App.cfg.quizTema; }); }
+function iniciarQuiz() { const esAdm = App.ses.rol !== 'estudiante'; const tema = (esAdm || App.cfg.quizTemaLibre) ? $('selectTema').value : App.cfg.quizTema; const cant = (esAdm || App.cfg.quizCantidadLibre) ? parseInt($('selectCant').value) : App.cfg.quizCantidad; callSpin('Cargando preguntas…', 'obtenerPreguntas', [tema, cant, App.ses.adminId], res => { if (!res.success || !res.preguntas?.length) { alert(res.message || 'No hay preguntas disponibles'); return; } App.quiz = { preguntas: res.preguntas, indice: 0, correctas: 0, incorrectas: 0, respondida: false }; $('quizConfigPanel').style.display = 'none'; $('quizMotor').style.display = 'block'; mostrarPregunta(); iniciarTimer(); if (!esAdm) activarAP(); }); }
+function mostrarPregunta() { const p = App.quiz.preguntas[App.quiz.indice]; const n = App.quiz.indice + 1, tot = App.quiz.preguntas.length; App.quiz.respondida = false; $('quizProgress').textContent = `Pregunta ${n} de ${tot}`; $('quizBar').style.width = `${(n / tot) * 100}%`; $('qNum').textContent = `PREGUNTA ${n}`; $('qText').textContent = p.pregunta; const letras = ['A', 'B', 'C', 'D']; let opts = letras.map(l => ({ orig: l, texto: p[l] })); for (let i = opts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [opts[i], opts[j]] = [opts[j], opts[i]]; } const lista = $('optionsList'); lista.innerHTML = ''; opts.forEach((o, i) => { const btn = document.createElement('button'); btn.className = 'opt-btn'; btn.dataset.orig = o.orig; btn.innerHTML = `<span class="opt-l">${letras[i]}</span><span>${esc(o.texto)}</span>`; btn.onclick = () => seleccionar(o.orig); lista.appendChild(btn); }); $('quizFeedback').style.display = 'none'; $('btnSig').style.display = 'none'; }
+function seleccionar(letraOrig) { if (App.quiz.respondida) return; App.quiz.respondida = true; const p = App.quiz.preguntas[App.quiz.indice]; const correcta = p.correcta.toUpperCase(), esOk = letraOrig === correcta; document.querySelectorAll('.opt-btn').forEach(btn => { btn.classList.add('dis'); if (btn.dataset.orig === letraOrig) btn.classList.add(esOk ? 'correct' : 'wrong'); }); const fb = $('quizFeedback'); if (esOk) { fb.className = 'alert alert-ok'; fb.innerHTML = '✅ ¡Correcto!'; App.quiz.correctas++; } else { let letraDisp = ''; document.querySelectorAll('.opt-btn').forEach(btn => { if (btn.dataset.orig === correcta) letraDisp = btn.querySelector('.opt-l').textContent; }); fb.className = 'alert alert-err'; fb.innerHTML = `❌ Incorrecto. Respuesta correcta: <strong>${letraDisp}) ${esc(p[correcta])}</strong>`; App.quiz.incorrectas++; } fb.style.display = 'flex'; $('btnSig').style.display = 'block'; $('btnSig').textContent = App.quiz.indice >= App.quiz.preguntas.length - 1 ? '🏆 Ver Resultados' : 'Siguiente →'; }
+function siguientePregunta() { App.quiz.indice++; if (App.quiz.indice >= App.quiz.preguntas.length) finalizarQuiz(); else mostrarPregunta(); }
+function finalizarQuiz() { desactivarAP(); _detenerTimer(); $('timerBox').style.display = 'none'; $('quizMotor').style.display = 'none'; $('quizResultados').style.display = 'block'; const total = App.quiz.correctas + App.quiz.incorrectas; const pct = total > 0 ? Math.round((App.quiz.correctas / total) * 100) : 0; const [nivel, emoji] = pct >= 90 ? ['Nivel Experto', '🏆'] : pct >= 70 ? ['Nivel Bueno', '📗'] : pct >= 40 ? ['Nivel Medio', '📙'] : ['Nivel Bajo', '📕']; const rp = $('resPct'); rp.style.color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)'; animNum(rp, 0, pct, 1200, '%'); $('resNivel').innerHTML = `${emoji} ${nivel}`; const rb = $('resBar'); rb.style.background = pct >= 90 ? 'linear-gradient(90deg,#7c3aed,#a78bfa)' : pct >= 70 ? 'linear-gradient(90deg,var(--green),#10b981)' : pct >= 40 ? 'linear-gradient(90deg,var(--amber),#f59e0b)' : 'linear-gradient(90deg,var(--red),#dc2626)'; setTimeout(() => rb.style.width = `${pct}%`, 300); $('rTotal').textContent = total; $('rCorr').textContent = App.quiz.correctas; $('rInc').textContent = App.quiz.incorrectas; $('rPct').textContent = `${pct}%`; const tema = (App.cfg.quizTemaLibre || App.ses.rol !== 'estudiante') ? ($('selectTema')?.value || 'General') : App.cfg.quizTema || 'General'; call('guardarEstadisticas', [App.ses.usuario, App.ses.nombre, App.quiz.correctas, App.quiz.incorrectas, tema, App.ses.adminId], () => { }); }
+function animNum(el, start, end, dur, suf) { const t0 = performance.now(); (function f(t) { const p = Math.min((t - t0) / dur, 1); el.textContent = Math.round(start + (end - start) * (1 - Math.pow(1 - p, 3))) + (suf || ''); if (p < 1) requestAnimationFrame(f); })(t0); }
+function reiniciarQuiz() { desactivarAP(); _detenerTimer(); App.quiz = { preguntas: [], indice: 0, correctas: 0, incorrectas: 0, respondida: false }; $('timerBox').style.display = 'none'; ['quizConfigPanel', 'quizMotor', 'quizResultados'].forEach(id => $(id).style.display = 'none'); cargarCfgQuizEstudiante(); }
+function iniciarTimer() { if (!App.cfg.tiempoActivo) { $('timerBox').style.display = 'none'; return; } $('timerBox').style.display = 'flex'; let secs = App.cfg.tiempoLimite * 60; const total = secs, disp = $('timerDisplay'); const tick = () => { const h = Math.floor(secs / 3600), m = Math.floor((secs % 3600) / 60), s = secs % 60; disp.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`; const pct = (secs / total) * 100; disp.className = 'timer-val' + (pct <= 10 ? ' danger' : pct <= 25 ? ' warn' : ''); if (secs-- <= 0) { clearInterval(App.timers.quiz); App.timers.quiz = null; tiempoAgotado(); } }; tick(); App.timers.quiz = setInterval(tick, 1000); }
 function _detenerTimer() { clearInterval(App.timers.quiz); App.timers.quiz = null; }
-function tiempoAgotado() {
-  alert(`⏱️ ${App.cfg.mensajeTiempo}`);
-  App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas);
-  finalizarQuiz();
-}
-
-// ──────────────────────────────────────────────
-// ANTI-PLAGIO
-// ──────────────────────────────────────────────
-const _blkEv  = e => { e.preventDefault(); e.stopPropagation(); };
-const _blkKey = e => {
-  if (e.keyCode === 123) { e.preventDefault(); return false; }
-  if ((e.ctrlKey || e.metaKey) && 'cvxuspacf'.includes(e.key?.toLowerCase())) { e.preventDefault(); return false; }
-  if (e.keyCode === 9) { e.preventDefault(); return false; }
-};
-function activarAP() {
-  App.ap.activo = true; App.ap.intentos = 0;
-  ['contextmenu','selectstart','dragstart','copy','cut','paste'].forEach(ev => document.addEventListener(ev, _blkEv));
-  document.addEventListener('keydown', _blkKey);
-  document.addEventListener('visibilitychange', _apVis);
-  window.addEventListener('blur', _apBlur);
-  document.body.style.userSelect = 'none';
-}
-function desactivarAP() {
-  App.ap.activo = false;
-  ['contextmenu','selectstart','dragstart','copy','cut','paste'].forEach(ev => document.removeEventListener(ev, _blkEv));
-  document.removeEventListener('keydown', _blkKey);
-  document.removeEventListener('visibilitychange', _apVis);
-  window.removeEventListener('blur', _apBlur);
-  document.body.style.userSelect = '';
-}
-function _apVis()  { if (App.ap.activo && (document.hidden || document.visibilityState === 'hidden')) _apSalida(); }
+function tiempoAgotado() { alert(`⏱️ ${App.cfg.mensajeTiempo}`); App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas); finalizarQuiz(); }
+const _blkEv = e => { e.preventDefault(); e.stopPropagation(); };
+const _blkKey = e => { if (e.keyCode === 123) { e.preventDefault(); return false; } if ((e.ctrlKey || e.metaKey) && 'cvxuspacf'.includes(e.key?.toLowerCase())) { e.preventDefault(); return false; } if (e.keyCode === 9) { e.preventDefault(); return false; } };
+function activarAP() { App.ap.activo = true; App.ap.intentos = 0; ['contextmenu', 'selectstart', 'dragstart', 'copy', 'cut', 'paste'].forEach(ev => document.addEventListener(ev, _blkEv)); document.addEventListener('keydown', _blkKey); document.addEventListener('visibilitychange', _apVis); window.addEventListener('blur', _apBlur); document.body.style.userSelect = 'none'; }
+function desactivarAP() { App.ap.activo = false; ['contextmenu', 'selectstart', 'dragstart', 'copy', 'cut', 'paste'].forEach(ev => document.removeEventListener(ev, _blkEv)); document.removeEventListener('keydown', _blkKey); document.removeEventListener('visibilitychange', _apVis); window.removeEventListener('blur', _apBlur); document.body.style.userSelect = ''; }
+function _apVis() { if (App.ap.activo && (document.hidden || document.visibilityState === 'hidden')) _apSalida(); }
 function _apBlur() { if (App.ap.activo) setTimeout(() => { if (!document.hasFocus()) _apSalida(); }, 200); }
-function _apSalida() {
-  App.ap.intentos++;
-  const rest = App.ap.max - App.ap.intentos;
-  if (App.ap.intentos >= App.ap.max) {
-    _apMsg('🔴 Quiz Enviado', `Saliste ${App.ap.max} veces. El quiz fue enviado automáticamente.`);
-    App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas);
-    desactivarAP(); finalizarQuiz();
-  } else {
-    _apMsg(`⚠️ Advertencia ${App.ap.intentos}/${App.ap.max}`, `Saliste de la ventana. ${rest} aviso(s) más y el quiz se enviará.`);
-  }
-}
-function _apMsg(titulo, msg) {
-  const ov = document.createElement('div');
-  ov.style.cssText = 'position:fixed;inset:0;background:rgba(10,12,16,.88);z-index:99999;display:flex;justify-content:center;align-items:center;backdrop-filter:blur(12px)';
-  ov.innerHTML = `<div style="background:var(--bg-3);border-radius:var(--r-2xl);padding:28px;max-width:360px;width:90%;text-align:center;border:1px solid var(--border-2);border-top:2px solid var(--gold)">
-    <h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:8px;color:var(--text)">${titulo}</h3>
-    <p style="color:var(--text-2);font-size:.875rem;margin-bottom:18px;line-height:1.6">${msg}</p>
-    <button onclick="this.closest('div').parentElement.remove()" style="background:var(--accent);color:#fff;border:none;padding:10px 28px;border-radius:50px;font-weight:700;cursor:pointer;font-size:.875rem">Entendido</button>
-  </div>`;
-  document.body.appendChild(ov);
-}
+function _apSalida() { App.ap.intentos++; const rest = App.ap.max - App.ap.intentos; if (App.ap.intentos >= App.ap.max) { _apMsg('🔴 Quiz Enviado', `Saliste ${App.ap.max} veces. El quiz fue enviado automáticamente.`); App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas); desactivarAP(); finalizarQuiz(); } else { _apMsg(`⚠️ Advertencia ${App.ap.intentos}/${App.ap.max}`, `Saliste de la ventana. ${rest} aviso(s) más y el quiz se enviará.`); } }
+function _apMsg(titulo, msg) { const ov = document.createElement('div'); ov.style.cssText = 'position:fixed;inset:0;background:rgba(10,12,16,.88);z-index:99999;display:flex;justify-content:center;align-items:center;backdrop-filter:blur(12px)'; ov.innerHTML = `<div style="background:var(--bg-3);border-radius:var(--r-2xl);padding:28px;max-width:360px;width:90%;text-align:center;border:1px solid var(--border-2);border-top:2px solid var(--gold)"><h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:8px;color:var(--text)">${titulo}</h3><p style="color:var(--text-2);font-size:.875rem;margin-bottom:18px;line-height:1.6">${msg}</p><button onclick="this.closest('div').parentElement.remove()" style="background:var(--accent);color:#fff;border:none;padding:10px 28px;border-radius:50px;font-weight:700;cursor:pointer;font-size:.875rem">Entendido</button></div>`; document.body.appendChild(ov); }
 
-// ──────────────────────────────────────────────
-// HISTORIAL
-// ──────────────────────────────────────────────
-function cargarHistorial() {
-  $('historialContainer').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>';
-  $('histTitulo').textContent = App.ses.rol === 'estudiante' ? 'Mi Historial' : 'Historial de Resultados';
-  callSpin('Cargando…','obtenerHistorial',[App.ses.usuario, App.ses.rol, App.ses.adminId], res => {
-    if (!res.success || !res.historial?.length) {
-      $('historialContainer').innerHTML = '<div class="empty"><div class="empty-ic">📭</div><p>Sin resultados aún.</p></div>';
-      return;
-    }
-    const colorPct = p => p>=90?'var(--purple)':p>=70?'var(--green)':p>=40?'var(--amber)':'var(--red)';
-    $('historialContainer').innerHTML = res.historial.map(h => {
-      const p = parseInt(String(h.porcentaje).replace('%','')) || 0;
-      const c = colorPct(p);
-      const user = App.ses.rol !== 'estudiante' ? `👤 ${esc(h.nombre||h.usuario)} · ` : '';
-      return `<div class="result-row" style="border-left-color:${c}">
-        <div>
-          <div class="result-meta">📅 ${h.fecha}</div>
-          <div class="result-detail">${user}✅ ${h.correctas} · ❌ ${h.incorrectas} · Total ${h.total}${h.tema?` · 📂 ${h.tema}`:''}</div>
-        </div>
-        <div class="result-score">
-          <div class="result-pct" style="color:${c}">${p}%</div>
-          <span class="result-lvl" style="background:${c}">${h.nivel}</span>
-        </div>
-      </div>`;
-    }).join('');
-  });
-}
+// ────────────────────────────────────────────── HISTORIAL
+function cargarHistorial() { $('historialContainer').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>'; $('histTitulo').textContent = App.ses.rol === 'estudiante' ? 'Mi Historial' : 'Historial de Resultados'; callSpin('Cargando…', 'obtenerHistorial', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => { if (!res.success || !res.historial?.length) { $('historialContainer').innerHTML = '<div class="empty"><div class="empty-ic">📭</div><p>Sin resultados aún.</p></div>'; return; } const colorPct = p => p >= 90 ? 'var(--purple)' : p >= 70 ? 'var(--green)' : p >= 40 ? 'var(--amber)' : 'var(--red)'; $('historialContainer').innerHTML = res.historial.map(h => { const p = parseInt(String(h.porcentaje).replace('%', '')) || 0; const c = colorPct(p); const user = App.ses.rol !== 'estudiante' ? `👤 ${esc(h.nombre || h.usuario)} · ` : ''; return `<div class="result-row" style="border-left-color:${c}"><div><div class="result-meta">📅 ${h.fecha}</div><div class="result-detail">${user}✅ ${h.correctas} · ❌ ${h.incorrectas} · Total ${h.total}${h.tema ? ` · 📂 ${h.tema}` : ''}</div></div><div class="result-score"><div class="result-pct" style="color:${c}">${p}%</div><span class="result-lvl" style="background:${c}">${h.nivel}</span></div></div>`; }).join(''); }); }
+function exportarPDF() { callSpin('Generando PDF…', 'generarPDFResultados', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => { if (res.success) alerta('histAlert', 'ok', `✅ PDF listo. <a href="${res.url}" target="_blank" style="color:var(--accent);font-weight:700">📄 Abrir</a> · <a href="${res.downloadUrl}" target="_blank" style="color:var(--accent);font-weight:700">⬇️ Descargar</a>`); else alerta('histAlert', 'err', res.message); }); }
+function enviarPDFemail() { const e = prompt('📧 Email destino:'); if (!e?.trim() || !e.includes('@')) { if (e !== null) alerta('histAlert', 'err', 'Email inválido'); return; } const accion = App.ses.rol === 'estudiante' ? 'enviarPDFporEmailEstudiante' : 'enviarPDFporEmail'; const args = App.ses.rol === 'estudiante' ? [App.ses.usuario, e.trim(), App.ses.adminId] : [App.ses.usuario, App.ses.rol, e.trim(), App.ses.adminId]; callSpin('Enviando PDF...', accion, args, res => alerta('histAlert', res.success ? 'ok' : 'err', res.message)); }
 
-function exportarPDF() {
-  callSpin('Generando PDF…','generarPDFResultados',[App.ses.usuario, App.ses.rol, App.ses.adminId], res => {
-    if (res.success) alerta('histAlert','ok',`✅ PDF listo. <a href="${res.url}" target="_blank" style="color:var(--accent);font-weight:700">📄 Abrir</a> · <a href="${res.downloadUrl}" target="_blank" style="color:var(--accent);font-weight:700">⬇️ Descargar</a>`);
-    else alerta('histAlert','err', res.message);
-  });
-}
-function enviarPDFemail() {
-  const e = prompt('📧 Email destino:');
-  if (!e?.trim() || !e.includes('@')) { if (e !== null) alerta('histAlert','err','Email inválido'); return; }
-  callSpin('Enviando…','enviarPDFporEmail',[App.ses.usuario, App.ses.rol, e.trim(), App.ses.adminId], res =>
-    alerta('histAlert', res.success?'ok':'err', res.message)
-  );
-}
+// ────────────────────────────────────────────── RANKING
+function cargarRanking() { $('rankingContainer').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>'; callSpin('Cargando…', 'obtenerRanking', [App.ses.usuario], res => { if (!res.success || !res.ranking?.length) { $('rankingContainer').innerHTML = '<div class="empty"><div class="empty-ic">🏅</div><p>Sin datos</p></div>'; return; } const colorPct = p => p >= 90 ? 'var(--purple)' : p >= 70 ? 'var(--green)' : p >= 40 ? 'var(--amber)' : 'var(--red)'; $('rankingContainer').innerHTML = res.ranking.map((r, i) => { const pos = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1); return `<div class="rank-row"><div class="rank-pos">${pos}</div><div class="rank-info"><div class="rank-name">${esc(r.nombre)}</div><div class="rank-meta">@${esc(r.usuario)} · ${r.intentos} quizzes · Mejor: ${r.mejor}%</div></div><div class="rank-pct" style="color:${colorPct(r.promedio)}">${r.promedio}%</div></div>`; }).join(''); }); }
 
-// ──────────────────────────────────────────────
-// RANKING
-// ──────────────────────────────────────────────
-function cargarRanking() {
-  $('rankingContainer').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>';
-  callSpin('Cargando…','obtenerRanking',[App.ses.usuario], res => {
-    if (!res.success || !res.ranking?.length) {
-      $('rankingContainer').innerHTML = '<div class="empty"><div class="empty-ic">🏅</div><p>Sin datos</p></div>';
-      return;
-    }
-    const colorPct = p => p>=90?'var(--purple)':p>=70?'var(--green)':p>=40?'var(--amber)':'var(--red)';
-    $('rankingContainer').innerHTML = res.ranking.map((r,i) => {
-      const pos = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
-      return `<div class="rank-row">
-        <div class="rank-pos">${pos}</div>
-        <div class="rank-info">
-          <div class="rank-name">${esc(r.nombre)}</div>
-          <div class="rank-meta">@${esc(r.usuario)} · ${r.intentos} quizzes · Mejor: ${r.mejor}%</div>
-        </div>
-        <div class="rank-pct" style="color:${colorPct(r.promedio)}">${r.promedio}%</div>
-      </div>`;
-    }).join('');
-  });
-}
+// ────────────────────────────────────────────── EN LÍNEA
+function iniciarPing() { _enviarPing(); App.timers.ping = setInterval(_enviarPing, 30000); setInterval(() => { if (App.ses.usuario && document.getElementById('sec-notificaciones')?.classList.contains('active')) { cargarNotificaciones(); } }, 120000); }
+function _enviarPing() { if (App.ses.usuario) call('registrarActividad', [App.ses.usuario, App.ses.nombre, App.ses.rol, App.ses.adminId], () => { }); }
+function cargarEnLinea() { callSpin('Cargando…', 'obtenerUsuariosEnLinea', [App.ses.usuario], res => { if (!res.success) return; App.online.datos = res.usuarios; $('onlineCount').textContent = `${res.enLinea} en línea`; $('sOnline').textContent = res.enLinea; $('sOffline').textContent = res.total - res.enLinea; $('sTotal').textContent = res.total; $('sPct').textContent = res.total > 0 ? Math.round((res.enLinea / res.total) * 100) + '%' : '0%'; renderOnline(App.online.filtro); }); }
+function renderOnline(filtro) { let datos = App.online.datos; if (filtro === 'online') datos = datos.filter(u => u.enLinea); if (filtro === 'offline') datos = datos.filter(u => !u.enLinea); const cont = $('onlineContainer'); if (!datos.length) { cont.innerHTML = '<div class="empty"><p>Sin usuarios</p></div>'; return; } cont.innerHTML = datos.map(u => { const ini = (u.nombre || '?').charAt(0).toUpperCase(); const rol = u.rol === 'admin' ? 'Admin' : u.rol === 'super_admin' ? 'Super Admin' : 'Estudiante'; return `<div class="online-row"><div class="online-av">${ini}</div><div class="online-info"><div class="online-name">${esc(u.nombre)} ${u.rol === 'admin' ? '👨‍💼' : u.rol === 'super_admin' ? '👑' : '📚'}</div><div class="online-meta">@${esc(u.usuario)} · ${rol}</div></div><div style="text-align:right"><span class="online-status ${u.enLinea ? 'os-on' : 'os-off'}">${u.enLinea ? '● En línea' : '● Desconectado'}</span><div style="font-size:.7rem;color:var(--text-3);margin-top:4px">${u.tiempoDesde || 'Sin actividad'}</div></div></div>`; }).join(''); }
+function filtrarOnline(filtro, btn) { App.online.filtro = filtro; document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active')); if (btn) btn.classList.add('active'); renderOnline(filtro); }
 
-// ──────────────────────────────────────────────
-// EN LÍNEA
-// ──────────────────────────────────────────────
-function iniciarPing() {
-  _enviarPing();
-  App.timers.ping = setInterval(_enviarPing, 30000);
-}
-function _enviarPing() {
-  if (App.ses.usuario)
-    call('registrarActividad', [App.ses.usuario, App.ses.nombre, App.ses.rol, App.ses.adminId], () => {});
-}
-function cargarEnLinea() {
-  callSpin('Cargando…','obtenerUsuariosEnLinea',[App.ses.usuario], res => {
-    if (!res.success) return;
-    App.online.datos = res.usuarios;
-    $('onlineCount').textContent = `${res.enLinea} en línea`;
-    $('sOnline').textContent  = res.enLinea;
-    $('sOffline').textContent = res.total - res.enLinea;
-    $('sTotal').textContent   = res.total;
-    $('sPct').textContent     = res.total > 0 ? Math.round((res.enLinea / res.total) * 100) + '%' : '0%';
-    renderOnline(App.online.filtro);
-  });
-}
-function renderOnline(filtro) {
-  let datos = App.online.datos;
-  if (filtro === 'online')  datos = datos.filter(u => u.enLinea);
-  if (filtro === 'offline') datos = datos.filter(u => !u.enLinea);
-  const cont = $('onlineContainer');
-  if (!datos.length) { cont.innerHTML = '<div class="empty"><p>Sin usuarios</p></div>'; return; }
-  cont.innerHTML = datos.map(u => {
-    const ini = (u.nombre || '?').charAt(0).toUpperCase();
-    const rol = u.rol==='admin'?'Admin':u.rol==='super_admin'?'Super Admin':'Estudiante';
-    return `<div class="online-row">
-      <div class="online-av">${ini}</div>
-      <div class="online-info">
-        <div class="online-name">${esc(u.nombre)} ${u.rol==='admin'?'👨‍💼':u.rol==='super_admin'?'👑':'📚'}</div>
-        <div class="online-meta">@${esc(u.usuario)} · ${rol}</div>
-      </div>
-      <div style="text-align:right">
-        <span class="online-status ${u.enLinea?'os-on':'os-off'}">${u.enLinea?'● En línea':'● Desconectado'}</span>
-        <div style="font-size:.7rem;color:var(--text-3);margin-top:4px">${u.tiempoDesde||'Sin actividad'}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-function filtrarOnline(filtro, btn) {
-  App.online.filtro = filtro;
-  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  renderOnline(filtro);
-}
-
-// ──────────────────────────────────────────────
-// MODALES
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── MODALES
 function cerrarModal(id) { $(id).classList.remove('show'); }
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape')
-    ['modalProgramar','modalEditAdmin','modalEditUser'].forEach(id => $(id)?.classList.remove('show'));
-});
-// Cerrar modal al hacer clic en el overlay
-['modalProgramar','modalEditAdmin','modalEditUser'].forEach(id => {
-  document.addEventListener('DOMContentLoaded', () => {
-    $(id)?.addEventListener('click', e => { if (e.target === $(id)) cerrarModal(id); });
-  });
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') ['modalProgramar', 'modalEditAdmin', 'modalEditUser'].forEach(id => $(id)?.classList.remove('show')); });
+['modalProgramar', 'modalEditAdmin', 'modalEditUser'].forEach(id => { document.addEventListener('DOMContentLoaded', () => { $(id)?.addEventListener('click', e => { if (e.target === $(id)) cerrarModal(id); }); }); });
 
-// ──────────────────────────────────────────────
-// ARRANQUE
-// ──────────────────────────────────────────────
+// ────────────────────────────────────────────── ARRANQUE
 window.addEventListener('DOMContentLoaded', () => {
-  // Sesión persistente
   const saved = sessionStorage.getItem('ses');
-  if (saved) {
-    try {
-      const s = JSON.parse(saved);
-      if (s.usuario && s.nombre && s.rol) { App.ses = s; iniciarApp(); return; }
-    } catch { sessionStorage.removeItem('ses'); }
-  }
-  $('loginScreen').style.display  = 'flex';
-  $('appMain').style.display      = 'none';
-  $('hamburgerBtn').style.display = 'none';
-  aplicarPersonalizacion();
-  // Enter en campos de login
+  if (saved) { try { const s = JSON.parse(saved); if (s.usuario && s.nombre && s.rol) { App.ses = s; iniciarApp(); return; } } catch { sessionStorage.removeItem('ses'); } }
+  $('loginScreen').style.display = 'flex'; $('appMain').style.display = 'none'; $('hamburgerBtn').style.display = 'none'; aplicarPersonalizacion();
   $('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') hacerLogin(); });
   $('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') $('loginPass').focus(); });
-  // Cerrar modales al clic en overlay
-  ['modalProgramar','modalEditAdmin','modalEditUser'].forEach(id => {
-    $(id)?.addEventListener('click', e => { if (e.target === $(id)) cerrarModal(id); });
-  });
+  ['modalProgramar', 'modalEditAdmin', 'modalEditUser'].forEach(id => { $(id)?.addEventListener('click', e => { if (e.target === $(id)) cerrarModal(id); }); });
 });
-
-window.addEventListener('beforeunload', () => {
-  if (App.ses.usuario)
-    navigator.sendBeacon(API_URL, JSON.stringify({ action:'registrarCierreSesion', args:[App.ses.usuario] }));
-});
-
-window.addEventListener('resize', () => {
-  $('hamburgerBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
-  if (window.innerWidth > 768 && sidebarOpen) cerrarSidebar();
-});
+window.addEventListener('beforeunload', () => { if (App.ses.usuario) navigator.sendBeacon(API_URL, JSON.stringify({ action: 'registrarCierreSesion', args: [App.ses.usuario] })); });
+window.addEventListener('resize', () => { $('hamburgerBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none'; if (window.innerWidth > 768 && sidebarOpen) cerrarSidebar(); });
 </script>
 </body>
 </html>
