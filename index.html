@@ -1314,18 +1314,34 @@ const UI = {
 
 // ── API CALL ─────────────────────────────────────
 /* ===== CALL para payloads grandes (imágenes base64) ===== */
-function callLarge(fn, namedArgs, cb, errCb) {
-  UI.spin('Subiendo imagen…');
+function call(fn, args, cb, errCb) {
+  UI.spin('Conectando…');
   // Enviar como campos planos en lugar de args array
-  const payload = Object.assign({ action: fn }, namedArgs);
+  let payload = { action: fn };
+  
+  // Si args es un array, lo asignamos como args
+  if (Array.isArray(args)) {
+    payload.args = args;
+  } else if (args && typeof args === 'object') {
+    // Si args es un objeto, lo mezclamos directamente con el payload
+    Object.assign(payload, args);
+  }
   
   fetch(API_URL, {
     method: 'POST',
     body: JSON.stringify(payload)
   })
   .then(res => res.json())
-  .then(data => { UI.hide(); if (cb) cb(data); })
-  .catch(error => { UI.hide(); if (errCb) errCb(error); });
+  .then(data => {
+    UI.hide();
+    if (cb) cb(data);
+  })
+  .catch(error => {
+    UI.hide();
+    console.error(fn, error);
+    if (errCb) errCb(error);
+    else UI.alert('general', 'error', 'Error de conexión con el servidor');
+  });
 }
 
 function callSpin(txt, fn, args, cb) {
