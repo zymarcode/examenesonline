@@ -655,29 +655,33 @@ const UI = {
 
 function esc(s){ return s==null?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-/* ===== CALL OPTIMIZADO ===== */
+/* ===== CONFIGURACIÓN API ===== */
+// ⚠️ REEMPLAZA CON TU URL DE WEB APP DE APPS SCRIPT
+const API_URL = 'https://script.google.com/macros/s/AKfycbyUWqptaVmEyZuN7gtHqEeaHlf77s9n047K7XoNk_VspuvhYIGQUL1tyB3xEuZcG21h/exec';
+
+/* ===== CALL helper para Vercel ===== */
 function call(fn, args, cb, errCb, showSpinner = true) {
-  // Operaciones que NO muestran spinner (lecturas rápidas)
-  const silentOps = ['obtenerPersonalizacionLogin','obtenerConfigTiempo','obtenerConfigQuiz','obtenerTemas','obtenerUsuariosEnLinea','obtenerEstadisticasGenerales','obtenerQuizzesHoy','obtenerNotificaciones'];
+  const silentOps = ['obtenerPersonalizacionLogin','obtenerConfigTiempo','obtenerConfigQuiz','obtenerTemas','obtenerUsuariosEnLinea'];
   if (silentOps.includes(fn)) showSpinner = false;
   
   if (showSpinner) UI.spin('Conectando…');
   
-  let r = google.script.run.withSuccessHandler(data => {
+  fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: fn, args: args })
+  })
+  .then(res => res.json())
+  .then(data => {
     if (showSpinner) UI.hide();
     if (cb) cb(data);
-  });
-  
-  if (errCb) r = r.withFailureHandler(e => {
+  })
+  .catch(error => {
     if (showSpinner) UI.hide();
-    errCb(e);
+    console.error(fn, error);
+    if (errCb) errCb(error);
+    else UI.alert('general', 'error', 'Error de conexión');
   });
-  else r = r.withFailureHandler(e => {
-    if (showSpinner) UI.hide();
-    console.error(fn, e);
-  });
-  
-  r[fn](...args);
 }
 
 /* ===== LOGIN ===== */
