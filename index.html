@@ -3219,9 +3219,9 @@ const userBadge = u => u.estado === 'activo' ? '<span class="badge badge-green">
 function userAcciones(u) {
   if (u.usuario === App.ses.usuario) return '<span style="color:var(--text-3);font-size:.8rem">Tu cuenta</span>';
   const tog = u.estado === 'activo'
-    ? `<button class="btn btn-amber btn-sm btn-icon" onclick="toggleUser('${esc(u.usuario)}','inactivo')">🚫</button>`
-    : `<button class="btn btn-green btn-sm btn-icon" onclick="toggleUser('${esc(u.usuario)}','activo')">✅</button>`;
-  return `<button class="btn btn-ghost btn-sm btn-icon" onclick="abrirEditUser('${esc(u.usuario)}')">✏️</button>${tog}<button class="btn btn-red btn-sm btn-icon" onclick="borrarUser('${esc(u.usuario)}')">🗑️</button>`;
+    ? `<button class="btn btn-amber btn-sm btn-icon" title="Desactivar" onclick="toggleUser('${esc(u.usuario)}','inactivo')">🚫</button>`
+    : `<button class="btn btn-green btn-sm btn-icon" title="Activar" onclick="toggleUser('${esc(u.usuario)}','activo')">✅</button>`;
+  return `<button class="btn btn-ghost btn-sm btn-icon" title="Editar contraseña" onclick="abrirEditUser('${esc(u.usuario)}')">✏️</button>${tog}<button class="btn btn-amber btn-sm btn-icon" title="Resetear Quiz (eliminar intentos)" onclick="resetearQuizUser('${esc(u.usuario)}')">🔄</button><button class="btn btn-red btn-sm btn-icon" title="Eliminar usuario" onclick="borrarUser('${esc(u.usuario)}')">🗑️</button>`;
 }
 
 function userRow(u) {
@@ -3270,6 +3270,18 @@ function borrarUser(usuario) {
   callSpin('Eliminando…', 'eliminarUsuario', [App.ses.usuario, usuario], res => {
     alert(res.message);
     if (res.success) cargarUsuarios();
+  });
+}
+
+function resetearQuizUser(usuario) {
+  if (!confirm(`🔄 ¿Resetear el quiz de "${usuario}"?\n\nEsto eliminará todos sus intentos e historial de resultados. No se puede deshacer.`)) return;
+  callSpin('Reseteando quiz…', 'resetearQuizUsuario', [App.ses.usuario, usuario], res => {
+    if (res.success) {
+      alerta('userAlert', 'ok', res.message);
+      cargarUsuarios();
+    } else {
+      alerta('userAlert', 'err', res.message || 'Error al resetear el quiz');
+    }
   });
 }
 
