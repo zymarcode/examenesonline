@@ -3695,7 +3695,17 @@ function finalizarQuiz() {
   $('rCorr').textContent = App.quiz.correctas;
   $('rInc').textContent = App.quiz.incorrectas;
   $('rPct').textContent = `${pct}%`;
-  const tema = (App.cfg.quizTemaLibre || App.ses.rol !== 'estudiante') ? ($('selectTema')?.value || 'General') : App.cfg.quizTema || 'General';
+  // Determinar el tema correctamente
+  let tema = 'General';
+  const selectTemaEl = $('selectTema');
+  if (App.cfg.quizTemaLibre) {
+    // El estudiante eligió libremente el tema
+    tema = selectTemaEl?.value || App.cfg.quizTema || 'General';
+  } else {
+    // Tema fijo configurado por el admin
+    tema = App.cfg.quizTema || 'General';
+  }
+  if (tema === 'Todos' || !tema) tema = 'General';
   call('guardarEstadisticas', [App.ses.usuario, App.ses.nombre, App.quiz.correctas, App.quiz.incorrectas, tema, App.ses.adminId], () => {});
 }
 
