@@ -2181,7 +2181,7 @@ textarea.form-input {
       </div>
     </div>
     <button class="lf-submit" onclick="hacerLogin()">Iniciar sesión →</button>
-    <div class="lf-footer">Desarrollado por Zymar Code +51927027986 · <strong>v1.0</strong></div>
+    <div class="lf-footer" id="loginFooterTarget">Desarrollado por Zymar Code +51927027986 · <strong>v1.0</strong></div>
   </div>
 </div>
 
@@ -2220,6 +2220,7 @@ textarea.form-input {
       <div class="su-dot"></div>
     </div>
   </div>
+  <div class="sb-footer" id="sidebarFooterTarget" style="display:none; text-align:center; padding: 12px; font-size: 0.72rem; color: var(--text-3); border-top: 1px solid var(--border);"></div>
 </aside>
 
 <!-- ============================================================
@@ -2505,6 +2506,14 @@ textarea.form-input {
           </div>
         </div>
         <div class="pers-logo-preview" id="logoPrevWrap"><img id="logoPrevImg" alt="Logo"></div>
+        <div class="form-row">
+          <label class="form-label">📝 Texto del Footer (Global)</label>
+          <input type="text" class="form-input" id="inputFooterText" placeholder="Ej: Plataforma Educativa - ©️ 2025">
+        </div>
+        <div class="form-row">
+          <label class="form-label">🔗 URL del Footer (Opcional)</label>
+          <input type="url" class="form-input" id="inputFooterUrl" placeholder="Ej: https://misitio.com">
+        </div>
         <div class="form-row">
           <label class="form-label">💧 Desenfoque fondo: <strong id="blurLabel">5px</strong></label>
           <input type="range" id="inputBlur" min="0" max="20" value="5" style="width: 100%; accent-color: var(--accent);" oninput="onBlurChange(this.value)">
@@ -2999,8 +3008,9 @@ function iniciarApp() {
 function applyFondo(url, blur) { const bg = $('loginCustomBg'); if (!bg) return; if (url) { bg.style.backgroundImage = `url(${url})`; bg.style.filter = `blur(${blur || 5}px)`; } else { bg.style.backgroundImage = ''; bg.style.filter = ''; } }
 function applyLogo(url) { const icon = $('loginIconDefault'), img = $('loginLogoImg'); if (url) { img.src = url; img.style.display = 'block'; icon.style.display = 'none'; } else { img.style.display = 'none'; icon.style.display = 'flex'; } const sw = $('sidebarLogoImg'), si = $('sidebarIcon'); if (url) { sw.src = url; sw.style.display = 'inline'; si.style.display = 'none'; } else { sw.style.display = 'none'; si.style.display = 'flex'; } }
 function applySiteName(name) { if (!name) return; $('sidebarSiteName').textContent = name; $('loginBrandName').textContent = name; document.title = name; const el = $('pageTabTitle'); if (el) el.textContent = name; }
-function aplicarPersonalizacion() { call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; if (res.fondo) applyFondo(res.fondo, res.blur); if (res.logo) applyLogo(res.logo); if (res.siteName) applySiteName(res.siteName); }); }
-function cargarLoginPers() { if (App.ses.rol !== 'super_admin') return; call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; const blur = res.blur || '5'; $('inputBlur').value = blur; $('blurLabel').textContent = blur + 'px'; if (res.siteName) $('inputSiteName').value = res.siteName; if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; } if (res.logo) { $('inputLogoUrl').value = res.logo; $('logoPrevImg').src = res.logo; $('logoPrevWrap').style.display = 'block'; } }); }
+function applyFooter(text, url) { const lf = $('loginFooterTarget'), sf = $('sidebarFooterTarget'); const d = text ? (url ? `<a href="${url}" target="_blank" style="color:var(--text-3);text-decoration:underline;">${esc(text)}</a>` : esc(text)) : 'Desarrollado por Zymar Code +51927027986 • <strong>v1.0</strong>'; if (lf) lf.innerHTML = d; if (sf) { if (text) { sf.style.display = 'block'; sf.innerHTML = d; } else { sf.style.display = 'none'; sf.innerHTML = ''; } } }
+function aplicarPersonalizacion() { call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; if (res.fondo) applyFondo(res.fondo, res.blur); if (res.logo) applyLogo(res.logo); if (res.siteName) applySiteName(res.siteName); applyFooter(res.footerText, res.footerUrl); }); }
+function cargarLoginPers() { if (App.ses.rol !== 'super_admin') return; call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; const blur = res.blur || '5'; $('inputBlur').value = blur; $('blurLabel').textContent = blur + 'px'; if (res.siteName) $('inputSiteName').value = res.siteName; if (res.footerText) $('inputFooterText').value = res.footerText; if (res.footerUrl) $('inputFooterUrl').value = res.footerUrl; if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; } if (res.logo) { $('inputLogoUrl').value = res.logo; $('logoPrevImg').src = res.logo; $('logoPrevWrap').style.display = 'block'; } }); }
 let _dFondo, _dLogo;
 function debouncePreviewFondo() { clearTimeout(_dFondo); _dFondo = setTimeout(previewFondo, 600); }
 function debouncePreviewLogo() { clearTimeout(_dLogo); _dLogo = setTimeout(previewLogo, 600); }
@@ -3009,8 +3019,8 @@ function previewLogo() { const url = $('inputLogoUrl').value.trim(); if (url) { 
 function clearFondo() { $('inputFondoUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; applyFondo('', 5); }
 function clearLogo() { $('inputLogoUrl').value = ''; $('logoPrevWrap').style.display = 'none'; }
 function onBlurChange(val) { $('blurLabel').textContent = val + 'px'; const url = $('inputFondoUrl').value.trim(); if (url) applyFondo(url, val); }
-function guardarLoginPers() { const siteName = $('inputSiteName').value.trim(), fondo = $('inputFondoUrl').value.trim(), logo = $('inputLogoUrl').value.trim(), blur = $('inputBlur').value; const cfg = { loginBlur: blur }; if (fondo) cfg.loginFondo = fondo; if (logo) cfg.loginLogo = logo; if (siteName) cfg.loginSiteName = siteName; callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => { if (res.success) { alerta('loginPersAlert', 'ok', 'Personalización guardada'); if (fondo) applyFondo(fondo, blur); if (logo) applyLogo(logo); if (siteName) applySiteName(siteName); } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar'); }); }
-function eliminarLoginPers() { if (!confirm('¿Quitar las imágenes y restablecer el login?')) return; callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; alerta('loginPersAlert', 'ok', 'Imágenes eliminadas'); } else alerta('loginPersAlert', 'err', res.message); }); }
+function guardarLoginPers() { const siteName = $('inputSiteName').value.trim(), fondo = $('inputFondoUrl').value.trim(), logo = $('inputLogoUrl').value.trim(), blur = $('inputBlur').value, fTxt = $('inputFooterText').value.trim(), fUrl = $('inputFooterUrl').value.trim(); const cfg = { loginBlur: blur }; if (fondo) cfg.loginFondo = fondo; if (logo) cfg.loginLogo = logo; if (siteName) cfg.loginSiteName = siteName; cfg.loginFooterText = fTxt; cfg.loginFooterUrl = fUrl; callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => { if (res.success) { alerta('loginPersAlert', 'ok', 'Personalización guardada'); if (fondo) applyFondo(fondo, blur); if (logo) applyLogo(logo); if (siteName) applySiteName(siteName); applyFooter(fTxt, fUrl); } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar'); }); }
+function eliminarLoginPers() { if (!confirm('¿Quitar las imágenes y restablecer personalizaición?')) return; callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('inputFooterText').value = ''; $('inputFooterUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; applyFooter('',''); alerta('loginPersAlert', 'ok', 'Personalización eliminada'); } else alerta('loginPersAlert', 'err', res.message); }); }
 
 // ============================================================
 // DASHBOARD
