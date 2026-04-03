@@ -3402,7 +3402,8 @@ function cargarTemasAdmin() {
 }
 
 function cargarCfgTiempo() {
-  call('obtenerConfigTiempo', [], res => {
+  const adminId = App.ses.rol === 'estudiante' ? App.ses.adminId : App.ses.usuario;
+  call('obtenerConfigTiempo', [adminId], res => {
     if (!res?.success) return;
     App.cfg.tiempoLimite = res.config.tiempoLimite;
     App.cfg.tiempoActivo = res.config.tiempoActivo === 'si';
@@ -3429,7 +3430,8 @@ function guardarTiempoBtn() {
 }
 
 function cargarCfgQuiz() {
-  call('obtenerConfigQuiz', [], res => {
+  const adminId = App.ses.rol === 'estudiante' ? App.ses.adminId : App.ses.usuario;
+  call('obtenerConfigQuiz', [adminId], res => {
     if (!res?.success) return;
     const c = res.config;
     Object.assign(App.cfg, {
@@ -3464,7 +3466,8 @@ function guardarQuizCfgBtn() {
 }
 
 function cargarCfgAcceso() {
-  call('obtenerConfigQuiz', [], res => {
+  const adminId = App.ses.rol === 'estudiante' ? App.ses.adminId : App.ses.usuario;
+  call('obtenerConfigQuiz', [adminId], res => {
     if (!res?.success) return;
     $('swQuizActivo').checked = res.config.quizActivo === 'si';
     const sel = $('selMaxIntentos');
@@ -3486,7 +3489,8 @@ function guardarAccesoBtn() {
 }
 
 function cargarCfgEmail() {
-  call('obtenerConfigQuiz', [], res => {
+  const adminId = App.ses.rol === 'estudiante' ? App.ses.adminId : App.ses.usuario;
+  call('obtenerConfigQuiz', [adminId], res => {
     if (!res?.success) return;
     $('swEmail').checked = res.config.emailActivo === 'si';
     $('inputEmails').value = res.config.emailNotificacion || '';
@@ -3537,56 +3541,61 @@ function guardarPerfil() {
 // ============================================================
 function cargarCfgQuizEstudiante() {
   ['quizBloqueado', 'quizConfigPanel', 'quizMotor', 'quizResultados'].forEach(id => $(id).style.display = 'none');
-  callSpin('Verificando…', 'verificarAccesoQuiz', [App.ses.usuario, App.ses.adminId], resA => {
-    call('obtenerConfigQuiz', [], resQ => {
-      if (resQ.success) {
-        const c = resQ.config;
-        Object.assign(App.cfg, {
-          quizTema: c.quizTema,
-          quizCantidad: c.quizCantidad,
-          quizTemaLibre: c.quizTemaLibre,
-          quizCantidadLibre: c.quizCantidadLibre
-        });
-        $('quizTimerInfo').style.display = App.cfg.tiempoActivo ? 'block' : 'none';
-        $('quizTimerText').textContent = App.cfg.tiempoLimite + ' min';
-      }
-      const esAdm = App.ses.rol !== 'estudiante';
-      if (esAdm) {
-        $('quizConfigPanel').style.display = 'block';
-        setupQuizUI();
-        return;
-      }
-      if (!resA.permitido) {
-        $('quizBloqueado').style.display = 'block';
-        $('blockedMsg').textContent = resA.message;
-        return;
-      }
+  callSpin('Cargando quiz…', 'iniciarQuizCompleto', [App.ses.usuario, App.ses.adminId], res => {
+    if (res.success) {
+      const c = res.config;
+      Object.assign(App.cfg, {
+        quizTema: c.quizTema,
+        quizCantidad: c.quizCantidad,
+        quizTemaLibre: c.quizTemaLibre,
+        quizCantidadLibre: c.quizCantidadLibre,
+        tiempoLimite: c.tiempoLimite,
+        tiempoActivo: c.tiempoActivo,
+        mensajeTiempo: c.mensajeTiempo
+      });
+      $('quizTimerInfo').style.display = App.cfg.tiempoActivo ? 'block' : 'none';
+      $('quizTimerText').textContent = App.cfg.tiempoLimite + ' min';
+    }
+
+    const esAdm = App.ses.rol !== 'estudiante';
+    if (esAdm) {
       $('quizConfigPanel').style.display = 'block';
-      const iq = $('intentosInfoQuiz');
-      iq.style.display = 'block';
-      iq.innerHTML = resA.maxIntentos > 0
-        ? `🎯 Intentos: <strong>${resA.intentosUsados}/${resA.maxIntentos}</strong>`
-        : `🎯 Intentos ilimitados (usados: ${resA.intentosUsados})`;
-      setupQuizUI();
-    });
+      setupQuizUI(res.temas || []);
+      return;
+    }
+    
+    if (!res.permitido) {
+      $('quizBloqueado').style.display = 'block';
+      $('blockedMsg').textContent = res.message;
+      return;
+    }
+    
+    $('quizConfigPanel').style.display = 'block';
+    const iq = $('intentosInfoQuiz');
+    iq.style.display = 'block';
+    iq.innerHTML = res.maxIntentos > 0
+      ? `🎯 Intentos: <strong>${res.intentosUsados}/${res.maxIntentos}</strong>`
+      : `🎯 Intentos ilimitados (usados: ${res.intentosUsados})`;
+      
+    setupQuizUI(res.temas || []);
   });
 }
 
-function setupQuizUI() {
+function setupQuizUI(temas) {
   const esAdm = App.ses.rol !== 'estudiante';
   $('quizTemaGroup').style.display = (esAdm || App.cfg.quizTemaLibre) ? 'block' : 'none';
   $('quizCantGroup').style.display = (esAdm || App.cfg.quizCantidadLibre) ? 'block' : 'none';
-  call('obtenerTemas', [App.ses.adminId], res => {
-    const sel = $('selectTema');
-    if (!sel) return;
+  
+  const sel = $('selectTema');
+  if (sel) {
     while (sel.options.length > 1) sel.remove(1);
-    res.temas?.forEach(t => {
+    temas.forEach(t => {
       const o = document.createElement('option');
       o.value = o.textContent = t;
       sel.appendChild(o);
     });
     if (!esAdm && !App.cfg.quizTemaLibre && App.cfg.quizTema !== 'Todos') sel.value = App.cfg.quizTema;
-  });
+  }
 }
 
 function iniciarQuiz() {
