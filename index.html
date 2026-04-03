@@ -2345,9 +2345,12 @@ textarea.form-input {
       <div class="card">
         <div class="card-hd">
           <div class="card-title"><span class="card-ic">👥</span>Estudiantes Registrados</div>
-          <div class="tbl-search" style="width: 210px;">
-            <span class="tbl-search-ic">🔍</span>
-            <input type="text" placeholder="Buscar…" oninput="filtrarUsuarios(this.value)">
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button class="btn btn-green btn-sm" onclick="exportarEstudiantesExcel()">📊 Excel</button>
+            <div class="tbl-search" style="width: 210px;">
+              <span class="tbl-search-ic">🔍</span>
+              <input type="text" placeholder="Buscar…" oninput="filtrarUsuarios(this.value)">
+            </div>
           </div>
         </div>
         <div id="listaUsuarios"><div class="empty"><div class="spinner" style="margin: 0 auto 8px;"></div><p>Cargando…</p></div></div>
@@ -2430,6 +2433,7 @@ textarea.form-input {
       <div class="card">
         <div class="card-hd">
           <div class="card-title"><span class="card-ic">🎮</span>Configurar Quiz</div>
+          <button class="btn btn-green btn-sm" onclick="exportarPreguntasExcel()">📊 Exportar Mis Preguntas (Excel)</button>
         </div>
         <div class="toggle-row">
           <span class="toggle-label">Permitir elegir tema</span>
@@ -2674,6 +2678,7 @@ textarea.form-input {
           <div class="btn-grp">
             <button class="btn btn-dark btn-sm" onclick="exportarPDF()">📄 PDF</button>
             <button class="btn btn-green btn-sm" onclick="enviarPDFemail()">📧 Email</button>
+            <button class="btn btn-green btn-sm" onclick="exportarHistorialExcel()">📊 Excel</button>
           </div>
         </div>
         <div id="histAlert"></div>
@@ -3021,6 +3026,47 @@ function clearLogo() { $('inputLogoUrl').value = ''; $('logoPrevWrap').style.dis
 function onBlurChange(val) { $('blurLabel').textContent = val + 'px'; const url = $('inputFondoUrl').value.trim(); if (url) applyFondo(url, val); }
 function guardarLoginPers() { const siteName = $('inputSiteName').value.trim(), fondo = $('inputFondoUrl').value.trim(), logo = $('inputLogoUrl').value.trim(), blur = $('inputBlur').value, fTxt = $('inputFooterText').value.trim(), fUrl = $('inputFooterUrl').value.trim(); const cfg = { loginBlur: blur }; if (fondo) cfg.loginFondo = fondo; if (logo) cfg.loginLogo = logo; if (siteName) cfg.loginSiteName = siteName; cfg.loginFooterText = fTxt; cfg.loginFooterUrl = fUrl; callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => { if (res.success) { alerta('loginPersAlert', 'ok', 'Personalización guardada'); if (fondo) applyFondo(fondo, blur); if (logo) applyLogo(logo); if (siteName) applySiteName(siteName); applyFooter(fTxt, fUrl); } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar'); }); }
 function eliminarLoginPers() { if (!confirm('¿Quitar las imágenes y restablecer personalizaición?')) return; callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('inputFooterText').value = ''; $('inputFooterUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; applyFooter('',''); alerta('loginPersAlert', 'ok', 'Personalización eliminada'); } else alerta('loginPersAlert', 'err', res.message); }); }
+
+// ============================================================
+// EXPORTADOR EXCEL
+// ============================================================
+function exportToCSV(filename, rows) {
+  const processCell = c => {
+    let s = c === null || c === undefined ? '' : String(c);
+    if(s.includes(',') || s.includes('"') || s.includes('\n')) s = '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  };
+  const csvStr = '\uFEFF' + rows.map(r => r.map(processCell).join(',')).join('\n');
+  const blob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.setAttribute('download', filename + '.csv');
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function exportarEstudiantesExcel() {
+  if(!App.usuariosData || !App.usuariosData.length) return alerta('userAlert','err','No hay estudiantes para exportar.');
+  const rows = [['Usuario', 'Nombre', 'Email', 'Estado', 'Fecha Registro']];
+  App.usuariosData.forEach(u => rows.push([u.usuario, u.nombre, u.email, u.estado, u.fecha]));
+  exportToCSV('Estudiantes_' + App.ses.usuario, rows);
+}
+
+function exportarHistorialExcel() {
+  if(!App.historialData || !App.historialData.length) return alerta('histAlert','err','No hay historial para exportar.');
+  const rows = [['Usuario', 'Nombre', 'Fecha', 'Tema', 'Correctas', 'Incorrectas', 'Total', 'Porcentaje', 'Nivel']];
+  App.historialData.forEach(h => rows.push([h.usuario, h.nombre, h.fecha, h.tema, h.correctas, h.incorrectas, h.total, h.porcentajeFormat, h.nivel]));
+  exportToCSV('Historial_' + App.ses.usuario, rows);
+}
+
+function exportarPreguntasExcel() {
+  if(App.ses.rol === 'estudiante') return;
+  callSpin('Preparando Excel...', 'obtenerPreguntas', ['Todos', 0, App.ses.usuario], res => {
+    if(!res.success || !res.preguntas.length) return alerta('importAlert','err','No tienes preguntas guardadas.');
+    const rows = [['ID', 'Tema', 'Pregunta', 'Opcion A', 'Opcion B', 'Opcion C', 'Opcion D', 'Correcta']];
+    res.preguntas.forEach(p => rows.push([p.id, p.tema, p.pregunta, p.A, p.B, p.C, p.D, p.correcta]));
+    exportToCSV('Preguntas_' + App.ses.usuario, rows);
+  });
+}
 
 // ============================================================
 // DASHBOARD
@@ -3870,8 +3916,12 @@ function cargarHistorial() {
       return;
     }
     const colorPct = p => p >= 90 ? 'var(--purple)' : p >= 70 ? 'var(--green)' : p >= 40 ? 'var(--amber)' : 'var(--red)';
+    App.historialData = res.historial;
     $('historialContainer').innerHTML = res.historial.map(h => {
-      const p = parseInt(String(h.porcentaje).replace('%', '')) || 0;
+      let rawP = String(h.porcentaje).trim();
+      let pVal = parseFloat(rawP.replace('%', ''));
+      const p = (pVal <= 1 && !rawP.includes('%')) ? Math.round(pVal * 100) : (parseInt(pVal) || 0);
+      h.porcentajeFormat = p + '%';
       const c = colorPct(p);
       const user = App.ses.rol !== 'estudiante' ? `👤 ${esc(h.nombre || h.usuario)} · ` : '';
       return `<div class="result-row" style="border-left-color:${c}">
