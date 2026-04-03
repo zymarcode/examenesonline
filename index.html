@@ -110,22 +110,28 @@ a {
 ============================================================ */
 #loginScreen {
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   position: fixed;
   inset: 0;
   z-index: 200;
+  background: var(--bg-2);
 }
 .lv-panel {
-  flex: 0 0 55%;
-  position: relative;
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  background: var(--bg-2);
-  display: none;
+  z-index: 1;
 }
 @media (min-width: 1024px) {
+  #loginScreen {
+    align-items: stretch;
+    justify-content: flex-start;
+  }
   .lv-panel {
-    display: block;
+    position: relative;
+    flex: 0 0 55%;
   }
 }
 .lv-bg {
@@ -152,10 +158,15 @@ a {
   position: relative;
   z-index: 3;
   height: 100%;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   padding: 48px;
+}
+@media (min-width: 1024px) {
+  .lv-content {
+    display: flex;
+  }
 }
 .lv-brand {
   display: flex;
@@ -230,14 +241,25 @@ a {
   justify-content: center;
   padding: clamp(28px, 6vw, 64px) clamp(24px, 5vw, 56px);
   position: relative;
+  z-index: 2;
   overflow-y: auto;
   max-width: 480px;
   border-left: 1px solid var(--border);
 }
 @media (max-width: 1023px) {
   .lf-panel {
-    max-width: 100%;
+    max-width: 90%;
+    margin: 20px auto;
+    width: 100%;
     border-left: none;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--r-2xl);
+    background: rgba(18, 22, 30, 0.45);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+    padding: 38px 28px;
+    flex: 0 1 auto;
   }
 }
 .lf-logo-wrap {
