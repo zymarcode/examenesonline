@@ -2554,14 +2554,17 @@ textarea.form-input {
             <div style="padding: 8px 12px; background: var(--bg-3); border-radius: var(--r-sm); font-size: .875rem; border: 1px solid var(--border);"><strong style="color: var(--text-3);">Rol: </strong><span id="pRol" style="color: var(--accent-2);">-</span></div>
           </div>
         </div>
-        <div class="form-grid">
-          <div class="form-row"><label class="form-label">Nuevo usuario</label><input type="text" class="form-input" id="pNuevoUser" placeholder="Vacío = sin cambios"></div>
-          <div class="form-row"><label class="form-label">Nueva contraseña</label><input type="password" class="form-input" id="pNuevoPass" placeholder="Vacío = sin cambios"></div>
-          <div class="form-row"><label class="form-label">Confirmar contraseña</label><input type="password" class="form-input" id="pConfirmPass" placeholder="Repite la contraseña"></div>
-          <div class="form-row"><label class="form-label">Nuevo nombre</label><input type="text" class="form-input" id="pNuevoNombre" placeholder="Vacío = sin cambios"></div>
+        <div id="formEditarPerfil">
+          <div class="form-grid">
+            <div class="form-row"><label class="form-label">Nuevo usuario</label><input type="text" class="form-input" id="pNuevoUser" placeholder="Vacío = sin cambios"></div>
+            <div class="form-row"><label class="form-label">Nueva contraseña</label><input type="password" class="form-input" id="pNuevoPass" placeholder="Vacío = sin cambios"></div>
+            <div class="form-row"><label class="form-label">Confirmar contraseña</label><input type="password" class="form-input" id="pConfirmPass" placeholder="Repite la contraseña"></div>
+            <div class="form-row"><label class="form-label">Nuevo nombre</label><input type="text" class="form-input" id="pNuevoNombre" placeholder="Vacío = sin cambios"></div>
+          </div>
+          <div id="perfilAlert"></div>
+          <button class="btn btn-primary" onclick="guardarPerfil()">💾 Guardar Cambios</button>
         </div>
-        <div id="perfilAlert"></div>
-        <button class="btn btn-primary" onclick="guardarPerfil()">💾 Guardar Cambios</button>
+        <div id="avisoNoEditPerfil" style="display:none;" class="info-box ib-blue">🔒 Como estudiante no puedes editar tu perfil. Solicita los cambios a tu profesor.</div>
       </div>
     </div>
 
@@ -2675,10 +2678,10 @@ textarea.form-input {
       <div class="card">
         <div class="card-hd">
           <div class="card-title"><span class="card-ic">📊</span><span id="histTitulo">Mi Historial</span></div>
-          <div class="btn-grp">
-            <button class="btn btn-dark btn-sm" onclick="exportarPDF()">📄 PDF</button>
-            <button class="btn btn-green btn-sm" onclick="enviarPDFemail()">📧 Email</button>
-            <button class="btn btn-green btn-sm" onclick="exportarHistorialExcel()">📊 Excel</button>
+          <div class="btn-grp" id="btnGrpHistorial">
+            <button class="btn btn-dark btn-sm" onclick="exportarPDF()" id="histBtnPDF">📄 PDF</button>
+            <button class="btn btn-green btn-sm" onclick="enviarPDFemail()" id="histBtnEmail">📧 Email</button>
+            <button class="btn btn-green btn-sm" onclick="exportarHistorialExcel()" id="histBtnExcel">📊 Excel</button>
           </div>
         </div>
         <div id="histAlert"></div>
@@ -3910,6 +3913,8 @@ function _apMsg(titulo, msg) {
 function cargarHistorial() {
   $('historialContainer').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 8px"></div><p>Cargando…</p></div>';
   $('histTitulo').textContent = App.ses.rol === 'estudiante' ? 'Mi Historial' : 'Historial de Resultados';
+  if ($('histBtnEmail')) $('histBtnEmail').style.display = App.ses.rol === 'estudiante' ? 'none' : 'inline-block';
+  if ($('histBtnExcel')) $('histBtnExcel').style.display = App.ses.rol === 'estudiante' ? 'none' : 'inline-block';
   callSpin('Cargando…', 'obtenerHistorial', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => {
     if (!res.success || !res.historial?.length) {
       $('historialContainer').innerHTML = '<div class="empty"><div class="empty-ic">📭</div><p>Sin resultados aún.</p></div>';
@@ -3970,6 +3975,9 @@ function cargarRanking() {
     }
     const colorPct = p => p >= 90 ? 'var(--purple)' : p >= 70 ? 'var(--green)' : p >= 40 ? 'var(--amber)' : 'var(--red)';
     $('rankingContainer').innerHTML = res.ranking.map((r, i) => {
+      let rawP = String(r.promedio).trim();
+      let pVal = parseFloat(rawP.replace('%', ''));
+      r.promedio = (pVal <= 1 && !rawP.includes('%')) ? Math.round(pVal * 100) : (parseInt(pVal) || 0);
       const pos = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
       return `<div class="rank-row">
         <div class="rank-pos">${pos}</div>
