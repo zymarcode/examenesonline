@@ -4245,7 +4245,7 @@ function seleccionar(letraOrig) {
   const fb = $('quizFeedback');
   document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('dis'));
   fb.className = 'alert alert-info';
-  fb.innerHTML = '⏳ Verificando respuesta…';
+  fb.innerHTML = App.quiz.indice >= App.quiz.preguntas.length - 1 ? '⏳ Calculando tu nota…' : '⏳ Verificando respuesta…';
   fb.style.display = 'flex';
   // La respuesta correcta vive en el servidor: se verifica pregunta por pregunta
   call('verificarRespuesta', [App.ses.usuario, App.ses.adminId, p.id, letraOrig], res => {
@@ -4262,6 +4262,12 @@ function seleccionar(letraOrig) {
       document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('dis'));
       fb.className = 'alert alert-warn';
       fb.innerHTML = '⚠️ No se pudo verificar la respuesta (' + esc(res?.message || 'sin conexión') + '). Intenta de nuevo.';
+      return;
+    }
+    // Última pregunta: no se muestra la respuesta correcta, se pasa directo a la nota
+    if (App.quiz.indice >= App.quiz.preguntas.length - 1) {
+      if (res.esCorrecta) App.quiz.correctas++; else App.quiz.incorrectas++;
+      finalizarQuiz();
       return;
     }
     const correcta = String(res.correcta).toUpperCase(), esOk = !!res.esCorrecta;
