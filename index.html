@@ -7,6 +7,7 @@
 <title id="pageTabTitle">Plataforma Educativa</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
 <style>
 /* ============================================================
    DESIGN TOKENS
@@ -471,6 +472,115 @@ a {
     border: 1px solid #e5e9f2;
     box-shadow: 0 20px 60px rgba(0,0,0,.35);
   }
+}
+
+/* ---------- Centro de descargas ---------- */
+.dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-top: 4px; }
+.dl-card {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 18px; transition: all .2s var(--ease);
+}
+.dl-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.dl-card.feat { grid-column: 1 / -1; border-color: rgba(240,192,96,.35); background: linear-gradient(135deg, var(--gold-bg), var(--accent-bg)); }
+.dl-top { display: flex; gap: 14px; align-items: flex-start; }
+.dl-ic { width: 46px; height: 46px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border-radius: 13px; background: var(--surface-2); border: 1px solid var(--border-2); }
+.dl-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; color: var(--text); margin-bottom: 3px; }
+.dl-desc { font-size: .8rem; color: var(--text-2); line-height: 1.55; }
+
+/* ---------- Crédito del desarrollador ---------- */
+.zc-custom { margin-bottom: 10px; line-height: 1.5; }
+.zc-custom-link { text-decoration: underline; text-underline-offset: 3px; }
+.zc-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 10px;
+  border-radius: 999px;
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-decoration: none;
+  white-space: nowrap;
+  background: rgba(27,74,168,.06);
+  border: 1px solid rgba(27,74,168,.2);
+  transition: transform .2s var(--ease), box-shadow .2s, border-color .2s, background .2s;
+}
+.zc-credit:hover {
+  transform: translateY(-2px);
+  border-color: #c9a13b;
+  background: rgba(201,161,59,.1);
+  box-shadow: 0 8px 20px rgba(11,31,77,.14);
+}
+.zc-wa {
+  width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: #25d366;
+  flex-shrink: 0;
+}
+.zc-wa svg { width: 13px; height: 13px; fill: #ffffff; }
+.zc-wa.gold { background: linear-gradient(135deg, #c9a13b, #f0c060); color: #0b1f4d; font-size: .7rem; font-weight: 800; }
+span.zc-credit:hover { transform: none; }
+.zc-txt { color: #475569; }
+.zc-credit strong {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  background: linear-gradient(90deg, #1b4aa8, #b8892b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.zc-year {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: .66rem;
+  font-weight: 700;
+  color: #8a6d1d;
+  background: rgba(201,161,59,.16);
+}
+.lf-footer { display: flex; flex-direction: column; align-items: center; }
+.lf-footer .zc-custom, .lf-footer .zc-custom a { color: #5b6785 !important; }
+.lf-footer a.zc-credit { color: #475569 !important; text-decoration: none; }
+.lf-footer .zc-credit strong { color: transparent; }
+.sb-footer {
+  text-align: center;
+  padding: 12px 10px 14px;
+  font-size: .72rem;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+}
+.sb-footer .zc-credit {
+  padding: 6px 10px 6px 8px;
+  gap: 6px;
+  font-size: .68rem;
+  background: rgba(255,255,255,.04);
+  border-color: var(--border-2);
+}
+.sb-footer .zc-credit:hover { background: rgba(240,192,96,.1); border-color: var(--gold); box-shadow: 0 8px 20px rgba(0,0,0,.35); }
+.sb-footer .zc-txt { color: var(--text-2); }
+.sb-footer .zc-wa { width: 18px; height: 18px; }
+.sb-footer .zc-wa svg { width: 11px; height: 11px; }
+.sb-footer .zc-credit strong { background: linear-gradient(90deg, var(--accent-2), var(--gold)); -webkit-background-clip: text; background-clip: text; }
+.sb-footer .zc-year { color: var(--gold); background: var(--gold-bg); }
+.sb-footer .zc-custom, .sb-footer .zc-custom a { color: var(--text-3); }
+
+/* ---------- Modo examen: solo se ve el quiz ---------- */
+body.exam-mode .app-sidebar,
+body.exam-mode .hamburger,
+body.exam-mode .sidebar-overlay,
+body.exam-mode .topbar,
+body.exam-mode .notif-dropdown { display: none !important; }
+body.exam-mode .app-main { margin-left: 0 !important; }
+body.exam-mode .content {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 18px 48px;
+}
+@media (max-width: 768px) {
+  body.exam-mode .content { padding: 14px 12px 40px; }
 }
 
 /* ============================================================
@@ -2484,7 +2594,7 @@ body.ap-on {
       </div>
     </div>
     <button class="lf-submit" onclick="hacerLogin()">Iniciar sesión →</button>
-    <div class="lf-footer" id="loginFooterTarget">Desarrollado por Zymar Code +51927027986 · <strong>v1.0</strong></div>
+    <div class="lf-footer" id="loginFooterTarget"><a class="zc-credit" href="https://wa.link/ara1jm" target="_blank" rel="noopener noreferrer" title="Escríbenos por WhatsApp"><span class="zc-wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.84 9.84 0 0 0 12.04 2zm5.8 14.1c-.25.69-1.45 1.32-2 1.4-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.69-.63-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37h.57c.18 0 .43-.07.67.51.25.6.84 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.39-.45.52-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.05 1.13 1.01 2.09 1.32 2.38 1.47.3.15.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.39-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.07.12.07.72-.18 1.41z"/></svg></span><span class="zc-txt">Diseñado por <strong>Zymar Code</strong></span><span class="zc-year">2026</span></a></div>
   </div>
 </div>
 
@@ -2523,7 +2633,7 @@ body.ap-on {
       <div class="su-dot"></div>
     </div>
   </div>
-  <div class="sb-footer" id="sidebarFooterTarget" style="display:none; text-align:center; padding: 12px; font-size: 0.72rem; color: var(--text-3); border-top: 1px solid var(--border);"></div>
+  <div class="sb-footer" id="sidebarFooterTarget"><a class="zc-credit" href="https://wa.link/ara1jm" target="_blank" rel="noopener noreferrer" title="Escríbenos por WhatsApp"><span class="zc-wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.84 9.84 0 0 0 12.04 2zm5.8 14.1c-.25.69-1.45 1.32-2 1.4-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.69-.63-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37h.57c.18 0 .43-.07.67.51.25.6.84 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.39-.45.52-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.05 1.13 1.01 2.09 1.32 2.38 1.47.3.15.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.39-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.07.12.07.72-.18 1.41z"/></svg></span><span class="zc-txt">Diseñado por <strong>Zymar Code</strong></span><span class="zc-year">2026</span></a></div>
 </aside>
 
 <!-- ============================================================
@@ -2592,6 +2702,7 @@ body.ap-on {
         <div class="btn-grp" id="qaAdmin">
           <button class="btn btn-green" onclick="mostrarSec('quiz')">📝 Iniciar Quiz</button>
           <button class="btn btn-dark" onclick="mostrarSec('historial')">📊 Ver Resultados</button>
+          <button class="btn btn-gold" onclick="mostrarSec('descargas')">📥 Descargas</button>
         </div>
         <div class="btn-grp" id="qaSuper" style="display: none;">
           <button class="btn btn-green" onclick="mostrarSec('admins')">👑 Administradores</button>
@@ -2693,6 +2804,48 @@ body.ap-on {
         </div>
         <div class="info-box ib-blue" style="margin-top: 10px;">
           💡 <strong>Nota:</strong> Las notificaciones aparecerán en la campanita 🔔 de todos los usuarios seleccionados.
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== DESCARGAS (ADMIN) ========== -->
+    <div class="section" id="sec-descargas">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="card-ic">📥</span>Centro de descargas</div>
+        </div>
+        <div class="info-box ib-blue" style="margin-top:0;">
+          🔒 Cada archivo contiene <strong>únicamente la información de tu aula</strong>: tus preguntas, tus estudiantes y sus resultados. Los Excel salen ordenados, con formato profesional y listos para imprimir.
+        </div>
+        <div id="dlAlert" style="margin-top:12px;"></div>
+        <div class="dl-grid">
+          <div class="dl-card feat">
+            <div class="dl-top"><div class="dl-ic">📦</div><div><div class="dl-title">Respaldo completo (Excel)</div><div class="dl-desc">Un solo archivo con 5 hojas: Resumen, Preguntas, Estudiantes, Resultados y Ranking, más la configuración de tu quiz.</div></div></div>
+            <div class="btn-grp"><button class="btn btn-gold" onclick="descargarExcel([], 'Respaldo_Completo', 'dlAlert', true)">⬇️ Descargar respaldo completo</button></div>
+          </div>
+          <div class="dl-card">
+            <div class="dl-top"><div class="dl-ic">📚</div><div><div class="dl-title">Banco de preguntas</div><div class="dl-desc">Todas tus preguntas por tema, con opciones y respuesta correcta.</div></div></div>
+            <div class="btn-grp"><button class="btn btn-green" onclick="descargarExcel(['preguntas'], 'Preguntas', 'dlAlert')">📊 Excel</button></div>
+          </div>
+          <div class="dl-card">
+            <div class="dl-top"><div class="dl-ic">👥</div><div><div class="dl-title">Estudiantes</div><div class="dl-desc">Lista de tus estudiantes con usuario, email y estado.</div></div></div>
+            <div class="btn-grp"><button class="btn btn-green" onclick="descargarExcel(['estudiantes'], 'Estudiantes', 'dlAlert')">📊 Excel</button></div>
+          </div>
+          <div class="dl-card">
+            <div class="dl-top"><div class="dl-ic">📝</div><div><div class="dl-title">Resultados de evaluaciones</div><div class="dl-desc">Historial completo con notas sobre 20, niveles y alertas de plagio.</div></div></div>
+            <div class="btn-grp"><button class="btn btn-green" onclick="descargarExcel(['resultados'], 'Resultados', 'dlAlert')">📊 Excel</button></div>
+          </div>
+          <div class="dl-card">
+            <div class="dl-top"><div class="dl-ic">🏅</div><div><div class="dl-title">Ranking</div><div class="dl-desc">Clasificación de tus estudiantes por promedio.</div></div></div>
+            <div class="btn-grp"><button class="btn btn-green" onclick="descargarExcel(['ranking'], 'Ranking', 'dlAlert')">📊 Excel</button></div>
+          </div>
+          <div class="dl-card">
+            <div class="dl-top"><div class="dl-ic">📄</div><div><div class="dl-title">Reporte oficial en PDF</div><div class="dl-desc">Documento institucional con tus resultados, listo para imprimir, firmar o enviar.</div></div></div>
+            <div class="btn-grp">
+              <button class="btn btn-dark" onclick="exportarPDF('dlAlert')">📄 Generar PDF</button>
+              <button class="btn btn-ghost" onclick="enviarPDFemail('dlAlert')">📧 Enviar por email</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2839,12 +2992,18 @@ body.ap-on {
         </div>
         <div class="pers-logo-preview" id="logoPrevWrap"><img id="logoPrevImg" alt="Logo"></div>
         <div class="form-row">
-          <label class="form-label">📝 Texto del Footer (Global)</label>
-          <input type="text" class="form-input" id="inputFooterText" placeholder="Ej: Plataforma Educativa - ©️ 2025">
+          <label class="form-label">✏️ Texto del crédito (pie de página)</label>
+          <input type="text" class="form-input" id="inputFooterText" placeholder="Diseñado por Zymar Code 2026" oninput="previewCredito()">
+          <small style="color: var(--text-3); font-size: .72rem; margin-top: 4px; display: block;">Aparece en el login y en el menú lateral. Vacío = “Diseñado por Zymar Code 2026”.</small>
         </div>
         <div class="form-row">
-          <label class="form-label">🔗 URL del Footer (Opcional)</label>
-          <input type="url" class="form-input" id="inputFooterUrl" placeholder="Ej: https://misitio.com">
+          <label class="form-label">🔗 Enlace del crédito</label>
+          <input type="url" class="form-input" id="inputFooterUrl" placeholder="https://wa.link/ara1jm" oninput="previewCredito()">
+          <small style="color: var(--text-3); font-size: .72rem; margin-top: 4px; display: block;">Debe empezar con https://. Vacío = enlace de WhatsApp por defecto.</small>
+          <div style="margin-top: 10px;">
+            <div class="form-label" style="margin-bottom: 6px;">Vista previa</div>
+            <div id="creditPreview" style="background:#ffffff;border-radius:12px;padding:14px;display:flex;justify-content:center;border:1px solid var(--border-2);"></div>
+          </div>
         </div>
         <div class="form-row">
           <label class="form-label">💧 Desenfoque fondo: <strong id="blurLabel">5px</strong></label>
@@ -3409,6 +3568,7 @@ const SECTIONS = [
   { id: 'admins',         icon: '👑', label: 'Administradores',      roles: ['super_admin'] },
   { id: 'marca',          icon: '🎨', label: 'Identidad del sistema', roles: ['super_admin'] },
   { id: 'importar',       icon: '⚙️', label: 'Configuración',        roles: ['admin'] },
+  { id: 'descargas',      icon: '📥', label: 'Descargas',            roles: ['admin'] },
   { id: 'usuarios',       icon: '👥', label: 'Estudiantes',          roles: ['admin'] },
   { id: 'notificaciones', icon: '📢', label: 'Notificaciones',       roles: ['super_admin', 'admin'] },
   { id: 'enlinea',        icon: '🟢', label: 'En Línea',             roles: ['super_admin', 'admin'] },
@@ -3422,6 +3582,7 @@ const META = {
   admins: ['Administradores', 'Gestión del sistema'],
   marca: ['Identidad del sistema', 'Logo, título y subtítulo'],
   importar: ['Configuración', 'Ajustes avanzados'],
+  descargas: ['Descargas', 'Excel y PDF de tu aula'],
   usuarios: ['Estudiantes', 'Gestión de estudiantes'],
   notificaciones: ['Notificaciones', 'Enviar mensajes'],
   enlinea: ['En Línea', 'Actividad en tiempo real'],
@@ -3502,9 +3663,34 @@ function applyFondo(url, blur) { const bg = $('loginCustomBg'); if (!bg) return;
 function applyLogo(url) { const bi = $('loginBrandIcon'), bl = $('loginBrandLogo'); if (bi && bl) { if (url) { bl.src = url; bl.style.display = 'block'; bi.style.display = 'none'; } else { bl.style.display = 'none'; bi.style.display = 'flex'; } } const icon = $('loginIconDefault'), img = $('loginLogoImg'); if (url) { img.src = url; img.style.display = 'block'; icon.style.display = 'none'; } else { img.style.display = 'none'; icon.style.display = 'flex'; } const sw = $('sidebarLogoImg'), si = $('sidebarIcon'); if (url) { sw.src = url; sw.style.display = 'inline'; si.style.display = 'none'; } else { sw.style.display = 'none'; si.style.display = 'flex'; } }
 function applySiteName(name) { if (!name) return; $('sidebarSiteName').textContent = name; $('loginBrandName').textContent = name; document.title = name; const el = $('pageTabTitle'); if (el) el.textContent = name; }
 function applySubtitle(text) { const l = $('loginSubtitle'), s = $('sidebarTagline'); if (l) l.textContent = text || 'Accede a tu panel educativo'; if (s) s.textContent = text || 'Panel de control'; }
-function applyFooter(text, url) { const lf = $('loginFooterTarget'), sf = $('sidebarFooterTarget'); const d = text ? (url ? `<a href="${url}" target="_blank" style="color:var(--text-3);text-decoration:underline;">${esc(text)}</a>` : esc(text)) : 'Desarrollado por Zymar Code +51927027986 • <strong>v1.0</strong>'; if (lf) lf.innerHTML = d; if (sf) { if (text) { sf.style.display = 'block'; sf.innerHTML = d; } else { sf.style.display = 'none'; sf.innerHTML = ''; } } }
+const ZC_URL = 'https://wa.link/ara1jm';
+const ZC_WA_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.84 9.84 0 0 0 12.04 2zm5.8 14.1c-.25.69-1.45 1.32-2 1.4-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.69-.63-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37h.57c.18 0 .43-.07.67.51.25.6.84 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.39-.45.52-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.05 1.13 1.01 2.09 1.32 2.38 1.47.3.15.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.39-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.07.12.07.72-.18 1.41z"/></svg>';
+// Crédito del pie de página. El Super Admin puede cambiar el texto y el enlace (vacío = Zymar Code por defecto)
+function zcCredito(text, url) {
+  text = (text || '').trim();
+  url = (url || '').trim();
+  const href = /^https?:\/\//i.test(url) ? url : (text ? '' : ZC_URL);
+  const esWA = !!href && /wa\.link|whatsapp|wa\.me/i.test(href);
+  const icono = esWA ? '<span class="zc-wa">' + ZC_WA_SVG + '</span>' : '<span class="zc-wa gold">✦</span>';
+  const cuerpo = text
+    ? '<span class="zc-txt"><strong>' + esc(text) + '</strong></span>'
+    : '<span class="zc-txt">Diseñado por <strong>Zymar Code</strong></span><span class="zc-year">2026</span>';
+  return href
+    ? '<a class="zc-credit" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' + icono + cuerpo + '</a>'
+    : '<span class="zc-credit">' + icono + cuerpo + '</span>';
+}
+function applyFooter(text, url) {
+  const d = zcCredito(text, url);
+  const lf = $('loginFooterTarget'), sf = $('sidebarFooterTarget');
+  if (lf) lf.innerHTML = d;
+  if (sf) { sf.style.display = 'block'; sf.innerHTML = d; }
+}
+function previewCredito() {
+  const pv = $('creditPreview');
+  if (pv) pv.innerHTML = zcCredito($('inputFooterText').value, $('inputFooterUrl').value);
+}
 function aplicarPersonalizacion() { call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; if (res.fondo) applyFondo(res.fondo, res.blur); if (res.logo) applyLogo(res.logo); if (res.siteName) applySiteName(res.siteName); applySubtitle(res.subtitle); applyFooter(res.footerText, res.footerUrl); }); }
-function cargarLoginPers() { if (App.ses.rol !== 'super_admin') return; call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; const blur = res.blur || '5'; $('inputBlur').value = blur; $('blurLabel').textContent = blur + 'px'; if (res.siteName) $('inputSiteName').value = res.siteName; $('inputSubtitle').value = res.subtitle || ''; if (res.footerText) $('inputFooterText').value = res.footerText; if (res.footerUrl) $('inputFooterUrl').value = res.footerUrl; if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; } if (res.logo) { $('inputLogoUrl').value = res.logo; $('logoPrevImg').src = res.logo; $('logoPrevWrap').style.display = 'block'; } }); }
+function cargarLoginPers() { if (App.ses.rol !== 'super_admin') return; call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; const blur = res.blur || '5'; $('inputBlur').value = blur; $('blurLabel').textContent = blur + 'px'; if (res.siteName) $('inputSiteName').value = res.siteName; $('inputSubtitle').value = res.subtitle || ''; $('inputFooterText').value = res.footerText || ''; $('inputFooterUrl').value = res.footerUrl || ''; previewCredito(); if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; } if (res.logo) { $('inputLogoUrl').value = res.logo; $('logoPrevImg').src = res.logo; $('logoPrevWrap').style.display = 'block'; } }); }
 let _dFondo, _dLogo;
 function debouncePreviewFondo() { clearTimeout(_dFondo); _dFondo = setTimeout(previewFondo, 600); }
 function debouncePreviewLogo() { clearTimeout(_dLogo); _dLogo = setTimeout(previewLogo, 600); }
@@ -3518,6 +3704,7 @@ function guardarLoginPers() {
   const siteName = $('inputSiteName').value.trim(), subtitle = $('inputSubtitle').value.trim(),
         fondo = $('inputFondoUrl').value.trim(), logo = $('inputLogoUrl').value.trim(),
         blur = $('inputBlur').value, fTxt = $('inputFooterText').value.trim(), fUrl = $('inputFooterUrl').value.trim();
+  if (fUrl && !/^https?:\/\//i.test(fUrl)) { alerta('loginPersAlert', 'err', 'El enlace del crédito debe empezar con http:// o https://'); return; }
   const cfg = { loginBlur: blur, loginFondo: fondo, loginLogo: logo, loginSiteName: siteName, loginSubtitle: subtitle, loginFooterText: fTxt, loginFooterUrl: fUrl };
   callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => {
     if (res.success) {
@@ -3527,7 +3714,7 @@ function guardarLoginPers() {
     } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar');
   });
 }
-function eliminarLoginPers() { dlgConfirm({ tipo: 'warn', icono: '🖼️', titulo: 'Restablecer imágenes', mensaje: 'Se quitarán el logo y la imagen de fondo del login, y volverá el diseño por defecto.', okText: 'Sí, restablecer' }, () => callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('inputFooterText').value = ''; $('inputFooterUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; applyFooter('',''); alerta('loginPersAlert', 'ok', 'Personalización eliminada'); } else alerta('loginPersAlert', 'err', res.message); })); }
+function eliminarLoginPers() { dlgConfirm({ tipo: 'warn', icono: '🖼️', titulo: 'Restablecer imágenes', mensaje: 'Se quitarán el logo y la imagen de fondo del login, y volverá el diseño por defecto.', okText: 'Sí, restablecer' }, () => callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; alerta('loginPersAlert', 'ok', 'Imágenes restablecidas'); } else alerta('loginPersAlert', 'err', res.message); })); }
 
 // ============================================================
 // EXPORTADOR EXCEL
@@ -3546,29 +3733,340 @@ function exportToCSV(filename, rows) {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-function exportarEstudiantesExcel() {
-  if(!App.usuariosData || !App.usuariosData.length) return alerta('userAlert','err','No hay estudiantes para exportar.');
-  const rows = [['Usuario', 'Nombre', 'Email', 'Estado', 'Fecha Registro']];
-  App.usuariosData.forEach(u => rows.push([u.usuario, u.nombre, u.email, u.estado, u.fecha]));
-  exportToCSV('Estudiantes_' + App.ses.usuario, rows);
-}
+// ============================================================
+// EXPORTADOR EXCEL PROFESIONAL (.xlsx)
+// Cada administrador descarga SOLO la información de su propia aula
+// ============================================================
+const XL = { navy: 'FF0B1F4D', blue: 'FF1B4AA8', gold: 'FFC9A13B', soft: 'FFF3F6FC', line: 'FFD9E1F0', white: 'FFFFFFFF', ink: 'FF1C2540', mute: 'FF5B6785', head2: 'FFE8EEFB' };
+const XL_BORDE = { top: { style: 'thin', color: { argb: XL.line } }, left: { style: 'thin', color: { argb: XL.line } }, bottom: { style: 'thin', color: { argb: XL.line } }, right: { style: 'thin', color: { argb: XL.line } } };
+const XL_NOTA = n => n >= 18 ? 'FF6B3FA0' : n >= 14 ? 'FF17784A' : n >= 11 ? 'FFB9770E' : 'FFB3261E';
 
-function exportarHistorialExcel() {
-  if(!App.historialData || !App.historialData.length) return alerta('histAlert','err','No hay historial para exportar.');
-  const rows = [['Usuario', 'Nombre', 'Fecha', 'Tema', 'Correctas', 'Incorrectas', 'Total', 'Nota (0-20)', 'Nivel', 'Plagio', 'Motivo', 'Alertas']];
-  App.historialData.forEach(h => rows.push([h.usuario, h.nombre, h.fecha, h.tema, h.correctas, h.incorrectas, h.total, h.porcentajeFormat, h.nivel, h.plagio ? 'SI' : 'NO', h.motivo || '', h.alertas || 0]));
-  exportToCSV('Historial_' + App.ses.usuario, rows);
-}
+function xlSistema() { const el = $('sidebarSiteName'); return ((el && el.textContent) || 'Plataforma Educativa').trim(); }
+function xlStamp() { const d = new Date(); return d.getFullYear() + '' + pad(d.getMonth() + 1) + pad(d.getDate()); }
+function xlFechaHora() { return new Date().toLocaleString('es-PE'); }
 
-function exportarPreguntasExcel() {
-  if(App.ses.rol === 'estudiante') return;
-  callSpin('Preparando Excel...', 'obtenerPreguntas', ['Todos', 0, App.ses.usuario], res => {
-    if(!res.success || !res.preguntas.length) return alerta('importAlert','err','No tienes preguntas guardadas.');
-    const rows = [['ID', 'Tema', 'Pregunta', 'Opcion A', 'Opcion B', 'Opcion C', 'Opcion D', 'Correcta']];
-    res.preguntas.forEach(p => rows.push([p.id, p.tema, p.pregunta, p.A, p.B, p.C, p.D, p.correcta]));
-    exportToCSV('Preguntas_' + App.ses.usuario, rows);
+// Llamada al servidor sin tocar el spinner (permite pedir varias cosas a la vez)
+function callP(fn, args) {
+  return new Promise(resolve => {
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 45000);
+    fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: fn, args }), signal: ctrl.signal })
+      .then(r => r.json())
+      .then(d => { clearTimeout(to); resolve(d); })
+      .catch(e => { clearTimeout(to); resolve({ success: false, message: e && e.name === 'AbortError' ? 'Tiempo de espera agotado' : 'Error de conexión' }); });
   });
 }
+
+async function xlCargar(tipos) {
+  const adminId = App.ses.adminId || App.ses.usuario;
+  const pedidos = {
+    preguntas:   () => callP('obtenerPreguntas', ['Todos', 0, adminId]),
+    estudiantes: () => callP('obtenerUsuarios', [App.ses.usuario]),
+    resultados:  () => callP('obtenerHistorial', [App.ses.usuario, App.ses.rol, adminId]),
+    ranking:     () => callP('obtenerRanking', [App.ses.usuario]),
+    config:      () => Promise.all([callP('obtenerConfigQuiz', [adminId]), callP('obtenerConfigTiempo', [adminId])])
+  };
+  const out = {};
+  await Promise.all(tipos.map(async t => { out[t] = await pedidos[t](); }));
+  return out;
+}
+
+// ---------- Definición de cada hoja ----------
+function xlSpecPreguntas(d) {
+  const lista = ((d.preguntas && d.preguntas.preguntas) || []).slice();
+  lista.sort((a, b) => String(a.tema || '').localeCompare(String(b.tema || ''), 'es') || (Number(a.id) || 0) - (Number(b.id) || 0));
+  return {
+    name: 'Preguntas', title: 'Banco de preguntas', tab: XL.blue,
+    cols: [
+      { h: 'N°', w: 6, a: 'center' }, { h: 'ID', w: 8, a: 'center' }, { h: 'Tema', w: 20, wrap: true },
+      { h: 'Pregunta', w: 58, wrap: true },
+      { h: 'Opción A', w: 30, wrap: true }, { h: 'Opción B', w: 30, wrap: true }, { h: 'Opción C', w: 30, wrap: true }, { h: 'Opción D', w: 30, wrap: true },
+      { h: 'Correcta', w: 10, a: 'center', bold: true, color: () => 'FF17784A' },
+      { h: 'Respuesta correcta', w: 30, wrap: true }
+    ],
+    rows: lista.map((p, i) => {
+      const c = String(p.correcta || '').toUpperCase();
+      return [i + 1, p.id, p.tema || '', p.pregunta || '', p.A || '', p.B || '', p.C || '', p.D || '', c, p[c] || ''];
+    })
+  };
+}
+
+function xlSpecEstudiantes(d) {
+  const lista = ((d.estudiantes && d.estudiantes.usuarios) || []).slice();
+  lista.sort((a, b) => String(a.nombre || '').localeCompare(String(b.nombre || ''), 'es'));
+  return {
+    name: 'Estudiantes', title: 'Estudiantes registrados', tab: 'FF17784A',
+    cols: [
+      { h: 'N°', w: 6, a: 'center' }, { h: 'Usuario', w: 22 }, { h: 'Nombre completo', w: 34 }, { h: 'Email', w: 34 },
+      { h: 'Estado', w: 14, a: 'center', bold: true, color: v => v === 'Activo' ? 'FF17784A' : 'FFB3261E' },
+      { h: 'Fecha de registro', w: 22, a: 'center' }
+    ],
+    rows: lista.map((u, i) => [i + 1, u.usuario || '', u.nombre || '', u.email || '', u.estado === 'activo' ? 'Activo' : 'Inactivo', u.fecha || ''])
+  };
+}
+
+function xlSpecResultados(d) {
+  const lista = (d.resultados && d.resultados.historial) || [];
+  return {
+    name: 'Resultados', title: 'Historial de resultados de evaluaciones', tab: 'FFC9A13B',
+    rowFill: r => r[10] === 'Sí' ? 'FFFEF3F2' : null,
+    cols: [
+      { h: 'N°', w: 6, a: 'center' }, { h: 'Fecha', w: 20, a: 'center' }, { h: 'Usuario', w: 18 }, { h: 'Estudiante', w: 30 }, { h: 'Tema', w: 20, wrap: true },
+      { h: 'Correctas', w: 11, a: 'center', color: () => 'FF17784A' }, { h: 'Incorrectas', w: 12, a: 'center', color: () => 'FFB3261E' }, { h: 'Total', w: 9, a: 'center' },
+      { h: 'Nota /20', w: 11, a: 'center', fmt: '0.0', bold: true, color: v => XL_NOTA(Number(v) || 0) },
+      { h: 'Nivel', w: 18, a: 'center' },
+      { h: 'Plagio', w: 9, a: 'center', bold: true, color: v => v === 'Sí' ? 'FFB3261E' : 'FF5B6785' },
+      { h: 'Motivo / observación', w: 52, wrap: true }
+    ],
+    rows: lista.map((h, i) => [
+      i + 1, h.fecha || '', h.usuario || '', h.nombre || '', h.tema || '',
+      Number(h.correctas) || 0, Number(h.incorrectas) || 0, Number(h.total) || 0,
+      Number(h.nota) || 0, h.plagio ? 'Plagio' : (h.nivel || ''), h.plagio ? 'Sí' : 'No', h.plagio ? (h.motivo || '') : ''
+    ])
+  };
+}
+
+function xlSpecRanking(d) {
+  const lista = (d.ranking && d.ranking.ranking) || [];
+  return {
+    name: 'Ranking', title: 'Ranking de estudiantes (promedio sobre 20)', tab: 'FF6B3FA0',
+    cols: [
+      { h: 'Puesto', w: 9, a: 'center', bold: true }, { h: 'Usuario', w: 22 }, { h: 'Estudiante', w: 34 },
+      { h: 'Quizzes', w: 11, a: 'center' },
+      { h: 'Promedio /20', w: 14, a: 'center', fmt: '0.0', bold: true, color: v => XL_NOTA(Number(v) || 0) },
+      { h: 'Mejor nota /20', w: 15, a: 'center', fmt: '0.0', color: v => XL_NOTA(Number(v) || 0) },
+      { h: 'Plagios', w: 10, a: 'center', color: v => Number(v) > 0 ? 'FFB3261E' : 'FF5B6785' }
+    ],
+    rows: lista.map((r, i) => [i + 1, r.usuario || '', r.nombre || '', Number(r.intentos) || 0, Number(r.promedio) || 0, Number(r.mejor) || 0, Number(r.plagios) || 0])
+  };
+}
+
+// ---------- Construcción de hojas con formato ----------
+function xlEncabezado(ws, n, meta, titulo, info) {
+  ws.mergeCells(1, 1, 1, n);
+  const b = ws.getCell(1, 1);
+  b.value = meta.sistema;
+  b.font = { name: 'Calibri', size: 18, bold: true, color: { argb: XL.white } };
+  b.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: XL.navy } };
+  b.alignment = { vertical: 'middle', horizontal: 'left', indent: 1 };
+  ws.getRow(1).height = 36;
+  ws.mergeCells(2, 1, 2, n);
+  const t = ws.getCell(2, 1);
+  t.value = titulo;
+  t.font = { name: 'Calibri', size: 13, bold: true, color: { argb: XL.navy } };
+  t.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: XL.soft } };
+  t.alignment = { vertical: 'middle', horizontal: 'left', indent: 1 };
+  t.border = { top: { style: 'medium', color: { argb: XL.gold } } };
+  ws.getRow(2).height = 24;
+  ws.mergeCells(3, 1, 3, n);
+  const i = ws.getCell(3, 1);
+  i.value = info;
+  i.font = { name: 'Calibri', size: 10, color: { argb: XL.mute } };
+  i.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: XL.soft } };
+  i.alignment = { vertical: 'middle', horizontal: 'left', indent: 1 };
+  ws.getRow(3).height = 20;
+  ws.getRow(4).height = 8;
+}
+
+function xlPie(ws, fila, n, meta) {
+  ws.mergeCells(fila, 1, fila, n);
+  const c = ws.getCell(fila, 1);
+  c.value = 'Documento generado por ' + meta.sistema + ' · ' + meta.fecha + ' · Contiene únicamente la información del administrador ' + meta.usuario;
+  c.font = { name: 'Calibri', size: 9, italic: true, color: { argb: XL.mute } };
+  c.alignment = { horizontal: 'center', vertical: 'middle' };
+  c.border = { top: { style: 'medium', color: { argb: XL.navy } } };
+  ws.getRow(fila).height = 22;
+}
+
+function xlHoja(wb, sp, meta) {
+  const n = sp.cols.length;
+  const HEAD = 5;
+  const ws = wb.addWorksheet(sp.name, {
+    properties: { tabColor: { argb: sp.tab || XL.navy } },
+    views: [{ showGridLines: false, state: 'frozen', ySplit: HEAD }],
+    pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0, paperSize: 9 }
+  });
+  ws.columns = sp.cols.map(c => ({ width: c.w }));
+  xlEncabezado(ws, n, meta, sp.title, 'Emitido por: ' + meta.emisor + '   ·   Fecha: ' + meta.fecha + '   ·   Registros: ' + sp.rows.length);
+  // encabezado de la tabla
+  const hr = ws.getRow(HEAD);
+  hr.height = 28;
+  sp.cols.forEach((c, k) => {
+    const cell = hr.getCell(k + 1);
+    cell.value = c.h;
+    cell.font = { name: 'Calibri', size: 11, bold: true, color: { argb: XL.white } };
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: XL.navy } };
+    cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    cell.border = { top: { style: 'thin', color: { argb: XL.navy } }, left: { style: 'thin', color: { argb: XL.navy } }, right: { style: 'thin', color: { argb: XL.navy } }, bottom: { style: 'medium', color: { argb: XL.gold } } };
+  });
+  let fin = HEAD;
+  if (!sp.rows.length) {
+    ws.mergeCells(HEAD + 1, 1, HEAD + 1, n);
+    const e = ws.getCell(HEAD + 1, 1);
+    e.value = 'Sin registros para mostrar';
+    e.font = { name: 'Calibri', size: 11, italic: true, color: { argb: XL.mute } };
+    e.alignment = { horizontal: 'center', vertical: 'middle' };
+    ws.getRow(HEAD + 1).height = 30;
+    fin = HEAD + 1;
+  } else {
+    sp.rows.forEach((r, i) => {
+      const row = ws.getRow(HEAD + 1 + i);
+      const relleno = (sp.rowFill && sp.rowFill(r)) || (i % 2 ? XL.soft : XL.white);
+      let lineas = 1;
+      sp.cols.forEach((c, k) => {
+        const cell = row.getCell(k + 1);
+        const v = r[k];
+        cell.value = v === undefined || v === null ? '' : v;
+        const color = c.color ? c.color(v, r) : null;
+        cell.font = { name: 'Calibri', size: 10, bold: !!c.bold, color: { argb: color || XL.ink } };
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: relleno } };
+        cell.alignment = { vertical: 'middle', horizontal: c.a || 'left', wrapText: !!c.wrap, indent: c.a ? 0 : 1 };
+        cell.border = XL_BORDE;
+        if (c.fmt) cell.numFmt = c.fmt;
+        if (c.wrap && v) lineas = Math.max(lineas, Math.ceil(String(v).length / (c.w * 1.1)));
+      });
+      row.height = Math.max(22, lineas * 15 + 6);
+      fin = HEAD + 1 + i;
+    });
+  }
+  ws.autoFilter = { from: { row: HEAD, column: 1 }, to: { row: HEAD, column: n } };
+  ws.pageSetup.printTitlesRow = HEAD + ':' + HEAD;
+  xlPie(ws, fin + 2, n, meta);
+  return ws;
+}
+
+function xlResumen(wb, d, meta) {
+  const P = (d.preguntas && d.preguntas.preguntas) || [];
+  const E = (d.estudiantes && d.estudiantes.usuarios) || [];
+  const H = (d.resultados && d.resultados.historial) || [];
+  const R = (d.ranking && d.ranking.ranking) || [];
+  const temas = {};
+  P.forEach(p => { const t = p.tema || 'General'; temas[t] = (temas[t] || 0) + 1; });
+  const notas = H.map(h => Number(h.nota) || 0);
+  const prom = notas.length ? Math.round(notas.reduce((a, b) => a + b, 0) / notas.length * 10) / 10 : 0;
+  const mejor = notas.length ? Math.max.apply(null, notas) : 0;
+  const aprobados = H.filter(h => !h.plagio && (Number(h.nota) || 0) >= 11).length;
+  const plagios = H.filter(h => h.plagio).length;
+  const activos = E.filter(u => u.estado === 'activo').length;
+  const cq = d.config && d.config[0] && d.config[0].success ? d.config[0].config : null;
+  const ct = d.config && d.config[1] && d.config[1].success ? d.config[1].config : null;
+
+  const ws = wb.addWorksheet('Resumen', {
+    properties: { tabColor: { argb: XL.navy } },
+    views: [{ showGridLines: false }],
+    pageSetup: { orientation: 'portrait', fitToPage: true, fitToWidth: 1, fitToHeight: 0, paperSize: 9 }
+  });
+  ws.columns = [{ width: 38 }, { width: 28 }, { width: 44 }];
+  xlEncabezado(ws, 3, meta, 'Respaldo completo del administrador', 'Emitido por: ' + meta.emisor + '   ·   Fecha: ' + meta.fecha);
+  let fila = 5;
+  const seccion = txt => {
+    ws.mergeCells(fila, 1, fila, 3);
+    const c = ws.getCell(fila, 1);
+    c.value = txt.toUpperCase();
+    c.font = { name: 'Calibri', size: 11, bold: true, color: { argb: XL.navy } };
+    c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: XL.head2 } };
+    c.alignment = { vertical: 'middle', horizontal: 'left', indent: 1 };
+    c.border = { left: { style: 'thick', color: { argb: XL.gold } }, bottom: { style: 'thin', color: { argb: XL.line } } };
+    ws.getRow(fila).height = 24;
+    fila++;
+  };
+  let z = 0;
+  const kv = (k, v, nota, fmt, color) => {
+    const rel = z++ % 2 ? XL.soft : XL.white;
+    const a = ws.getCell(fila, 1), b = ws.getCell(fila, 2), c = ws.getCell(fila, 3);
+    a.value = k; b.value = v; c.value = nota || '';
+    [a, b, c].forEach(x => { x.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: rel } }; x.border = XL_BORDE; });
+    a.font = { name: 'Calibri', size: 10, bold: true, color: { argb: XL.ink } };
+    a.alignment = { vertical: 'middle', horizontal: 'left', indent: 1 };
+    b.font = { name: 'Calibri', size: 11, bold: true, color: { argb: color || XL.navy } };
+    b.alignment = { vertical: 'middle', horizontal: 'center' };
+    if (fmt) b.numFmt = fmt;
+    c.font = { name: 'Calibri', size: 9, italic: true, color: { argb: XL.mute } };
+    c.alignment = { vertical: 'middle', horizontal: 'left', indent: 1, wrapText: true };
+    ws.getRow(fila).height = 22;
+    fila++;
+  };
+  const espacio = () => { ws.getRow(fila).height = 10; fila++; z = 0; };
+
+  seccion('Indicadores generales');
+  kv('Preguntas en el banco', P.length, 'Preguntas importadas por este administrador');
+  kv('Temas', Object.keys(temas).length);
+  kv('Estudiantes registrados', E.length, activos + ' activos · ' + (E.length - activos) + ' inactivos');
+  kv('Evaluaciones realizadas', H.length);
+  kv('Promedio general (sobre 20)', prom, 'Incluye evaluaciones anuladas por plagio (nota 0)', '0.0', XL_NOTA(prom));
+  kv('Mejor nota (sobre 20)', mejor, '', '0.0', XL_NOTA(mejor));
+  kv('Aprobados (nota ≥ 11)', aprobados, H.length ? Math.round(aprobados / H.length * 100) + '% de las evaluaciones' : '');
+  kv('Evaluaciones marcadas como plagio', plagios, 'Nota 0 aplicada automáticamente', null, plagios ? 'FFB3261E' : XL.navy);
+  kv('Estudiantes en el ranking', R.length);
+  espacio();
+
+  if (cq || ct) {
+    seccion('Configuración del quiz');
+    if (cq) {
+      kv('Estado del quiz', cq.quizActivo === 'si' ? 'Activo' : 'Desactivado', '', null, cq.quizActivo === 'si' ? 'FF17784A' : 'FFB3261E');
+      kv('Tema', cq.quizTemaLibre ? 'El estudiante elige' : (cq.quizTema || 'Todos'));
+      kv('Cantidad de preguntas', cq.quizCantidadLibre ? 'El estudiante elige' : (cq.quizCantidad || 'Todas'));
+      kv('Máximo de intentos', cq.quizMaxIntentos ? cq.quizMaxIntentos : 'Ilimitados');
+    }
+    if (ct) kv('Límite de tiempo', ct.tiempoActivo === 'si' ? ct.tiempoLimite + ' minutos' : 'Sin límite');
+    espacio();
+  }
+
+  seccion('Preguntas por tema');
+  const nombres = Object.keys(temas).sort((a, b) => a.localeCompare(b, 'es'));
+  if (!nombres.length) kv('Sin preguntas', '-', '');
+  nombres.forEach(t => kv(t, temas[t], Math.round(temas[t] / P.length * 100) + '% del banco'));
+  espacio();
+
+  seccion('Contenido de este archivo');
+  [['Preguntas', 'Banco completo con opciones y respuesta correcta'], ['Estudiantes', 'Lista de estudiantes de tu aula (sin contraseñas)'], ['Resultados', 'Historial de todas las evaluaciones, con alertas de plagio'], ['Ranking', 'Clasificación por promedio']].forEach(x => kv(x[0], '', x[1]));
+  fila++;
+  xlPie(ws, fila, 3, meta);
+}
+
+// ---------- Descarga ----------
+async function descargarExcel(tipos, base, alertId, completo) {
+  if (App.ses.rol === 'estudiante') return;
+  if (typeof ExcelJS === 'undefined') { alerta(alertId, 'err', 'No se pudo cargar el generador de Excel. Revisa tu conexión y recarga la página.'); return; }
+  const pedir = completo ? ['preguntas', 'estudiantes', 'resultados', 'ranking', 'config'] : tipos;
+  spin('Preparando Excel…');
+  try {
+    const d = await xlCargar(pedir);
+    for (const t of pedir) {
+      if (t === 'config') continue;
+      if (!d[t] || !d[t].success) { unspin(); alerta(alertId, 'err', 'No se pudo obtener los datos (' + ((d[t] && d[t].message) || 'error del servidor') + ')'); return; }
+    }
+    const orden = completo ? ['preguntas', 'estudiantes', 'resultados', 'ranking'] : tipos;
+    const specs = { preguntas: xlSpecPreguntas, estudiantes: xlSpecEstudiantes, resultados: xlSpecResultados, ranking: xlSpecRanking };
+    const hojas = orden.map(t => specs[t](d));
+    if (!completo && !hojas[0].rows.length) { unspin(); alerta(alertId, 'err', 'No hay datos para exportar todavía.'); return; }
+    const meta = { sistema: xlSistema(), usuario: App.ses.usuario, emisor: App.ses.nombre + ' (@' + App.ses.usuario + ')', fecha: xlFechaHora() };
+    const wb = new ExcelJS.Workbook();
+    wb.creator = meta.sistema;
+    wb.created = new Date();
+    if (completo) xlResumen(wb, d, meta);
+    hojas.forEach(h => xlHoja(wb, h, meta));
+    const buf = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = base + '_' + App.ses.usuario + '_' + xlStamp() + '.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    unspin();
+    alerta(alertId, 'ok', 'Excel descargado: ' + a.download + (completo ? ' (' + (hojas.length + 1) + ' hojas)' : ' (' + hojas[0].rows.length + ' registros)'));
+  } catch (e) {
+    unspin();
+    alerta(alertId, 'err', 'Error al generar el Excel: ' + (e && e.message ? e.message : e));
+  }
+}
+
+function exportarEstudiantesExcel() { descargarExcel(['estudiantes'], 'Estudiantes', 'userAlert'); }
+function exportarHistorialExcel()   { descargarExcel(['resultados'], 'Resultados', 'histAlert'); }
+function exportarPreguntasExcel()   { descargarExcel(['preguntas'], 'Preguntas', 'importAlert'); }
 
 // ============================================================
 // DASHBOARD
@@ -4673,6 +5171,7 @@ function apTeclado(e) {
 
 function apActivar() {
   if (AP.activo) return;
+  document.body.classList.add('exam-mode');
   Object.assign(AP, { activo: true, finalizando: false, avisos: 0, soft: 0, fuera: null, segFuera: 0, log: [], handlers: [], timers: {}, ignorarHasta: Date.now() + 2500, ultimoDuro: 0, devHits: 0, devAbierto: false });
   document.body.classList.add('ap-on');
   apMedirBase();
@@ -4776,6 +5275,7 @@ function apDesactivar() {
   Object.keys(AP.timers).forEach(k => clearInterval(AP.timers[k]));
   AP.timers = {};
   document.body.classList.remove('ap-on');
+  document.body.classList.remove('exam-mode');
   const w = $('apWatermark'); if (w) w.style.display = 'none';
   const ov = $('apAvisoOv'); if (ov) ov.style.display = 'none';
   const b = $('apBar'); if (b) b.style.display = 'none';
@@ -4823,14 +5323,16 @@ function cargarHistorial() {
   });
 }
 
-function exportarPDF() {
+function exportarPDF(alertId) {
+  const al = typeof alertId === 'string' ? alertId : 'histAlert';
   callSpin('Generando PDF…', 'generarPDFResultados', [App.ses.usuario, App.ses.rol, App.ses.adminId], res => {
-    if (res.success) alerta('histAlert', 'ok', `✅ PDF listo. <a href="${res.url}" target="_blank" style="color:var(--accent);font-weight:700">📄 Abrir</a> · <a href="${res.downloadUrl}" target="_blank" style="color:var(--accent);font-weight:700">⬇️ Descargar</a>`);
-    else alerta('histAlert', 'err', res.message);
+    if (res.success) alerta(al, 'ok', `✅ PDF listo. <a href="${res.url}" target="_blank" style="color:var(--accent);font-weight:700">📄 Abrir</a> · <a href="${res.downloadUrl}" target="_blank" style="color:var(--accent);font-weight:700">⬇️ Descargar</a>`);
+    else alerta(al, 'err', res.message);
   });
 }
 
-function enviarPDFemail() {
+function enviarPDFemail(alertId) {
+  const al = typeof alertId === 'string' ? alertId : 'histAlert';
   dlgPrompt({
     tipo: 'info',
     icono: '📧',
@@ -4847,7 +5349,7 @@ function enviarPDFemail() {
     const args = App.ses.rol === 'estudiante'
       ? [App.ses.usuario, e.trim(), App.ses.adminId]
       : [App.ses.usuario, App.ses.rol, e.trim(), App.ses.adminId];
-    callSpin('Enviando PDF...', accion, args, res => alerta('histAlert', res.success ? 'ok' : 'err', res.message));
+    callSpin('Enviando PDF...', accion, args, res => alerta(al, res.success ? 'ok' : 'err', res.message));
   });
 }
 
