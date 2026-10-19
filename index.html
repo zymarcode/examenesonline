@@ -106,9 +106,17 @@ a {
 }
 
 /* ============================================================
-   LOGIN SCREEN
+   LOGIN SCREEN  ·  Institucional / Educativo (azul marino + dorado)
 ============================================================ */
 #loginScreen {
+  --lg-navy: #0b1f4d;
+  --lg-navy-2: #12327a;
+  --lg-blue: #1b4aa8;
+  --lg-gold: #f0c060;
+  --lg-gold-2: #f8d98a;
+  --lg-ink: #0f1f44;
+  --lg-muted: #5b6785;
+  --lg-line: #d9e1f0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,7 +124,7 @@ a {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: var(--bg-2);
+  background: var(--lg-navy);
 }
 .lv-panel {
   position: absolute;
@@ -125,20 +133,18 @@ a {
   z-index: 1;
 }
 @media (min-width: 1024px) {
-  #loginScreen {
-    align-items: stretch;
-    justify-content: flex-start;
-  }
-  .lv-panel {
-    position: relative;
-    flex: 0 0 55%;
-  }
+  #loginScreen { align-items: stretch; justify-content: flex-start; }
+  .lv-panel { position: relative; flex: 0 0 58%; }
 }
 .lv-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 30% 20%, rgba(91,141,238,.12), transparent 55%),
-              radial-gradient(ellipse 50% 70% at 75% 80%, rgba(240,192,96,.08), transparent 55%);
+  background:
+    radial-gradient(ellipse 60% 50% at 85% 10%, rgba(240,192,96,.28), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 10% 90%, rgba(91,141,238,.35), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 34px),
+    linear-gradient(135deg, #0b1f4d 0%, #12327a 55%, #1b4aa8 100%);
 }
 #loginCustomBg {
   position: absolute;
@@ -152,225 +158,257 @@ a {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(135deg, rgba(10,12,16,.9) 0%, rgba(10,12,16,.65) 100%);
+  background: linear-gradient(135deg, rgba(8,24,66,.84) 0%, rgba(18,50,122,.62) 100%);
 }
+/* Íconos educativos flotando */
+.lv-deco { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+.lv-float {
+  position: absolute;
+  font-size: 2.1rem;
+  opacity: .22;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,.35));
+  animation: lvFloat 9s ease-in-out infinite;
+}
+.lv-float.f1 { top: 9%;  left: 62%; font-size: 3rem;   animation-delay: 0s; }
+.lv-float.f2 { top: 24%; left: 84%; font-size: 2.4rem; animation-delay: -2s; }
+.lv-float.f3 { top: 58%; left: 72%; font-size: 2rem;   animation-delay: -4s; }
+.lv-float.f4 { top: 78%; left: 48%; font-size: 2.6rem; animation-delay: -1s; }
+.lv-float.f5 { top: 44%; left: 90%; font-size: 1.8rem; animation-delay: -5s; }
+.lv-float.f6 { top: 88%; left: 82%; font-size: 2.2rem; animation-delay: -3s; }
+@keyframes lvFloat {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50%      { transform: translateY(-18px) rotate(5deg); }
+}
+.lv-wave { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 120px; opacity: .9; }
 .lv-content {
   position: relative;
-  z-index: 3;
+  z-index: 4;
   height: 100%;
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  padding: 48px;
+  padding: 48px 56px;
 }
-@media (min-width: 1024px) {
-  .lv-content {
-    display: flex;
-  }
-}
-.lv-brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
+@media (min-width: 1024px) { .lv-content { display: flex; } }
+.lv-brand { display: flex; align-items: center; gap: 14px; }
 .lv-brand-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--lg-gold), var(--lg-gold-2));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  box-shadow: 0 0 24px var(--accent-glow);
+  font-size: 1.55rem;
+  box-shadow: 0 8px 28px rgba(240,192,96,.45);
+}
+.lv-brand-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  object-fit: contain;
+  background: rgba(255,255,255,.95);
+  padding: 4px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.3);
 }
 .lv-brand-name {
   font-family: 'Syne', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: rgba(255,255,255,.75);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
   letter-spacing: .02em;
 }
-.lv-hero {
-  color: #fff;
+.lv-hero { color: #fff; max-width: 560px; }
+.lv-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(240,192,96,.14);
+  border: 1px solid rgba(240,192,96,.4);
+  color: var(--lg-gold-2);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  margin-bottom: 18px;
 }
 .lv-hero h1 {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-size: clamp(2.2rem, 3.6vw, 3.3rem);
   font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 18px;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 24px rgba(0,0,0,.35);
 }
 .lv-hero h1 .hi {
-  background: linear-gradient(90deg, var(--accent-2), var(--gold));
+  background: linear-gradient(90deg, var(--lg-gold), var(--lg-gold-2));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--lg-gold);
 }
-.lv-hero p {
-  font-size: .95rem;
-  color: rgba(255,255,255,.45);
-  max-width: 360px;
-  line-height: 1.75;
-}
-.lv-stats {
+.lv-hero p { font-size: 1rem; line-height: 1.65; color: rgba(255,255,255,.8); max-width: 480px; }
+.lv-features { display: grid; gap: 10px; margin-top: 26px; max-width: 460px; }
+.lv-feat {
   display: flex;
-  gap: 32px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,.06);
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform .25s var(--ease), background .25s;
 }
-.lv-stat-v {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #fff;
-  display: block;
+.lv-feat:hover { transform: translateX(6px); background: rgba(255,255,255,.14); }
+.lv-feat > span {
+  width: 40px; height: 40px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; font-size: 1.2rem;
+  background: rgba(240,192,96,.2);
 }
-.lv-stat-l {
-  font-size: .72rem;
-  color: rgba(255,255,255,.35);
-  margin-top: 3px;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-}
+.lv-feat strong { display: block; font-size: .9rem; font-weight: 600; color: #fff; }
+.lv-feat small { font-size: .76rem; color: rgba(255,255,255,.7); }
+.lv-stats { display: flex; gap: 36px; margin-top: 28px !important; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.15); }
+.lv-stat-v { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--lg-gold); display: block; }
+.lv-stat-l { font-size: .72rem; color: rgba(255,255,255,.65); text-transform: uppercase; letter-spacing: .1em; margin-top: 2px; }
+
+/* ---------- Panel del formulario (claro, institucional) ---------- */
 .lf-panel {
   flex: 1;
-  background: var(--bg-2);
+  background: #ffffff;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   padding: clamp(28px, 6vw, 64px) clamp(24px, 5vw, 56px);
   position: relative;
-  z-index: 2;
+  z-index: 5;
   overflow-y: auto;
-  max-width: 480px;
-  border-left: 1px solid var(--border);
 }
+.lf-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--lg-gold), var(--lg-gold-2), var(--lg-blue), var(--lg-navy));
+}
+.lf-panel > * { width: 100%; max-width: 400px; }
 @media (max-width: 1023px) {
   .lf-panel {
-    max-width: 90%;
-    margin: 20px auto;
-    width: 100%;
-    border-left: none;
-    border: 1px solid var(--border-2);
-    border-radius: var(--r-2xl);
-    background: var(--bg-2);
-    box-shadow: var(--shadow-lg);
-    padding: 38px 28px;
     flex: 0 1 auto;
+    width: 92%;
+    max-width: 440px;
+    margin: 20px auto;
+    border-radius: 28px;
+    padding: 40px 28px 32px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.45);
+    overflow: hidden;
   }
 }
-.lf-logo-wrap {
-  margin-bottom: 28px;
-}
+.lf-logo-wrap { display: flex; justify-content: center; margin-bottom: 18px; }
 .lf-logo-icon {
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--surface-2), var(--surface-3));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-2);
+  width: 72px; height: 72px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--lg-navy-2), var(--lg-blue));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.1rem;
+  box-shadow: 0 12px 30px rgba(27,74,168,.4), 0 0 0 5px rgba(240,192,96,.35);
 }
 .lf-logo-img {
-  max-height: 52px;
-  max-width: 150px;
-  object-fit: contain;
   display: none;
-  border-radius: 8px;
+  width: 84px; height: 84px;
+  object-fit: contain;
+  border-radius: 20px;
 }
-.lf-head {
-  margin-bottom: 32px;
-}
+.lf-head { text-align: center; margin-bottom: 26px; }
 .lf-head h2 {
   font-family: 'Syne', sans-serif;
   font-size: 1.75rem;
   font-weight: 800;
-  color: var(--text);
-  margin-bottom: 6px;
+  color: var(--lg-navy);
   letter-spacing: -.01em;
 }
-.lf-head p {
-  font-size: .875rem;
-  color: var(--text-3);
-}
-.lf-field {
-  margin-bottom: 16px;
-}
-.lf-label {
+.lf-head h2::after {
+  content: '';
   display: block;
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  margin-bottom: 7px;
+  width: 46px; height: 4px;
+  margin: 10px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--lg-gold), var(--lg-gold-2));
 }
-.lf-input-wrap {
-  position: relative;
-}
+.lf-head p { margin-top: 12px; font-size: .92rem; color: var(--lg-muted); }
+.lf-field { margin-bottom: 16px; }
+.lf-label { display: block; font-size: .8rem; font-weight: 600; color: var(--lg-ink); margin-bottom: 7px; }
+.lf-input-wrap { position: relative; }
 .lf-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
+  position: absolute; left: 14px; top: 50%;
   transform: translateY(-50%);
-  font-size: .95rem;
-  pointer-events: none;
-  color: var(--text-3);
-  transition: color .2s;
+  font-size: 1rem; opacity: .7; pointer-events: none;
+  transition: opacity .2s;
 }
 .lf-input {
   width: 100%;
-  padding: 12px 14px 12px 42px;
-  background: var(--surface);
-  border: 1.5px solid var(--border-2);
-  border-radius: var(--r-md);
-  font-size: .9rem;
-  color: var(--text);
+  padding: 14px 46px 14px 44px;
+  font-family: inherit;
+  font-size: .95rem;
+  color: var(--lg-ink);
+  background: #f3f6fc;
+  border: 1.5px solid var(--lg-line);
+  border-radius: 14px;
   outline: none;
-  transition: all .2s var(--ease);
+  transition: border-color .2s, box-shadow .2s, background .2s;
 }
-.lf-input::placeholder {
-  color: var(--text-3);
-}
+.lf-input::placeholder { color: #8f9bb8; }
 .lf-input:focus {
-  border-color: var(--accent);
-  background: var(--surface-2);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: #fff;
+  border-color: var(--lg-blue);
+  box-shadow: 0 0 0 4px rgba(27,74,168,.14);
 }
-.lf-field:focus-within .lf-icon {
-  color: var(--accent);
+.lf-field:focus-within .lf-icon { opacity: 1; }
+.lf-eye {
+  position: absolute; right: 8px; top: 50%;
+  transform: translateY(-50%);
+  width: 34px; height: 34px;
+  border: none; background: transparent;
+  cursor: pointer; font-size: 1rem; border-radius: 10px;
 }
+.lf-eye:hover { background: rgba(27,74,168,.08); }
 .lf-submit {
   width: 100%;
-  padding: 13px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #fff;
+  margin-top: 8px;
+  padding: 15px;
   border: none;
-  border-radius: var(--r-md);
-  font-size: .9rem;
+  border-radius: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: .03em;
+  letter-spacing: .02em;
+  color: #fff;
   cursor: pointer;
-  transition: all .25s var(--ease);
+  background: linear-gradient(135deg, var(--lg-navy-2), var(--lg-blue));
+  box-shadow: 0 10px 26px rgba(27,74,168,.38);
   position: relative;
   overflow: hidden;
-  margin-top: 6px;
-  box-shadow: 0 4px 20px var(--accent-glow);
+  transition: transform .2s var(--ease), box-shadow .2s;
 }
-.lf-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px var(--accent-glow);
+.lf-submit::after {
+  content: '';
+  position: absolute; top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-20deg);
+  transition: left .6s;
 }
-.lf-submit:active {
-  transform: translateY(0);
-}
+.lf-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(27,74,168,.5), 0 0 0 3px rgba(240,192,96,.45); }
+.lf-submit:hover::after { left: 130%; }
+.lf-submit:active { transform: translateY(0); }
 .lf-msg {
-  padding: 10px 14px;
-  border-radius: var(--r-sm);
+  padding: 11px 14px;
+  border-radius: 12px;
   font-size: .85rem;
   font-weight: 500;
   display: flex;
@@ -379,24 +417,14 @@ a {
   margin-bottom: 16px;
   animation: fadeSlide .25s var(--ease);
 }
-.lf-msg-err {
-  background: var(--red-bg);
-  color: var(--red);
-  border: 1px solid rgba(248,113,113,.2);
-}
-.lf-msg-ok {
-  background: var(--green-bg);
-  color: var(--green);
-  border: 1px solid rgba(52,211,153,.2);
-}
-.lf-footer {
-  margin-top: 24px;
-  font-size: .73rem;
-  color: var(--text-3);
-  text-align: center;
-}
-.lf-footer strong {
-  color: var(--accent);
+.lf-msg-err { background: #fdecea; color: #b3261e; border: 1px solid #f5c2bd; }
+.lf-msg-ok  { background: #e7f8ef; color: #17784a; border: 1px solid #b7e4cc; }
+.lf-footer { margin-top: 26px; font-size: .74rem; color: var(--lg-muted); text-align: center; }
+.lf-footer a { color: var(--lg-muted) !important; }
+.lf-footer strong { color: var(--lg-blue); }
+@media (prefers-reduced-motion: reduce) {
+  .lv-float { animation: none; }
+  .lf-submit::after { display: none; }
 }
 
 /* ============================================================
@@ -2131,15 +2159,34 @@ textarea.form-input {
     <div class="lv-bg"></div>
     <div id="loginCustomBg"></div>
     <div class="lv-overlay"></div>
+    <div class="lv-deco" aria-hidden="true">
+      <span class="lv-float f1">🎓</span>
+      <span class="lv-float f2">📚</span>
+      <span class="lv-float f3">✏️</span>
+      <span class="lv-float f4">🏆</span>
+      <span class="lv-float f5">💡</span>
+      <span class="lv-float f6">🔬</span>
+      <svg class="lv-wave" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0,70 C240,120 480,20 720,60 C960,100 1200,30 1440,70 L1440,120 L0,120 Z" fill="rgba(240,192,96,.16)"/>
+        <path d="M0,90 C260,40 520,120 780,80 C1040,40 1240,100 1440,60 L1440,120 L0,120 Z" fill="rgba(255,255,255,.07)"/>
+      </svg>
+    </div>
     <div class="lv-content">
       <div class="lv-brand">
-        <div class="lv-brand-icon">🎓</div>
+        <div class="lv-brand-icon" id="loginBrandIcon">🎓</div>
+        <img class="lv-brand-logo" id="loginBrandLogo" src="" alt="" style="display:none;">
         <span class="lv-brand-name" id="loginBrandName">Plataforma Educativa</span>
       </div>
       <div class="lv-hero">
+        <div class="lv-badge">🏫 Plataforma educativa institucional</div>
         <h1>Evalúa, aprende<br>y <span class="hi">crece</span> sin límites.</h1>
         <p>Sistema educativo interactivo para gestionar evaluaciones, estudiantes y resultados desde un solo panel.</p>
-        <div class="lv-stats" style="margin-top: 24px;">
+        <div class="lv-features">
+          <div class="lv-feat"><span>📝</span><div><strong>Evaluaciones interactivas</strong><small>Quizzes con temporizador y ranking</small></div></div>
+          <div class="lv-feat"><span>👥</span><div><strong>Gestión de estudiantes</strong><small>Docentes y alumnos en un solo lugar</small></div></div>
+          <div class="lv-feat"><span>📊</span><div><strong>Resultados al instante</strong><small>Historial, reportes y estadísticas</small></div></div>
+        </div>
+        <div class="lv-stats">
           <div>
             <span class="lv-stat-v">100%</span>
             <div class="lv-stat-l">Seguro</div>
@@ -2154,6 +2201,7 @@ textarea.form-input {
           </div>
         </div>
       </div>
+      <div></div>
     </div>
   </div>
   <div class="lf-panel">
@@ -2178,6 +2226,7 @@ textarea.form-input {
       <div class="lf-input-wrap">
         <span class="lf-icon">🔒</span>
         <input type="password" id="loginPass" class="lf-input" placeholder="••••••••">
+        <button type="button" class="lf-eye" aria-label="Mostrar u ocultar contraseña" onclick="var i=document.getElementById('loginPass');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁️':'🙈';">👁️</button>
       </div>
     </div>
     <button class="lf-submit" onclick="hacerLogin()">Iniciar sesión →</button>
@@ -3034,7 +3083,7 @@ function iniciarApp() {
 // PERSONALIZACIÓN LOGIN
 // ============================================================
 function applyFondo(url, blur) { const bg = $('loginCustomBg'); if (!bg) return; if (url) { bg.style.backgroundImage = `url(${url})`; bg.style.filter = `blur(${blur || 5}px)`; } else { bg.style.backgroundImage = ''; bg.style.filter = ''; } }
-function applyLogo(url) { const icon = $('loginIconDefault'), img = $('loginLogoImg'); if (url) { img.src = url; img.style.display = 'block'; icon.style.display = 'none'; } else { img.style.display = 'none'; icon.style.display = 'flex'; } const sw = $('sidebarLogoImg'), si = $('sidebarIcon'); if (url) { sw.src = url; sw.style.display = 'inline'; si.style.display = 'none'; } else { sw.style.display = 'none'; si.style.display = 'flex'; } }
+function applyLogo(url) { const bi = $('loginBrandIcon'), bl = $('loginBrandLogo'); if (bi && bl) { if (url) { bl.src = url; bl.style.display = 'block'; bi.style.display = 'none'; } else { bl.style.display = 'none'; bi.style.display = 'flex'; } } const icon = $('loginIconDefault'), img = $('loginLogoImg'); if (url) { img.src = url; img.style.display = 'block'; icon.style.display = 'none'; } else { img.style.display = 'none'; icon.style.display = 'flex'; } const sw = $('sidebarLogoImg'), si = $('sidebarIcon'); if (url) { sw.src = url; sw.style.display = 'inline'; si.style.display = 'none'; } else { sw.style.display = 'none'; si.style.display = 'flex'; } }
 function applySiteName(name) { if (!name) return; $('sidebarSiteName').textContent = name; $('loginBrandName').textContent = name; document.title = name; const el = $('pageTabTitle'); if (el) el.textContent = name; }
 function applySubtitle(text) { const l = $('loginSubtitle'), s = $('sidebarTagline'); if (l) l.textContent = text || 'Accede a tu panel educativo'; if (s) s.textContent = text || 'Panel de control'; }
 function applyFooter(text, url) { const lf = $('loginFooterTarget'), sf = $('sidebarFooterTarget'); const d = text ? (url ? `<a href="${url}" target="_blank" style="color:var(--text-3);text-decoration:underline;">${esc(text)}</a>` : esc(text)) : 'Desarrollado por Zymar Code +51927027986 • <strong>v1.0</strong>'; if (lf) lf.innerHTML = d; if (sf) { if (text) { sf.style.display = 'block'; sf.innerHTML = d; } else { sf.style.display = 'none'; sf.innerHTML = ''; } } }
