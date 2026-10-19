@@ -2041,6 +2041,104 @@ textarea.form-input {
   object-fit: contain;
 }
 
+
+/* ============================================================
+   ANTIPLAGIO · MODO EXAMEN
+============================================================ */
+body.ap-on {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.ap-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 9px 14px;
+  margin-bottom: 12px;
+  border-radius: var(--r-md);
+  background: var(--accent-bg);
+  border: 1px solid rgba(91,141,238,.25);
+  color: var(--accent-2);
+  font-size: .8rem;
+  font-weight: 600;
+}
+.ap-bar span { flex: 1; }
+.ap-bar.warn {
+  background: var(--red-bg);
+  border-color: rgba(248,113,113,.3);
+  color: var(--red);
+}
+.ap-watermark {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  opacity: .08;
+  background-repeat: repeat;
+}
+.ap-ov {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(10,12,16,.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.ap-box {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  border-top: 4px solid var(--red);
+  border-radius: var(--r-2xl);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-lg);
+}
+.ap-ic { font-size: 2.4rem; margin-bottom: 8px; }
+.ap-box h3 { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--red); margin-bottom: 8px; }
+.ap-box p { color: var(--text-2); font-size: .9rem; line-height: 1.6; margin-bottom: 14px; }
+.ap-count { padding: 10px 12px; margin-bottom: 16px; border-radius: var(--r-md); background: var(--red-bg); border: 1px solid rgba(248,113,113,.25); color: var(--text-2); font-size: .8rem; line-height: 1.5; }
+.ap-count strong { color: var(--red); }
+.plagio-banner {
+  display: none;
+  text-align: left;
+  margin: 14px 0 4px;
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  background: var(--red-bg);
+  border: 1px solid rgba(248,113,113,.35);
+  border-left: 4px solid var(--red);
+  color: var(--red);
+  font-size: .85rem;
+  line-height: 1.55;
+  word-break: break-word;
+}
+.badge-plagio {
+  background: var(--red);
+  color: #fff;
+  border: 1px solid var(--red);
+}
+.result-row.plagio { background: var(--red-bg); }
+.result-motivo {
+  font-size: .72rem;
+  color: var(--red);
+  margin-top: 4px;
+  max-width: 560px;
+  word-break: break-word;
+}
+@media print {
+  body.ap-on > * { display: none !important; }
+  body.ap-on::before { content: 'La impresión no está permitida durante la evaluación.'; display: block; padding: 40px; color: #000; font-size: 22px; }
+}
+
 /* ============================================================
    RESPONSIVE
 ============================================================ */
@@ -2419,14 +2517,15 @@ textarea.form-input {
           <div class="stat-chip"><div class="stat-ic">📚</div><div class="stat-val" id="d-preguntas">—</div><div class="stat-lbl">Preguntas</div></div>
           <div class="stat-chip"><div class="stat-ic">🏆</div><div class="stat-val" id="d-quizzes">—</div><div class="stat-lbl">Quizzes</div></div>
           <div class="stat-chip"><div class="stat-ic">📂</div><div class="stat-val" id="d-temas">—</div><div class="stat-lbl">Temas</div></div>
-          <div class="stat-chip"><div class="stat-ic">📈</div><div class="stat-val" id="d-promedio">—</div><div class="stat-lbl">Promedio</div></div>
+          <div class="stat-chip"><div class="stat-ic">📈</div><div class="stat-val" id="d-promedio">—</div><div class="stat-lbl">Promedio /20</div></div>
         </div>
         <div id="dashAdminExtra" style="display: none;">
           <div class="stats-row">
             <div class="stat-chip"><div class="stat-ic">👥</div><div class="stat-val" id="d-estudiantes">—</div><div class="stat-lbl">Estudiantes</div></div>
-            <div class="stat-chip"><div class="stat-ic">⭐</div><div class="stat-val" id="d-mejor">—</div><div class="stat-lbl">Mejor Nota</div></div>
+            <div class="stat-chip"><div class="stat-ic">⭐</div><div class="stat-val" id="d-mejor">—</div><div class="stat-lbl">Mejor Nota /20</div></div>
             <div class="stat-chip" onclick="mostrarSec('enlinea')" style="cursor: pointer;"><div class="stat-ic">🟢</div><div class="stat-val" id="d-enlinea">—</div><div class="stat-lbl">En Línea</div></div>
             <div class="stat-chip"><div class="stat-ic">📊</div><div class="stat-val" id="d-hoy">—</div><div class="stat-lbl">Quizzes Hoy</div></div>
+            <div class="stat-chip"><div class="stat-ic">🚨</div><div class="stat-val" id="d-plagios">—</div><div class="stat-lbl">Plagios</div></div>
           </div>
         </div>
       </div>
@@ -2799,6 +2898,7 @@ textarea.form-input {
       </div>
       <div id="quizMotor" style="display: none;">
         <div class="card">
+          <div id="apBar" class="ap-bar"></div>
           <div class="timer-box" id="timerBox" style="display: none;">
             <span style="font-size: 1.1rem;">⏱️</span>
             <div>
@@ -2819,14 +2919,15 @@ textarea.form-input {
           <div class="card-hd" style="justify-content: center;">
             <div class="card-title"><span class="card-ic">🏆</span>Resultados del Quiz</div>
           </div>
-          <div id="resPct" style="font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; margin: 12px 0;">0%</div>
+          <div id="resPct" style="font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; margin: 12px 0;">0 / 20</div>
           <div id="resNivel" style="font-size: 1rem; font-weight: 700; margin-bottom: 14px; color: var(--text-2);"></div>
+          <div id="resPlagio" class="plagio-banner"></div>
           <div class="prog-bar" style="height: 12px;"><div class="prog-fill" id="resBar" style="width: 0%; transition: width 1.2s var(--ease);"></div></div>
           <div class="stats-row" style="margin-top: 16px;">
             <div class="stat-chip"><div class="stat-ic">📝</div><div class="stat-val" id="rTotal">0</div><div class="stat-lbl">Total</div></div>
             <div class="stat-chip"><div class="stat-ic">✅</div><div class="stat-val" id="rCorr">0</div><div class="stat-lbl">Correctas</div></div>
             <div class="stat-chip"><div class="stat-ic">❌</div><div class="stat-val" id="rInc">0</div><div class="stat-lbl">Incorrectas</div></div>
-            <div class="stat-chip"><div class="stat-ic">📊</div><div class="stat-val" id="rPct">0%</div><div class="stat-lbl">Porcentaje</div></div>
+            <div class="stat-chip"><div class="stat-ic">📊</div><div class="stat-val" id="rPct">0</div><div class="stat-lbl">Nota /20</div></div>
           </div>
           <div class="btn-grp" style="justify-content: center; margin-top: 18px;">
             <button class="btn btn-dark" onclick="reiniciarQuiz()">🔄 Nuevo Quiz</button>
@@ -2896,6 +2997,9 @@ const $ = id => document.getElementById(id);
 const esc = s => s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const pad = n => n < 10 ? '0' + n : n;
 const fechaCorta = s => s ? s.split(' ')[0] : '';
+// Escala de notas 0-20 (>= 11 aprueba)
+function fmtNota(n) { return (Number(n) || 0).toFixed(1).replace(/\.0$/, ''); }
+const colorNota = n => n >= 18 ? 'var(--purple)' : n >= 14 ? 'var(--green)' : n >= 11 ? 'var(--amber)' : 'var(--red)';
 
 // ============================================================
 // DIÁLOGOS PERSONALIZADOS: dlgAlert / dlgConfirm / dlgPrompt / toast
@@ -3221,6 +3325,12 @@ function loginMsg(tipo, msg) {
   window._lt = setTimeout(() => $('loginAlert').innerHTML = '', 6000);
 }
 function cerrarSesion() {
+  if (typeof AP !== 'undefined' && AP.activo) {
+    // Salir en medio del quiz cuenta como abandono (nota 0 con marca de plagio)
+    try { navigator.sendBeacon(API_URL, JSON.stringify({ action: 'registrarAbandonoQuiz', args: [App.ses.usuario, App.ses.adminId] })); } catch (e) {}
+    AP.finalizando = true;
+    desactivarAP();
+  }
   if (App.ses.usuario) navigator.sendBeacon(API_URL, JSON.stringify({ action: 'registrarCierreSesion', args: [App.ses.usuario] }));
   clearInterval(App.timers.ping);
   clearInterval(App.timers.interval);
@@ -3276,6 +3386,10 @@ function buildNav() {
   if ($('qaSuper')) $('qaSuper').style.display = esS ? 'flex' : 'none';
 }
 function mostrarSec(sec) {
+  if (typeof AP !== 'undefined' && AP.activo && sec !== 'quiz') {
+    toast('Termina el quiz antes de cambiar de pantalla', 'warn');
+    return;
+  }
   if (!SECTIONS.some(s => s.id === sec && s.roles.includes(App.ses.rol))) sec = 'inicio';
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   const el = $(`sec-${sec}`);
@@ -3385,8 +3499,8 @@ function exportarEstudiantesExcel() {
 
 function exportarHistorialExcel() {
   if(!App.historialData || !App.historialData.length) return alerta('histAlert','err','No hay historial para exportar.');
-  const rows = [['Usuario', 'Nombre', 'Fecha', 'Tema', 'Correctas', 'Incorrectas', 'Total', 'Porcentaje', 'Nivel']];
-  App.historialData.forEach(h => rows.push([h.usuario, h.nombre, h.fecha, h.tema, h.correctas, h.incorrectas, h.total, h.porcentajeFormat, h.nivel]));
+  const rows = [['Usuario', 'Nombre', 'Fecha', 'Tema', 'Correctas', 'Incorrectas', 'Total', 'Nota (0-20)', 'Nivel', 'Plagio', 'Motivo', 'Alertas']];
+  App.historialData.forEach(h => rows.push([h.usuario, h.nombre, h.fecha, h.tema, h.correctas, h.incorrectas, h.total, h.porcentajeFormat, h.nivel, h.plagio ? 'SI' : 'NO', h.motivo || '', h.alertas || 0]));
   exportToCSV('Historial_' + App.ses.usuario, rows);
 }
 
@@ -3410,13 +3524,14 @@ function cargarDashboard() {
     $('d-preguntas').textContent = d.totalPreguntas ?? 0;
     $('d-quizzes').textContent = d.totalQuizzes ?? 0;
     $('d-temas').textContent = d.totalTemas ?? 0;
-    $('d-promedio').textContent = (d.promedioGeneral ?? 0) + '%';
+    $('d-promedio').textContent = fmtNota(d.promedioGeneral ?? 0) + '/20';
     if (App.ses.rol !== 'estudiante') {
       $('dashAdminExtra').style.display = 'block';
       $('d-estudiantes').textContent = d.totalEstudiantes ?? 0;
-      $('d-mejor').textContent = (d.mejorNota ?? 0) + '%';
+      $('d-mejor').textContent = fmtNota(d.mejorNota ?? 0) + '/20';
       $('d-enlinea').textContent = d.usuariosEnLinea ?? 0;
       $('d-hoy').textContent = d.quizzesHoy ?? 0;
+      if ($('d-plagios')) $('d-plagios').textContent = d.totalPlagios ?? 0;
     }
   });
 }
@@ -4059,23 +4174,39 @@ function iniciarQuiz() {
   const esAdm = App.ses.rol !== 'estudiante';
   const tema = (esAdm || App.cfg.quizTemaLibre) ? $('selectTema').value : App.cfg.quizTema;
   const cant = (esAdm || App.cfg.quizCantidadLibre) ? parseInt($('selectCant').value) : App.cfg.quizCantidad;
-  callSpin('Cargando preguntas…', 'obtenerPreguntas', [tema, cant, App.ses.adminId], res => {
-    if (!res.success || !res.preguntas?.length) {
-      dlgAlert(res.message || 'No hay preguntas disponibles', { tipo: 'info', icono: '📭', titulo: 'Sin preguntas' });
+  // La pantalla completa solo se puede pedir dentro del clic del usuario: se solicita antes de cualquier espera
+  if (!esAdm && AP_CFG.pantallaCompleta && apFSSoportado()) { AP.ignorarHasta = Date.now() + 3000; apPedirFS(); }
+  spin('Verificando tu entorno…');
+  (esAdm ? Promise.resolve({ ok: true }) : apPreflight()).then(pf => {
+    if (!pf.ok) {
+      unspin();
+      apSalirFS();
+      dlgAlert(pf.msg, { tipo: 'err', icono: '🛡️', titulo: 'No se puede iniciar el quiz', okText: 'Entendido' });
       return;
     }
-    App.quiz = {
-      preguntas: res.preguntas,
-      indice: 0,
-      correctas: 0,
-      incorrectas: 0,
-      respondida: false
-    };
-    $('quizConfigPanel').style.display = 'none';
-    $('quizMotor').style.display = 'block';
-    mostrarPregunta();
-    iniciarTimer();
-    if (!esAdm) activarAP();
+    $('spinTxt').textContent = 'Cargando preguntas…';
+    call('obtenerPreguntas', [tema, cant, App.ses.adminId, App.ses.usuario], res => {
+      if (!res.success || !res.preguntas?.length) {
+        apSalirFS();
+        dlgAlert(res.message || 'No hay preguntas disponibles', { tipo: 'info', icono: '📭', titulo: 'Sin preguntas' });
+        return;
+      }
+      App.quiz = {
+        preguntas: res.preguntas,
+        indice: 0,
+        correctas: 0,
+        incorrectas: 0,
+        respondida: false,
+        finalizado: false,
+        tema
+      };
+      $('quizConfigPanel').style.display = 'none';
+      $('quizResultados').style.display = 'none';
+      $('quizMotor').style.display = 'block';
+      mostrarPregunta();
+      iniciarTimer();
+      if (!esAdm) activarAP();
+    });
   });
 }
 
@@ -4108,31 +4239,52 @@ function mostrarPregunta() {
 }
 
 function seleccionar(letraOrig) {
-  if (App.quiz.respondida) return;
+  if (App.quiz.respondida || App.quiz.finalizado) return;
   App.quiz.respondida = true;
   const p = App.quiz.preguntas[App.quiz.indice];
-  const correcta = p.correcta.toUpperCase(), esOk = letraOrig === correcta;
-  document.querySelectorAll('.opt-btn').forEach(btn => {
-    btn.classList.add('dis');
-    if (btn.dataset.orig === letraOrig) btn.classList.add(esOk ? 'correct' : 'wrong');
-  });
   const fb = $('quizFeedback');
-  if (esOk) {
-    fb.className = 'alert alert-ok';
-    fb.innerHTML = '✅ ¡Correcto!';
-    App.quiz.correctas++;
-  } else {
-    let letraDisp = '';
-    document.querySelectorAll('.opt-btn').forEach(btn => {
-      if (btn.dataset.orig === correcta) letraDisp = btn.querySelector('.opt-l').textContent;
-    });
-    fb.className = 'alert alert-err';
-    fb.innerHTML = `❌ Incorrecto. Respuesta correcta: <strong>${letraDisp}) ${esc(p[correcta])}</strong>`;
-    App.quiz.incorrectas++;
-  }
+  document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('dis'));
+  fb.className = 'alert alert-info';
+  fb.innerHTML = '⏳ Verificando respuesta…';
   fb.style.display = 'flex';
-  $('btnSig').style.display = 'block';
-  $('btnSig').textContent = App.quiz.indice >= App.quiz.preguntas.length - 1 ? '🏆 Ver Resultados' : 'Siguiente →';
+  // La respuesta correcta vive en el servidor: se verifica pregunta por pregunta
+  call('verificarRespuesta', [App.ses.usuario, App.ses.adminId, p.id, letraOrig], res => {
+    if (App.quiz.finalizado) return;
+    if (!res || !res.success) {
+      if (res && /No hay un quiz activo/i.test(res.message || '')) {
+        desactivarAP(); _detenerTimer();
+        App.quiz.finalizado = true;
+        dlgAlert(res.message, { tipo: 'err', titulo: 'Quiz no válido', okText: 'Volver', fijo: true }, reiniciarQuiz);
+        return;
+      }
+      // Error de conexión: se permite reintentar la misma pregunta
+      App.quiz.respondida = false;
+      document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('dis'));
+      fb.className = 'alert alert-warn';
+      fb.innerHTML = '⚠️ No se pudo verificar la respuesta (' + esc(res?.message || 'sin conexión') + '). Intenta de nuevo.';
+      return;
+    }
+    const correcta = String(res.correcta).toUpperCase(), esOk = !!res.esCorrecta;
+    document.querySelectorAll('.opt-btn').forEach(btn => {
+      if (btn.dataset.orig === letraOrig) btn.classList.add(esOk ? 'correct' : 'wrong');
+    });
+    if (esOk) {
+      fb.className = 'alert alert-ok';
+      fb.innerHTML = '✅ ¡Correcto!';
+      App.quiz.correctas++;
+    } else {
+      let letraDisp = '';
+      document.querySelectorAll('.opt-btn').forEach(btn => {
+        if (btn.dataset.orig === correcta) letraDisp = btn.querySelector('.opt-l').textContent;
+      });
+      fb.className = 'alert alert-err';
+      fb.innerHTML = `❌ Incorrecto. Respuesta correcta: <strong>${letraDisp}) ${esc(p[correcta])}</strong>`;
+      App.quiz.incorrectas++;
+    }
+    fb.style.display = 'flex';
+    $('btnSig').style.display = 'block';
+    $('btnSig').textContent = App.quiz.indice >= App.quiz.preguntas.length - 1 ? '🏆 Ver Resultados' : 'Siguiente →';
+  });
 }
 
 function siguientePregunta() {
@@ -4141,38 +4293,67 @@ function siguientePregunta() {
   else mostrarPregunta();
 }
 
-function finalizarQuiz() {
+function finalizarQuiz(opts) {
+  opts = opts || {};
+  if (App.quiz.finalizado) return;      // evita doble envío
+  App.quiz.finalizado = true;
+  const avisos = AP.avisos;
   desactivarAP();
   _detenerTimer();
   $('timerBox').style.display = 'none';
   $('quizMotor').style.display = 'none';
   $('quizResultados').style.display = 'block';
-  const total = App.quiz.correctas + App.quiz.incorrectas;
-  const pct = total > 0 ? Math.round((App.quiz.correctas / total) * 100) : 0;
-  const [nivel, emoji] = pct >= 90 ? ['Nivel Experto', '🏆'] : pct >= 70 ? ['Nivel Bueno', '📗'] : pct >= 40 ? ['Nivel Medio', '📙'] : ['Nivel Bajo', '📕'];
+  const total = App.quiz.preguntas.length;
+  const correctas = App.quiz.correctas;
+  const incorrectas = Math.max(0, total - correctas);   // las no respondidas cuentan como incorrectas
+  const notaReal = total > 0 ? Math.round(correctas / total * 200) / 10 : 0;
+  const plagio = !!opts.plagio, motivo = opts.motivo || '';
+  mostrarResultadoQuiz({ nota: plagio ? 0 : notaReal, plagio, motivo, correctas, incorrectas, total, animar: true });
+  // Tema del quiz
+  let tema = App.cfg.quizTemaLibre ? ($('selectTema')?.value || App.cfg.quizTema || 'General') : (App.cfg.quizTema || 'General');
+  if (tema === 'Todos' || !tema) tema = 'General';
+  // El servidor recalcula la nota con las respuestas verificadas; aquí solo se informa si hubo plagio
+  call('guardarEstadisticas', [App.ses.usuario, App.ses.nombre, correctas, incorrectas, tema, App.ses.adminId, plagio, motivo, avisos], res => {
+    if (res && res.success) {
+      mostrarResultadoQuiz({ nota: res.nota, plagio: res.plagio, motivo: res.motivo, correctas: res.correctas, incorrectas: res.incorrectas, total: res.total, animar: false });
+    } else {
+      toast('No se pudo guardar el resultado: ' + (res?.message || 'error de conexión'), 'err', 7000);
+    }
+  });
+}
+
+function mostrarResultadoQuiz(o) {
+  const nota = Number(o.nota) || 0;
+  const [nivel, emoji] = o.plagio ? ['Evaluación anulada por plagio', '🚨'] : nota >= 18 ? ['Nivel Experto', '🏆'] : nota >= 14 ? ['Nivel Bueno', '📗'] : nota >= 11 ? ['Nivel Medio', '📙'] : ['Nivel Bajo', '📕'];
+  const color = o.plagio ? 'var(--red)' : nota >= 14 ? 'var(--green)' : nota >= 11 ? 'var(--amber)' : 'var(--red)';
   const rp = $('resPct');
-  rp.style.color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
-  animNum(rp, 0, pct, 1200, '%');
+  rp.style.color = color;
+  if (o.animar) animNota(rp, nota, 1200); else rp.textContent = fmtNota(nota) + ' / 20';
   $('resNivel').innerHTML = `${emoji} ${nivel}`;
   const rb = $('resBar');
-  rb.style.background = pct >= 90 ? 'linear-gradient(90deg,#7c3aed,#a78bfa)' : pct >= 70 ? 'linear-gradient(90deg,var(--green),#10b981)' : pct >= 40 ? 'linear-gradient(90deg,var(--amber),#f59e0b)' : 'linear-gradient(90deg,var(--red),#dc2626)';
-  setTimeout(() => rb.style.width = `${pct}%`, 300);
-  $('rTotal').textContent = total;
-  $('rCorr').textContent = App.quiz.correctas;
-  $('rInc').textContent = App.quiz.incorrectas;
-  $('rPct').textContent = `${pct}%`;
-  // Determinar el tema correctamente
-  let tema = 'General';
-  const selectTemaEl = $('selectTema');
-  if (App.cfg.quizTemaLibre) {
-    // El estudiante eligió libremente el tema
-    tema = selectTemaEl?.value || App.cfg.quizTema || 'General';
+  rb.style.background = o.plagio ? 'linear-gradient(90deg,var(--red),#dc2626)' : nota >= 18 ? 'linear-gradient(90deg,#7c3aed,#a78bfa)' : nota >= 14 ? 'linear-gradient(90deg,var(--green),#10b981)' : nota >= 11 ? 'linear-gradient(90deg,var(--amber),#f59e0b)' : 'linear-gradient(90deg,var(--red),#dc2626)';
+  setTimeout(() => rb.style.width = `${Math.max(0, Math.min(100, nota / 20 * 100))}%`, o.animar ? 300 : 0);
+  $('rTotal').textContent = o.total;
+  $('rCorr').textContent = o.correctas;
+  $('rInc').textContent = o.incorrectas;
+  $('rPct').textContent = fmtNota(nota);
+  const pb = $('resPlagio');
+  if (o.plagio) {
+    pb.style.display = 'block';
+    pb.innerHTML = '<strong>🚨 Evaluación marcada como PLAGIO · nota 0/20</strong><br>' + esc(o.motivo || 'Se detectaron infracciones durante la evaluación.');
   } else {
-    // Tema fijo configurado por el admin
-    tema = App.cfg.quizTema || 'General';
+    pb.style.display = 'none';
+    pb.innerHTML = '';
   }
-  if (tema === 'Todos' || !tema) tema = 'General';
-  call('guardarEstadisticas', [App.ses.usuario, App.ses.nombre, App.quiz.correctas, App.quiz.incorrectas, tema, App.ses.adminId], () => {});
+}
+
+function animNota(el, end, dur) {
+  const t0 = performance.now();
+  (function f(t) {
+    const p = Math.min((t - t0) / dur, 1);
+    el.textContent = fmtNota(end * (1 - Math.pow(1 - p, 3))) + ' / 20';
+    if (p < 1) requestAnimationFrame(f);
+  })(t0);
 }
 
 function animNum(el, start, end, dur, suf) {
@@ -4187,7 +4368,9 @@ function animNum(el, start, end, dur, suf) {
 function reiniciarQuiz() {
   desactivarAP();
   _detenerTimer();
-  App.quiz = { preguntas: [], indice: 0, correctas: 0, incorrectas: 0, respondida: false };
+  App.quiz = { preguntas: [], indice: 0, correctas: 0, incorrectas: 0, respondida: false, finalizado: false };
+  const pbl = $('resPlagio'); if (pbl) { pbl.style.display = 'none'; pbl.innerHTML = ''; }
+  $('resBar').style.width = '0%';
   $('timerBox').style.display = 'none';
   ['quizConfigPanel', 'quizMotor', 'quizResultados'].forEach(id => $(id).style.display = 'none');
   cargarCfgQuizEstudiante();
@@ -4222,69 +4405,342 @@ function _detenerTimer() {
 }
 
 function tiempoAgotado() {
+  if (AP.activo) AP.finalizando = true; // el aviso de tiempo no debe generar más avisos de plagio
   dlgAlert(App.cfg.mensajeTiempo, { tipo: 'warn', icono: '⏱️', titulo: 'Se acabó el tiempo', okText: 'Ver resultados', fijo: true }, () => {
-    App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas);
     finalizarQuiz();
   });
 }
 
-const _blkEv = e => { e.preventDefault(); e.stopPropagation(); };
-const _blkKey = e => {
-  if (e.keyCode === 123) { e.preventDefault(); return false; }
-  if ((e.ctrlKey || e.metaKey) && 'cvxuspacf'.includes(e.key?.toLowerCase())) { e.preventDefault(); return false; }
-  if (e.keyCode === 9) { e.preventDefault(); return false; }
+// ============================================================
+// ANTIPLAGIO · MODO EXAMEN
+// El puntaje y las respuestas correctas se manejan en el servidor; aquí se vigila el navegador.
+// Ningún control de navegador es 100% infalible: por eso se combinan varias barreras.
+// ============================================================
+const AP_CFG = {
+  maxAvisos: 3,              // al llegar a este número de avisos el quiz se envía como PLAGIO (nota 0)
+  maxSoft: 3,                // infracciones leves (atajos, clic derecho, cursor fuera) = 1 aviso
+  maxSegFuera: 15,           // más segundos que este fuera de la ventana = plagio inmediato
+  pantallaCompleta: true,    // exigir pantalla completa (si el dispositivo la soporta)
+  devtoolsEsPlagio: true,    // herramientas de desarrollo abiertas = plagio inmediato
+  intervaloDevtools: 1500,
+  marcaDeAgua: true
+};
+const AP_LOCK_KEY = 'plat_quiz_lock';
+const AP_TACTIL = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+const AP = {
+  activo: false, finalizando: false, avisos: 0, soft: 0, fuera: null, segFuera: 0,
+  log: [], handlers: [], timers: {}, base: { w: 0, h: 0 }, ignorarHasta: 0, ultimoDuro: 0,
+  devHits: 0, devAbierto: false, tok: Math.random().toString(36).slice(2)
 };
 
-function activarAP() {
-  App.ap.activo = true;
-  App.ap.intentos = 0;
-  ['contextmenu', 'selectstart', 'dragstart', 'copy', 'cut', 'paste'].forEach(ev => document.addEventListener(ev, _blkEv));
-  document.addEventListener('keydown', _blkKey);
-  document.addEventListener('visibilitychange', _apVis);
-  window.addEventListener('blur', _apBlur);
-  document.body.style.userSelect = 'none';
+const AP_ETIQ = {
+  salida_ventana: 'Salidas de la ventana', pantalla_completa: 'Salidas de pantalla completa',
+  devtools: 'DevTools abiertas', devtools_tecla: 'Intentos de abrir DevTools', tecla_sistema: 'Tecla Windows/Cmd',
+  captura: 'Intentos de captura', imprimir: 'Intentos de imprimir', redimension: 'Pantalla dividida/redimensionada',
+  otra_pestana: 'Quiz en otra pestaña', atajo: 'Atajos bloqueados', clic_derecho: 'Clic derecho', cursor: 'Cursor fuera de la ventana',
+  atras: 'Intentos de retroceder', copiar: 'Intentos de copiar/pegar', regreso: ''
+};
+
+function apFSSoportado() { const el = document.documentElement; return !!(el.requestFullscreen || el.webkitRequestFullscreen); }
+function apEnFS() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+function apPedirFS() {
+  try {
+    const el = document.documentElement;
+    const f = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (f) { const r = f.call(el); if (r && r.catch) r.catch(() => {}); }
+  } catch (e) {}
+}
+function apSalirFS() {
+  try {
+    if (!apEnFS()) return;
+    const f = document.exitFullscreen || document.webkitExitFullscreen;
+    if (f) { const r = f.call(document); if (r && r.catch) r.catch(() => {}); }
+  } catch (e) {}
 }
 
-function desactivarAP() {
-  App.ap.activo = false;
-  ['contextmenu', 'selectstart', 'dragstart', 'copy', 'cut', 'paste'].forEach(ev => document.removeEventListener(ev, _blkEv));
-  document.removeEventListener('keydown', _blkKey);
-  document.removeEventListener('visibilitychange', _apVis);
-  window.removeEventListener('blur', _apBlur);
-  document.body.style.userSelect = '';
+// Detección de modo incógnito / privado (heurística: los navegadores la van cambiando; si falla, se permite)
+async function apDetectarIncognito() {
+  try {
+    const ua = navigator.userAgent || '';
+    if (/Firefox\//.test(ua)) {
+      if (!('serviceWorker' in navigator) || navigator.serviceWorker === undefined) return true;
+      return await new Promise(res => {
+        try {
+          const r = indexedDB.open('ap_test');
+          r.onerror = () => res(true);
+          r.onsuccess = () => { try { r.result.close(); indexedDB.deleteDatabase('ap_test'); } catch (e) {} res(false); };
+        } catch (e) { res(true); }
+      });
+    }
+    // Safari antiguo (modo privado bloquea localStorage / openDatabase)
+    try { localStorage.setItem('ap_t', '1'); localStorage.removeItem('ap_t'); } catch (e) { return true; }
+    try { if (window.openDatabase) window.openDatabase(null, null, null, null); } catch (e) { return true; }
+    // Chrome / Edge / Brave / Opera: la cuota de almacenamiento es mucho menor en incógnito
+    if (navigator.storage && navigator.storage.estimate) {
+      const est = await navigator.storage.estimate();
+      const quota = est && est.quota;
+      if (quota) {
+        const heap = (window.performance && performance.memory && performance.memory.jsHeapSizeLimit) || 0;
+        const esChromium = /Chrome|Chromium|Edg\/|OPR\//.test(ua);
+        if (esChromium && heap && quota < heap * 2) return true;
+        if (esChromium && quota < 120 * 1024 * 1024) return true;
+      }
+    }
+  } catch (e) {}
+  return false;
 }
 
-function _apVis() {
-  if (App.ap.activo && (document.hidden || document.visibilityState === 'hidden')) _apSalida();
+function apDevtoolsAbierto() {
+  if (AP_TACTIL) return false;
+  try {
+    const t0 = performance.now();
+    (function () {}).constructor('debugger')();
+    if (performance.now() - t0 > 120) return true;
+  } catch (e) {}
+  const dw = (window.outerWidth - window.innerWidth) > 200;
+  const dh = (window.outerHeight - window.innerHeight) > 200;
+  return dw || dh;
 }
 
-function _apBlur() {
-  if (App.ap.activo) setTimeout(() => { if (!document.hasFocus()) _apSalida(); }, 200);
+// Verificaciones antes de empezar (si falla, NO se consume el intento)
+async function apPreflight() {
+  if (navigator.webdriver) return { ok: false, msg: 'Se detectó un navegador automatizado. Usa un navegador normal para rendir el quiz.' };
+  if (await apDetectarIncognito()) return { ok: false, msg: 'Se detectó modo incógnito / navegación privada. Abre la plataforma en una ventana normal del navegador para rendir el quiz.' };
+  if (window.screen && window.screen.isExtended === true) return { ok: false, msg: 'Se detectó más de un monitor. Desconecta o desactiva el monitor adicional para rendir el quiz.' };
+  try {
+    const cur = JSON.parse(localStorage.getItem(AP_LOCK_KEY) || 'null');
+    if (cur && cur.tok !== AP.tok && Date.now() - cur.t < 5000) return { ok: false, msg: 'Ya hay un quiz abierto en otra pestaña o ventana. Ciérrala para continuar.' };
+  } catch (e) {}
+  if (apDevtoolsAbierto()) return { ok: false, msg: 'Cierra las herramientas de desarrollo (F12) antes de iniciar el quiz.' };
+  return { ok: true };
 }
 
-function _apSalida() {
-  App.ap.intentos++;
-  const rest = App.ap.max - App.ap.intentos;
-  if (App.ap.intentos >= App.ap.max) {
-    _apMsg('🔴 Quiz Enviado', `Saliste ${App.ap.max} veces. El quiz fue enviado automáticamente.`);
-    App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas);
-    desactivarAP();
-    finalizarQuiz();
+function apOn(target, ev, fn, opts) {
+  target.addEventListener(ev, fn, opts);
+  AP.handlers.push([target, ev, fn, opts]);
+}
+
+function apResumen() {
+  const cont = {};
+  AP.log.forEach(l => { if (AP_ETIQ[l.tipo]) cont[l.tipo] = (cont[l.tipo] || 0) + 1; });
+  const partes = Object.keys(cont).map(k => AP_ETIQ[k] + ' x' + cont[k]);
+  if (AP.segFuera > 0) partes.push('Tiempo fuera: ' + AP.segFuera + ' s');
+  return partes.join(', ');
+}
+
+function apActualizarBarra() {
+  const b = $('apBar');
+  if (!b) return;
+  if (!AP.activo) { b.style.display = 'none'; return; }
+  b.style.display = 'flex';
+  b.className = 'ap-bar' + (AP.avisos > 0 ? ' warn' : '');
+  b.innerHTML = '🛡️ <span>Modo examen activo · no salgas de esta ventana</span><strong>Avisos: ' + AP.avisos + '/' + AP_CFG.maxAvisos + '</strong>';
+}
+
+function apAviso(titulo, msg) {
+  let ov = $('apAvisoOv');
+  if (!ov) { ov = document.createElement('div'); ov.id = 'apAvisoOv'; ov.className = 'ap-ov'; document.body.appendChild(ov); }
+  ov.innerHTML = '<div class="ap-box"><div class="ap-ic">🚨</div><h3>' + esc(titulo) + '</h3><p>' + esc(msg) + '</p>' +
+    '<div class="ap-count">Avisos: <strong>' + AP.avisos + '/' + AP_CFG.maxAvisos + '</strong><br>Al llegar a ' + AP_CFG.maxAvisos + ' el quiz se envía con <strong>nota 0 y marca de plagio</strong>.</div>' +
+    '<button type="button" class="btn btn-red" id="apAvisoOk">Entendido, volver al quiz</button></div>';
+  ov.style.display = 'flex';
+  $('apAvisoOk').onclick = () => {
+    ov.style.display = 'none';
+    if (AP_CFG.pantallaCompleta && apFSSoportado() && !apEnFS()) { AP.ignorarHasta = Date.now() + 2000; apPedirFS(); }
+  };
+}
+
+function apRegistrar(tipo, detalle, duro) {
+  if (!AP.activo || AP.finalizando) return;
+  const ahora = Date.now();
+  AP.log.push({ t: ahora, tipo, detalle });
+  if (!duro) {
+    AP.soft++;
+    if (AP.soft < AP_CFG.maxSoft) { toast('⚠️ ' + detalle + ' (' + AP.soft + '/' + AP_CFG.maxSoft + ')', 'warn', 2600); return; }
+    AP.soft = 0;
+    detalle += ' (repetido ' + AP_CFG.maxSoft + ' veces)';
   } else {
-    _apMsg(`⚠️ Advertencia ${App.ap.intentos}/${App.ap.max}`, `Saliste de la ventana. ${rest} aviso(s) más y el quiz se enviará.`);
+    if (ahora - AP.ultimoDuro < 1500) return; // evita contar dos veces el mismo hecho (blur + visibilitychange)
+    AP.ultimoDuro = ahora;
+  }
+  AP.avisos++;
+  apActualizarBarra();
+  if (AP.avisos >= AP_CFG.maxAvisos) { apPlagio('Superó el máximo de avisos. Último: ' + detalle); return; }
+  apAviso('Aviso ' + AP.avisos + ' de ' + AP_CFG.maxAvisos, detalle + '. Mantén el quiz en pantalla completa y sin otras ventanas o aplicaciones.');
+}
+
+function apPlagio(motivo) {
+  if (!AP.activo || AP.finalizando) return;
+  AP.finalizando = true;
+  const resumen = apResumen();
+  const ov = $('apAvisoOv'); if (ov) ov.style.display = 'none';
+  toast('🚨 Quiz enviado y marcado como PLAGIO: ' + motivo, 'err', 8000);
+  finalizarQuiz({ plagio: true, motivo: motivo + (resumen ? ' | Eventos: ' + resumen : '') });
+}
+
+function apSalida(det) {
+  if (!AP.activo || AP.finalizando || AP.fuera !== null) return;
+  AP.fuera = Date.now();
+  apRegistrar('salida_ventana', det, true);
+}
+function apRegreso() {
+  if (!AP.activo || AP.fuera === null) return;
+  const seg = Math.round((Date.now() - AP.fuera) / 1000);
+  AP.fuera = null;
+  AP.segFuera += seg;
+  AP.log.push({ t: Date.now(), tipo: 'regreso', detalle: 'Volvió tras ' + seg + ' s' });
+  if (seg > AP_CFG.maxSegFuera && !AP.finalizando) apPlagio('Estuvo ' + seg + ' s fuera de la ventana del quiz (máximo permitido: ' + AP_CFG.maxSegFuera + ' s)');
+}
+
+function apMedirBase() { AP.base = { w: window.innerWidth, h: window.innerHeight }; }
+
+function apMarcaDeAgua() {
+  let el = $('apWatermark');
+  if (!el) { el = document.createElement('div'); el.id = 'apWatermark'; el.className = 'ap-watermark'; document.body.appendChild(el); }
+  const txt = (App.ses.nombre || '') + ' · @' + (App.ses.usuario || '') + ' · ' + new Date().toLocaleString('es-PE');
+  const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='460' height='240'><text x='20' y='130' fill='white' font-size='15' font-family='Arial' transform='rotate(-25 230 120)'>" +
+    txt.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;') + '</text></svg>';
+  el.style.backgroundImage = 'url("data:image/svg+xml;utf8,' + encodeURIComponent(svg) + '")';
+  el.style.display = 'block';
+}
+
+function apTeclado(e) {
+  if (!AP.activo) return;
+  const k = (e.key || '').toLowerCase();
+  const code = e.code || '';
+  const letra = code.indexOf('Key') === 0 ? code.slice(3).toLowerCase() : k;
+  const c = e.ctrlKey || e.metaKey;
+  let tipo = null, det = '', duro = false;
+  if (e.keyCode === 123 || k === 'f12') { tipo = 'devtools_tecla'; det = 'Intento de abrir las herramientas de desarrollo (F12)'; duro = true; }
+  else if ((c && e.shiftKey && ['i', 'j', 'c', 'k', 'e', 'm'].indexOf(letra) !== -1) || (e.metaKey && e.altKey && ['i', 'j', 'c', 'u'].indexOf(letra) !== -1)) { tipo = 'devtools_tecla'; det = 'Intento de abrir las herramientas de desarrollo'; duro = true; }
+  else if (k === 'meta' || k === 'os' || k === 'win') { tipo = 'tecla_sistema'; det = 'Pulsaste la tecla Windows/Cmd'; duro = true; }
+  else if (e.metaKey && e.shiftKey && ['Digit3', 'Digit4', 'Digit5'].indexOf(code) !== -1) { tipo = 'captura'; det = 'Intento de captura de pantalla'; duro = true; }
+  else if (k === 'printscreen' || e.keyCode === 44) { tipo = 'captura'; det = 'Intento de captura de pantalla (ImprPant)'; duro = true; }
+  else if (c && ['u', 's', 'p', 'a', 'c', 'v', 'x', 'f', 'g', 'h', 'o', 'l', 'd', 'e', 'r', 'w', 't', 'n', 'j', 'k', 'b'].indexOf(letra) !== -1) { tipo = 'atajo'; det = 'Atajo de teclado bloqueado (Ctrl+' + letra.toUpperCase() + ')'; }
+  else if (['f5', 'f11', 'f3', 'f6', 'f7', 'f10'].indexOf(k) !== -1) { tipo = 'atajo'; det = 'Tecla bloqueada (' + k.toUpperCase() + ')'; }
+  else if (e.keyCode === 9 || k === 'alt' || (e.altKey && k.length === 1)) { e.preventDefault(); e.stopPropagation(); return; }
+  if (tipo) {
+    e.preventDefault(); e.stopPropagation();
+    if (tipo === 'captura') { try { navigator.clipboard && navigator.clipboard.writeText('Captura no permitida durante la evaluación'); } catch (x) {} }
+    apRegistrar(tipo, det, duro);
   }
 }
 
-function _apMsg(titulo, msg) {
-  const ov = document.createElement('div');
-  ov.style.cssText = 'position:fixed;inset:0;background:rgba(10,12,16,.88);z-index:99999;display:flex;justify-content:center;align-items:center;backdrop-filter:blur(12px)';
-  ov.innerHTML = `<div style="background:var(--bg-3);border-radius:var(--r-2xl);padding:28px;max-width:360px;width:90%;text-align:center;border:1px solid var(--border-2);border-top:2px solid var(--gold)">
-    <h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:8px;color:var(--text)">${titulo}</h3>
-    <p style="color:var(--text-2);font-size:.875rem;margin-bottom:18px;line-height:1.6">${msg}</p>
-    <button onclick="this.closest('div').parentElement.remove()" style="background:var(--accent);color:#fff;border:none;padding:10px 28px;border-radius:50px;font-weight:700;cursor:pointer;font-size:.875rem">Entendido</button>
-  </div>`;
-  document.body.appendChild(ov);
+function apActivar() {
+  if (AP.activo) return;
+  Object.assign(AP, { activo: true, finalizando: false, avisos: 0, soft: 0, fuera: null, segFuera: 0, log: [], handlers: [], timers: {}, ignorarHasta: Date.now() + 2500, ultimoDuro: 0, devHits: 0, devAbierto: false });
+  document.body.classList.add('ap-on');
+  apMedirBase();
+  setTimeout(apMedirBase, 1200);
+  apActualizarBarra();
+  if (AP_CFG.marcaDeAgua) apMarcaDeAgua();
+
+  // Bloqueo de copiar / pegar / arrastrar / seleccionar / menú contextual
+  ['copy', 'cut', 'paste', 'dragstart', 'drop', 'selectstart'].forEach(ev => apOn(document, ev, e => {
+    e.preventDefault(); e.stopPropagation();
+    if (ev === 'copy' || ev === 'cut') { try { navigator.clipboard && navigator.clipboard.writeText(''); } catch (x) {} }
+  }, true));
+  apOn(document, 'contextmenu', e => { e.preventDefault(); e.stopPropagation(); apRegistrar('clic_derecho', 'Intento de abrir el menú contextual (clic derecho)', false); }, true);
+
+  // Teclado
+  apOn(document, 'keydown', apTeclado, true);
+  apOn(document, 'keyup', e => {
+    if (AP.activo && ((e.key || '') === 'PrintScreen' || e.keyCode === 44)) {
+      try { navigator.clipboard && navigator.clipboard.writeText('Captura no permitida durante la evaluación'); } catch (x) {}
+      apRegistrar('captura', 'Intento de captura de pantalla (ImprPant)', true);
+    }
+  }, true);
+
+  // Minimizar, cambiar de pestaña, Alt+Tab, otra ventana o monitor
+  apOn(document, 'visibilitychange', () => { if (document.hidden) apSalida('Cambiaste de pestaña, minimizaste o cambiaste de ventana'); else apRegreso(); });
+  apOn(window, 'blur', () => { setTimeout(() => { if (AP.activo && !document.hasFocus()) apSalida('La ventana del quiz perdió el foco (Alt+Tab, otra ventana o aplicación)'); }, 150); });
+  apOn(window, 'focus', apRegreso);
+
+  // Pantalla completa
+  apOn(document, 'fullscreenchange', onFSChange);
+  apOn(document, 'webkitfullscreenchange', onFSChange);
+  function onFSChange() {
+    if (!AP.activo || AP.finalizando) return;
+    AP.ignorarHasta = Date.now() + 1500;
+    if (!apEnFS()) { if (AP_CFG.pantallaCompleta && apFSSoportado()) apRegistrar('pantalla_completa', 'Saliste del modo pantalla completa', true); }
+    else setTimeout(apMedirBase, 900);
+  }
+  if (AP_CFG.pantallaCompleta && apFSSoportado() && !apEnFS()) apPedirFS();
+
+  // Pantalla dividida / ventana reducida
+  let rt = null;
+  apOn(window, 'resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => {
+      if (!AP.activo || AP.finalizando || Date.now() < AP.ignorarHasta) return;
+      if (AP.base.w && (window.innerWidth < AP.base.w * 0.75 || window.innerHeight < AP.base.h * 0.65)) apRegistrar('redimension', 'Se redujo la ventana (pantalla dividida o ventana redimensionada)', true);
+      else if (window.innerWidth > AP.base.w || window.innerHeight > AP.base.h) apMedirBase();
+    }, 350);
+  });
+  apOn(window, 'orientationchange', () => { AP.ignorarHasta = Date.now() + 1500; setTimeout(apMedirBase, 800); });
+
+  // Cursor saliendo de la ventana (solo con mouse)
+  if (!AP_TACTIL) apOn(document.documentElement, 'mouseleave', e => {
+    if (e.clientY <= 0 || e.clientX <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) apRegistrar('cursor', 'El cursor salió de la ventana del quiz', false);
+  });
+
+  // Imprimir
+  apOn(window, 'beforeprint', () => apRegistrar('imprimir', 'Intento de imprimir la página', true));
+
+  // Botón "atrás" del navegador
+  try { history.pushState({ ap: 1 }, '', location.href); } catch (e) {}
+  apOn(window, 'popstate', () => { try { history.pushState({ ap: 1 }, '', location.href); } catch (e) {} apRegistrar('atras', 'Intento de volver atrás en el navegador', false); });
+
+  // Recargar / cerrar: se avisa y, si realmente se cierra, el servidor registra el abandono (nota 0)
+  apOn(window, 'beforeunload', e => { if (AP.activo && !AP.finalizando) { e.preventDefault(); e.returnValue = ''; return ''; } });
+  apOn(window, 'pagehide', e => {
+    if (AP.activo && !AP.finalizando && !e.persisted && !AP_TACTIL) {
+      try { navigator.sendBeacon(API_URL, JSON.stringify({ action: 'registrarAbandonoQuiz', args: [App.ses.usuario, App.ses.adminId] })); } catch (x) {}
+    }
+  });
+
+  // Herramientas de desarrollo
+  AP.timers.dev = setInterval(() => {
+    if (!AP.activo || AP.finalizando) return;
+    if (apDevtoolsAbierto()) {
+      AP.devHits++;
+      if (AP.devHits >= 2 && !AP.devAbierto) {
+        AP.devAbierto = true;
+        if (AP_CFG.devtoolsEsPlagio) { AP.log.push({ t: Date.now(), tipo: 'devtools', detalle: 'DevTools abiertas' }); apPlagio('Se detectaron las herramientas de desarrollo abiertas'); }
+        else apRegistrar('devtools', 'Se detectaron las herramientas de desarrollo abiertas', true);
+      }
+    } else { AP.devHits = 0; AP.devAbierto = false; }
+  }, AP_CFG.intervaloDevtools);
+
+  // Un solo quiz a la vez (otra pestaña / ventana)
+  const latido = () => {
+    try {
+      const cur = JSON.parse(localStorage.getItem(AP_LOCK_KEY) || 'null');
+      if (cur && cur.tok !== AP.tok && Date.now() - cur.t < 5000) apRegistrar('otra_pestana', 'Se detectó el quiz abierto en otra pestaña o ventana', true);
+      localStorage.setItem(AP_LOCK_KEY, JSON.stringify({ tok: AP.tok, t: Date.now() }));
+    } catch (e) {}
+  };
+  latido();
+  AP.timers.lock = setInterval(latido, 1500);
 }
+
+function apDesactivar() {
+  AP.activo = false;
+  AP.handlers.forEach(h => { try { h[0].removeEventListener(h[1], h[2], h[3]); } catch (e) {} });
+  AP.handlers = [];
+  Object.keys(AP.timers).forEach(k => clearInterval(AP.timers[k]));
+  AP.timers = {};
+  document.body.classList.remove('ap-on');
+  const w = $('apWatermark'); if (w) w.style.display = 'none';
+  const ov = $('apAvisoOv'); if (ov) ov.style.display = 'none';
+  const b = $('apBar'); if (b) b.style.display = 'none';
+  try { const cur = JSON.parse(localStorage.getItem(AP_LOCK_KEY) || 'null'); if (cur && cur.tok === AP.tok) localStorage.removeItem(AP_LOCK_KEY); } catch (e) {}
+  apSalirFS();
+}
+
+function activarAP() { apActivar(); }
+function desactivarAP() { apDesactivar(); }
+
 
 // ============================================================
 // HISTORIAL
@@ -4299,23 +4755,23 @@ function cargarHistorial() {
       $('historialContainer').innerHTML = '<div class="empty"><div class="empty-ic">📭</div><p>Sin resultados aún.</p></div>';
       return;
     }
-    const colorPct = p => p >= 90 ? 'var(--purple)' : p >= 70 ? 'var(--green)' : p >= 40 ? 'var(--amber)' : 'var(--red)';
     App.historialData = res.historial;
     $('historialContainer').innerHTML = res.historial.map(h => {
-      let rawP = String(h.porcentaje).trim();
-      let pVal = parseFloat(rawP.replace('%', ''));
-      const p = (pVal <= 1 && !rawP.includes('%')) ? Math.round(pVal * 100) : (parseInt(pVal) || 0);
-      h.porcentajeFormat = p + '%';
-      const c = colorPct(p);
+      const nota = Number(h.nota) || 0;
+      h.porcentajeFormat = fmtNota(nota);
+      const c = h.plagio ? 'var(--red)' : colorNota(nota);
       const user = App.ses.rol !== 'estudiante' ? `👤 ${esc(h.nombre || h.usuario)} · ` : '';
-      return `<div class="result-row" style="border-left-color:${c}">
+      const nivel = h.plagio ? '<span class="result-lvl" style="background:var(--red)">🚨 PLAGIO</span>' : `<span class="result-lvl" style="background:${c}">${esc(h.nivel)}</span>`;
+      const motivo = h.plagio && h.motivo ? `<div class="result-motivo">🚨 ${esc(h.motivo)}</div>` : '';
+      return `<div class="result-row${h.plagio ? ' plagio' : ''}" style="border-left-color:${c}">
         <div>
-          <div class="result-meta">📅 ${h.fecha}</div>
-          <div class="result-detail">${user}✅ ${h.correctas} · ❌ ${h.incorrectas} · Total ${h.total}${h.tema ? ` · 📂 ${h.tema}` : ''}</div>
+          <div class="result-meta">📅 ${esc(h.fecha)}</div>
+          <div class="result-detail">${user}✅ ${esc(h.correctas)} · ❌ ${esc(h.incorrectas)} · Total ${esc(h.total)}${h.tema ? ` · 📂 ${esc(h.tema)}` : ''}</div>
+          ${motivo}
         </div>
         <div class="result-score">
-          <div class="result-pct" style="color:${c}">${p}%</div>
-          <span class="result-lvl" style="background:${c}">${h.nivel}</span>
+          <div class="result-pct" style="color:${c}">${fmtNota(nota)}<span style="font-size:.7rem;font-weight:600;color:var(--text-3)"> / 20</span></div>
+          ${nivel}
         </div>
       </div>`;
     }).join('');
@@ -4360,19 +4816,17 @@ function cargarRanking() {
       $('rankingContainer').innerHTML = '<div class="empty"><div class="empty-ic">🏅</div><p>Sin datos</p></div>';
       return;
     }
-    const colorPct = p => p >= 90 ? 'var(--purple)' : p >= 70 ? 'var(--green)' : p >= 40 ? 'var(--amber)' : 'var(--red)';
     $('rankingContainer').innerHTML = res.ranking.map((r, i) => {
-      let rawP = String(r.promedio).trim();
-      let pVal = parseFloat(rawP.replace('%', ''));
-      r.promedio = (pVal <= 1 && !rawP.includes('%')) ? Math.round(pVal * 100) : (parseInt(pVal) || 0);
+      const prom = Number(r.promedio) || 0;
       const pos = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+      const pl = r.plagios > 0 ? ` · <span style="color:var(--red);font-weight:700">🚨 ${r.plagios} plagio(s)</span>` : '';
       return `<div class="rank-row">
         <div class="rank-pos">${pos}</div>
         <div class="rank-info">
           <div class="rank-name">${esc(r.nombre)}</div>
-          <div class="rank-meta">@${esc(r.usuario)} · ${r.intentos} quizzes · Mejor: ${r.mejor}%</div>
+          <div class="rank-meta">@${esc(r.usuario)} · ${r.intentos} quizzes · Mejor: ${fmtNota(r.mejor)}/20${pl}</div>
         </div>
-        <div class="rank-pct" style="color:${colorPct(r.promedio)}">${r.promedio}%</div>
+        <div class="rank-pct" style="color:${colorNota(prom)}">${fmtNota(prom)}<span style="font-size:.65rem;color:var(--text-3)">/20</span></div>
       </div>`;
     }).join('');
   });
