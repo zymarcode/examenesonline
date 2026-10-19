@@ -2800,6 +2800,9 @@ html[data-theme="light"] .ib-blue { background: rgba(27,74,168,.10); color: #173
 html[data-theme="light"] .ib-green { color: #0b5c39; border-color: rgba(15,122,77,.4); }
 html[data-theme="light"] .ib-gold { color: #6b4f08; border-color: rgba(154,116,16,.45); }
 html[data-theme="light"] .hero-banner { background: #ffffff; box-shadow: 0 3px 14px rgba(11,31,77,.14); }
+
+/* El nombre del usuario ya aparece en la tarjeta del menú lateral: en escritorio no se repite en la barra superior */
+@media (min-width: 769px) { .tb-user { display: none !important; } }
 </style>
 </head>
 <body>
