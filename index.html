@@ -655,6 +655,125 @@ body.exam-mode #quizResultados .card > * { max-width: 1100px; }
   body.exam-mode #quizResultados .card { padding: 14px 12px 40px; }
 }
 
+
+/* ============================================================
+   EXAMEN · DISEÑO INSTITUCIONAL Y EDUCATIVO (azul marino + dorado, fondo claro)
+============================================================ */
+.ex-head, .ex-dots { display: none; }
+body.exam-mode {
+  color-scheme: light;
+  --bg: #eef2f9; --bg-2: #ffffff; --bg-3: #ffffff;
+  --surface: #f5f8fd; --surface-2: #e8eefb; --surface-3: #d9e1f0;
+  --border: #d9e1f0; --border-2: #cfd8ea; --border-3: #b9c6e0;
+  --text: #0b1f4d; --text-2: #3b4a6b; --text-3: #6b7794;
+  --accent: #1b4aa8; --accent-2: #1b4aa8; --accent-glow: rgba(27,74,168,.16); --accent-bg: rgba(27,74,168,.07);
+  --gold: #c9a13b; --gold-2: #e0b94f;
+  --green: #17784a; --green-bg: #ecfdf3;
+  --red: #b3261e; --red-bg: #fef3f2;
+  --amber: #b9770e; --amber-bg: #fff7e6;
+  --shadow-xs: 0 1px 3px rgba(11,31,77,.08);
+  --shadow-lg: 0 20px 60px rgba(11,31,77,.25);
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 90% 0%, rgba(201,161,59,.10), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(27,74,168,.08), transparent 60%);
+}
+body.exam-mode #quizMotor .card,
+body.exam-mode #quizResultados .card { background: transparent; box-shadow: none; padding-top: 0; }
+
+/* Cabecera institucional */
+body.exam-mode .ex-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  margin: 0 calc(-1 * clamp(16px, 5vw, 96px)) 22px;
+  padding: 18px clamp(16px, 5vw, 96px);
+  width: auto !important;
+  background: linear-gradient(135deg, #0b1f4d 0%, #14338a 100%);
+  border-bottom: 5px solid var(--gold);
+  box-shadow: 0 6px 22px rgba(11,31,77,.25);
+  color: #fff;
+}
+body.exam-mode .ex-brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+body.exam-mode .ex-logo {
+  width: 54px; height: 54px; flex-shrink: 0; border-radius: 14px;
+  background: #fff; border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center; font-size: 1.7rem; overflow: hidden;
+}
+body.exam-mode .ex-logo img { max-width: 100%; max-height: 100%; object-fit: contain; padding: 3px; }
+body.exam-mode .ex-sys { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 700; letter-spacing: .3px; line-height: 1.2; }
+body.exam-mode .ex-sub { font-size: .8rem; color: #f0d98a; margin-top: 2px; letter-spacing: .04em; }
+body.exam-mode .ex-student { text-align: right; padding-right: 150px; }
+body.exam-mode .ex-lbl { font-size: .62rem; letter-spacing: .18em; color: #f0d98a; font-weight: 700; }
+body.exam-mode .ex-name { font-weight: 700; font-size: 1.05rem; }
+body.exam-mode .ex-user { font-size: .75rem; color: rgba(255,255,255,.7); }
+@media (max-width: 768px) {
+  body.exam-mode .ex-student { text-align: left; padding-right: 0; }
+}
+
+/* Cronómetro dentro de la cabecera */
+body.exam-mode .timer-box {
+  position: fixed; top: 14px; right: clamp(14px, 4vw, 70px); z-index: 60;
+  margin: 0; padding: 8px 16px; gap: 10px;
+  background: rgba(255,255,255,.96); border: 2px solid var(--gold); border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.22);
+  width: auto !important; max-width: none !important;
+}
+body.exam-mode .timer-val { font-size: 1.5rem; color: #0b1f4d; }
+body.exam-mode .timer-val.warn { color: var(--amber); }
+body.exam-mode .timer-val.danger { color: var(--red); }
+
+/* Barra de progreso y navegador de preguntas */
+body.exam-mode #quizProgress {
+  text-align: left !important; font-family: Georgia, serif; font-size: 1.15rem !important;
+  color: var(--text) !important; font-weight: 700 !important; letter-spacing: .3px;
+}
+body.exam-mode .prog-bar { background: var(--surface-3); height: 10px; }
+body.exam-mode .prog-fill { background: linear-gradient(90deg, #0b1f4d, var(--accent), var(--gold)); }
+body.exam-mode .ex-dots { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+body.exam-mode .ex-dot {
+  min-width: 32px; height: 32px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 9px; font-size: .78rem; font-weight: 700;
+  background: #fff; color: var(--text-3); border: 1.5px solid var(--border-2);
+}
+body.exam-mode .ex-dot.done { background: #0b1f4d; color: #fff; border-color: #0b1f4d; }
+body.exam-mode .ex-dot.cur { background: var(--gold); color: #0b1f4d; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,161,59,.25); }
+
+/* Tarjeta de pregunta */
+body.exam-mode .q-card {
+  background: #fff; border: 1px solid var(--border-2);
+  border-left: 8px solid var(--gold); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(11,31,77,.08);
+}
+body.exam-mode .q-card::before { display: none; }
+body.exam-mode .q-num {
+  display: inline-block; padding: 5px 14px; border-radius: 999px;
+  background: #0b1f4d; color: #f0d98a; font-size: .78rem; letter-spacing: .14em;
+}
+body.exam-mode .q-text { font-family: Georgia, 'Times New Roman', serif; color: #0b1f4d; font-weight: 600; margin-top: 14px; }
+
+/* Opciones */
+body.exam-mode .opt-btn {
+  background: #fff; color: var(--text); border: 2px solid var(--border-2); border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(11,31,77,.05); font-weight: 500;
+}
+body.exam-mode .opt-btn .opt-l { background: var(--surface-2); color: #0b1f4d; border: 2px solid var(--border-2); }
+body.exam-mode .opt-btn:hover:not(.dis) { border-color: var(--accent); background: #f1f5ff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(27,74,168,.14); }
+body.exam-mode .opt-btn:hover:not(.dis) .opt-l { background: var(--accent); color: #fff; border-color: var(--accent); }
+body.exam-mode .opt-btn.sel { background: #0b1f4d; border-color: #0b1f4d; color: #fff; }
+body.exam-mode .opt-btn.sel .opt-l { background: var(--gold); color: #0b1f4d; border-color: var(--gold); }
+body.exam-mode .opt-btn.dis:not(.sel) { opacity: .55; }
+
+/* Barra antiplagio y resultados */
+body.exam-mode .ap-bar { background: #fff7e6; border-color: #f0d98a; color: #8a6d1d; }
+body.exam-mode .ap-bar.warn { background: var(--red-bg); border-color: #f3b9b4; color: var(--red); }
+body.exam-mode #quizResultados .card {
+  background: #fff; border: 1px solid var(--border-2); border-top: 6px solid var(--gold);
+  border-radius: 20px; box-shadow: 0 16px 50px rgba(11,31,77,.12);
+  margin: clamp(16px, 4vw, 60px) auto; width: min(1000px, 94vw); min-height: auto; padding: clamp(20px, 4vw, 48px);
+}
+body.exam-mode #quizResultados .card-title { font-family: Georgia, serif; color: #0b1f4d; font-size: 1.25rem; }
+body.exam-mode #resPct { font-family: Georgia, serif; font-size: clamp(3.4rem, 8vw, 5.5rem) !important; }
+body.exam-mode .stat-chip { background: #f5f8fd; border-top: 3px solid var(--gold); }
+
 /* ============================================================
    APP LAYOUT
 ============================================================ */
@@ -3203,6 +3322,20 @@ body.ap-on {
       </div>
       <div id="quizMotor" style="display: none;">
         <div class="card">
+          <div class="ex-head" id="exHead">
+            <div class="ex-brand">
+              <span class="ex-logo" id="exLogo">🎓</span>
+              <div>
+                <div class="ex-sys" id="exSys">Plataforma Educativa</div>
+                <div class="ex-sub" id="exSub">Evaluación académica</div>
+              </div>
+            </div>
+            <div class="ex-student">
+              <div class="ex-lbl">ESTUDIANTE</div>
+              <div class="ex-name" id="exName">—</div>
+              <div class="ex-user" id="exUser"></div>
+            </div>
+          </div>
           <div id="apBar" class="ap-bar"></div>
           <div class="timer-box" id="timerBox" style="display: none;">
             <span style="font-size: 1.1rem;">⏱️</span>
@@ -3213,6 +3346,7 @@ body.ap-on {
           </div>
           <div id="quizProgress" style="text-align: center; font-weight: 600; color: var(--text-2); font-size: .875rem; margin-bottom: 8px;">Pregunta 1 de 10</div>
           <div class="prog-bar"><div class="prog-fill" id="quizBar" style="width: 0%;"></div></div>
+          <div class="ex-dots" id="exDots" aria-hidden="true"></div>
           <div class="q-card"><div class="q-num" id="qNum">PREGUNTA 1</div><div class="q-text" id="qText">…</div></div>
           <div id="optionsList"></div>
           <div id="quizFeedback" style="display: none;"></div>
@@ -4871,7 +5005,30 @@ function iniciarQuiz() {
   });
 }
 
+function exRenderHead() {
+  const sys = (($('sidebarSiteName') && $('sidebarSiteName').textContent) || 'Plataforma Educativa').trim();
+  const sub = ($('sidebarTagline') && $('sidebarTagline').textContent) || 'Evaluación académica';
+  if ($('exSys')) $('exSys').textContent = sys;
+  if ($('exSub')) $('exSub').textContent = 'Evaluación académica · ' + (App.quiz.tema && App.quiz.tema !== 'Todos' ? App.quiz.tema : 'Todos los temas');
+  if ($('exName')) $('exName').textContent = App.ses.nombre || '';
+  if ($('exUser')) $('exUser').textContent = '@' + (App.ses.usuario || '');
+  const logo = $('sidebarLogoImg'), L = $('exLogo');
+  if (L) {
+    if (logo && logo.style.display !== 'none' && logo.getAttribute('src')) L.innerHTML = '<img src="' + esc(logo.getAttribute('src')) + '" alt="">';
+    else L.textContent = '🎓';
+  }
+}
+function exRenderDots() {
+  const d = $('exDots'); if (!d) return;
+  const tot = App.quiz.preguntas.length, cur = App.quiz.indice;
+  let h = '';
+  for (let i = 0; i < tot; i++) h += '<span class="ex-dot' + (i < cur ? ' done' : i === cur ? ' cur' : '') + '">' + (i + 1) + '</span>';
+  d.innerHTML = h;
+}
+
 function mostrarPregunta() {
+  exRenderHead();
+  exRenderDots();
   const p = App.quiz.preguntas[App.quiz.indice];
   const n = App.quiz.indice + 1, tot = App.quiz.preguntas.length;
   App.quiz.respondida = false;
