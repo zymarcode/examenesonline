@@ -2163,7 +2163,7 @@ textarea.form-input {
     </div>
     <div class="lf-head">
       <h2>Iniciar sesión</h2>
-      <p>Accede a tu panel educativo</p>
+      <p id="loginSubtitle">Accede a tu panel educativo</p>
     </div>
     <div id="loginAlert"></div>
     <div class="lf-field">
@@ -2207,7 +2207,7 @@ textarea.form-input {
       <img class="sb-logo-img" id="sidebarLogoImg" src="" alt="">
       <span class="sb-site-name" id="sidebarSiteName">Plataforma Educativa</span>
     </div>
-    <div class="sb-tagline">Panel de control</div>
+    <div class="sb-tagline" id="sidebarTagline">Panel de control</div>
   </div>
   <nav class="sb-nav" id="sidebarNav"></nav>
   <div class="sb-user">
@@ -2285,9 +2285,14 @@ textarea.form-input {
         <div class="card-hd">
           <div class="card-title"><span class="card-ic">🚀</span>Acciones Rápidas</div>
         </div>
-        <div class="btn-grp">
+        <div class="btn-grp" id="qaAdmin">
           <button class="btn btn-green" onclick="mostrarSec('quiz')">📝 Iniciar Quiz</button>
           <button class="btn btn-dark" onclick="mostrarSec('historial')">📊 Ver Resultados</button>
+        </div>
+        <div class="btn-grp" id="qaSuper" style="display: none;">
+          <button class="btn btn-green" onclick="mostrarSec('admins')">👑 Administradores</button>
+          <button class="btn btn-primary" onclick="mostrarSec('marca')">🎨 Identidad del sistema</button>
+          <button class="btn btn-dark" onclick="mostrarSec('notificaciones')">📢 Notificaciones</button>
         </div>
       </div>
     </div>
@@ -2377,7 +2382,6 @@ textarea.form-input {
             <select id="notifTipoSuper" class="form-input" style="display: none;">
               <option value="todos">🌐 Todos (SuperAdmin + Admins + Estudiantes)</option>
               <option value="admins">👑 Solo Administradores</option>
-              <option value="estudiantes">📚 Mis Estudiantes</option>
             </select>
           </div>
           <div id="notifAlert"></div>
@@ -2484,10 +2488,25 @@ textarea.form-input {
         <div class="info-box ib-blue" style="margin-top: 10px;"><strong>Estado:</strong> <span id="emailEstado">Cargando…</span></div>
       </div>
 
-      <!-- Personalizar Login (solo superadmin) -->
-      <div class="card" id="cardLoginPers" style="display: none;">
+      <!-- Danger Zone -->
+      <div class="danger-zone">
+        <div class="danger-zone-title"><span>⚠️</span> Zona de Peligro</div>
+        <p>Estas acciones son irreversibles. Procede con cautela.</p>
+        <div class="btn-grp">
+          <button class="btn btn-red" onclick="eliminarPreguntas()">🗑️ Eliminar Todas las Preguntas</button>
+          <button class="btn btn-amber" onclick="limpiarHistorial()">🧹 Limpiar Historial</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== IDENTIDAD DEL SISTEMA (SOLO SUPER ADMIN) ========== -->
+    <div class="section" id="sec-marca">
+      <div class="info-box ib-blue" style="margin-bottom: 14px;">
+        👑 <strong>Exclusivo del Super Administrador:</strong> los cambios de logo, título y subtítulo se aplican a todo el sistema (login, sidebar y pestaña del navegador).
+      </div>
+      <div class="card" id="cardLoginPers">
         <div class="card-hd">
-          <div class="card-title"><span class="card-ic">🎨</span>Personalizar Login</div>
+          <div class="card-title"><span class="card-ic">🎨</span>Identidad del Sistema</div>
         </div>
         <div class="form-row">
           <label class="form-label">🏷️ Nombre del sistema</label>
@@ -2495,7 +2514,12 @@ textarea.form-input {
           <small style="color: var(--text-3); font-size: .72rem; margin-top: 4px; display: block;">Aparece en sidebar, login y título del navegador</small>
         </div>
         <div class="form-row">
-          <label class="form-label">🖼️ Imagen de fondo (URL)</label>
+          <label class="form-label">✏️ Subtítulo del sistema</label>
+          <input type="text" class="form-input" id="inputSubtitle" placeholder="Ej: Portal académico del colegio">
+          <small style="color: var(--text-3); font-size: .72rem; margin-top: 4px; display: block;">Aparece debajo de “Iniciar sesión” y en el sidebar. Vacío = texto por defecto</small>
+        </div>
+        <div class="form-row">
+          <label class="form-label">🖼️ Imagen de fondo del login (URL)</label>
           <div style="display: flex; gap: 8px;">
             <input type="url" class="form-input" id="inputFondoUrl" placeholder="https://…/imagen.jpg" oninput="debouncePreviewFondo()">
             <button class="btn btn-ghost btn-sm" style="flex-shrink: 0;" onclick="clearFondo()">✕</button>
@@ -2503,7 +2527,7 @@ textarea.form-input {
         </div>
         <div class="pers-preview" id="fondoPrevWrap"><img id="fondoPrevImg" alt=""><div class="pers-preview-lbl">Fondo</div></div>
         <div class="form-row">
-          <label class="form-label">🏷️ Logo (URL)</label>
+          <label class="form-label">🏷️ Logo del sistema (URL)</label>
           <div style="display: flex; gap: 8px;">
             <input type="url" class="form-input" id="inputLogoUrl" placeholder="https://…/logo.png" oninput="debouncePreviewLogo()">
             <button class="btn btn-ghost btn-sm" style="flex-shrink: 0;" onclick="clearLogo()">✕</button>
@@ -2525,17 +2549,7 @@ textarea.form-input {
         <div id="loginPersAlert"></div>
         <div class="btn-grp">
           <button class="btn btn-primary" onclick="guardarLoginPers()">💾 Guardar</button>
-          <button class="btn btn-ghost" onclick="eliminarLoginPers()">🗑️ Quitar imágenes</button>
-        </div>
-      </div>
-
-      <!-- Danger Zone -->
-      <div class="danger-zone">
-        <div class="danger-zone-title"><span>⚠️</span> Zona de Peligro</div>
-        <p>Estas acciones son irreversibles. Procede con cautela.</p>
-        <div class="btn-grp">
-          <button class="btn btn-red" onclick="eliminarPreguntas()">🗑️ Eliminar Todas las Preguntas</button>
-          <button class="btn btn-amber" onclick="limpiarHistorial()">🧹 Limpiar Historial</button>
+          <button class="btn btn-ghost" onclick="eliminarLoginPers()">🗑️ Restablecer imágenes</button>
         </div>
       </div>
     </div>
@@ -2927,21 +2941,25 @@ function cerrarSesion() {
 // ============================================================
 // NAVEGACIÓN
 // ============================================================
+// Cada sección declara qué roles la ven. El Super Admin gestiona la plataforma;
+// el Admin gestiona su aula (estudiantes, preguntas, configuración del quiz).
 const SECTIONS = [
-  { id: 'inicio', icon: '🏠', label: 'Inicio', admin: false, sup: false },
-  { id: 'admins', icon: '👑', label: 'Administradores', admin: false, sup: true },
-  { id: 'importar', icon: '⚙️', label: 'Configuración', admin: true, sup: false },
-  { id: 'usuarios', icon: '👥', label: 'Estudiantes', admin: true, sup: false },
-  { id: 'notificaciones', icon: '📢', label: 'Notificaciones', admin: true, sup: false },
-  { id: 'enlinea', icon: '🟢', label: 'En Línea', admin: true, sup: false },
-  { id: 'perfil', icon: '👤', label: 'Mi Perfil', admin: false, sup: false },
-  { id: 'quiz', icon: '📝', label: 'Quiz', admin: false, sup: false },
-  { id: 'historial', icon: '📊', label: 'Historial', admin: false, sup: false },
-  { id: 'ranking', icon: '🏅', label: 'Ranking', admin: true, sup: false }
+  { id: 'inicio',         icon: '🏠', label: 'Inicio',               roles: ['super_admin', 'admin', 'estudiante'] },
+  { id: 'admins',         icon: '👑', label: 'Administradores',      roles: ['super_admin'] },
+  { id: 'marca',          icon: '🎨', label: 'Identidad del sistema', roles: ['super_admin'] },
+  { id: 'importar',       icon: '⚙️', label: 'Configuración',        roles: ['admin'] },
+  { id: 'usuarios',       icon: '👥', label: 'Estudiantes',          roles: ['admin'] },
+  { id: 'notificaciones', icon: '📢', label: 'Notificaciones',       roles: ['super_admin', 'admin'] },
+  { id: 'enlinea',        icon: '🟢', label: 'En Línea',             roles: ['super_admin', 'admin'] },
+  { id: 'perfil',         icon: '👤', label: 'Mi Perfil',            roles: ['super_admin', 'admin', 'estudiante'] },
+  { id: 'quiz',           icon: '📝', label: 'Quiz',                 roles: ['admin', 'estudiante'] },
+  { id: 'historial',      icon: '📊', label: 'Historial',            roles: ['admin', 'estudiante'] },
+  { id: 'ranking',        icon: '🏅', label: 'Ranking',              roles: ['admin'] }
 ];
 const META = {
   inicio: ['Inicio', 'Panel general'],
   admins: ['Administradores', 'Gestión del sistema'],
+  marca: ['Identidad del sistema', 'Logo, título y subtítulo'],
   importar: ['Configuración', 'Ajustes avanzados'],
   usuarios: ['Estudiantes', 'Gestión de estudiantes'],
   notificaciones: ['Notificaciones', 'Enviar mensajes'],
@@ -2953,14 +2971,17 @@ const META = {
 };
 function buildNav() {
   const esS = App.ses.rol === 'super_admin', esA = App.ses.rol === 'admin';
-  $('sidebarNav').innerHTML = SECTIONS.filter(s => !(s.sup && !esS) && !(s.admin && !esA && !esS)).map(s => `<button class="nav-item" data-sec="${s.id}" onclick="mostrarSec('${s.id}')"><span class="ni">${s.icon}</span>${s.label}</button>`).join('');
+  $('sidebarNav').innerHTML = SECTIONS.filter(s => s.roles.includes(App.ses.rol)).map(s => `<button class="nav-item" data-sec="${s.id}" onclick="mostrarSec('${s.id}')"><span class="ni">${s.icon}</span>${s.label}</button>`).join('');
   $('suName').textContent = App.ses.nombre;
   $('suRole').textContent = esS ? '👑 Super Admin' : esA ? '👨‍💼 Admin' : '📚 Estudiante';
   $('suAvatar').textContent = (App.ses.nombre || '?').charAt(0).toUpperCase();
   $('tbUser').textContent = `${esS ? '👑' : esA ? '👨‍💼' : '👤'} ${App.ses.nombre}`;
   $('heroName').textContent = App.ses.nombre;
+  if ($('qaAdmin')) $('qaAdmin').style.display = esS ? 'none' : 'flex';
+  if ($('qaSuper')) $('qaSuper').style.display = esS ? 'flex' : 'none';
 }
 function mostrarSec(sec) {
+  if (!SECTIONS.some(s => s.id === sec && s.roles.includes(App.ses.rol))) sec = 'inicio';
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   const el = $(`sec-${sec}`);
   if (el) el.classList.add('active');
@@ -2971,7 +2992,8 @@ function mostrarSec(sec) {
   if (window.innerWidth <= 768 && sidebarOpen) cerrarSidebar();
   const actions = {
     admins: cargarAdmins,
-    importar: () => { cargarCfgTiempo(); cargarCfgQuiz(); cargarTemasAdmin(); cargarCfgAcceso(); cargarCfgEmail(); cargarLoginPers(); },
+    importar: () => { cargarCfgTiempo(); cargarCfgQuiz(); cargarTemasAdmin(); cargarCfgAcceso(); cargarCfgEmail(); },
+    marca: cargarLoginPers,
     usuarios: cargarUsuarios,
     notificaciones: () => { configurarPanelNotificacionesAdmin(); },
     enlinea: cargarEnLinea,
@@ -2996,11 +3018,9 @@ function iniciarApp() {
   $('appMain').style.display = 'flex';
   $('hamburgerBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
   const esS = App.ses.rol === 'super_admin';
-  if ($('cardLoginPers')) $('cardLoginPers').style.display = esS ? 'block' : 'none';
   buildNav();
   mostrarSec('inicio');
-  cargarCfgTiempo();
-  cargarCfgQuiz();
+  if (!esS) { cargarCfgTiempo(); cargarCfgQuiz(); }
   iniciarPing();
   aplicarPersonalizacion();
   cargarNotificacionesBell();
@@ -3016,9 +3036,10 @@ function iniciarApp() {
 function applyFondo(url, blur) { const bg = $('loginCustomBg'); if (!bg) return; if (url) { bg.style.backgroundImage = `url(${url})`; bg.style.filter = `blur(${blur || 5}px)`; } else { bg.style.backgroundImage = ''; bg.style.filter = ''; } }
 function applyLogo(url) { const icon = $('loginIconDefault'), img = $('loginLogoImg'); if (url) { img.src = url; img.style.display = 'block'; icon.style.display = 'none'; } else { img.style.display = 'none'; icon.style.display = 'flex'; } const sw = $('sidebarLogoImg'), si = $('sidebarIcon'); if (url) { sw.src = url; sw.style.display = 'inline'; si.style.display = 'none'; } else { sw.style.display = 'none'; si.style.display = 'flex'; } }
 function applySiteName(name) { if (!name) return; $('sidebarSiteName').textContent = name; $('loginBrandName').textContent = name; document.title = name; const el = $('pageTabTitle'); if (el) el.textContent = name; }
+function applySubtitle(text) { const l = $('loginSubtitle'), s = $('sidebarTagline'); if (l) l.textContent = text || 'Accede a tu panel educativo'; if (s) s.textContent = text || 'Panel de control'; }
 function applyFooter(text, url) { const lf = $('loginFooterTarget'), sf = $('sidebarFooterTarget'); const d = text ? (url ? `<a href="${url}" target="_blank" style="color:var(--text-3);text-decoration:underline;">${esc(text)}</a>` : esc(text)) : 'Desarrollado por Zymar Code +51927027986 • <strong>v1.0</strong>'; if (lf) lf.innerHTML = d; if (sf) { if (text) { sf.style.display = 'block'; sf.innerHTML = d; } else { sf.style.display = 'none'; sf.innerHTML = ''; } } }
-function aplicarPersonalizacion() { call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; if (res.fondo) applyFondo(res.fondo, res.blur); if (res.logo) applyLogo(res.logo); if (res.siteName) applySiteName(res.siteName); applyFooter(res.footerText, res.footerUrl); }); }
-function cargarLoginPers() { if (App.ses.rol !== 'super_admin') return; call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; const blur = res.blur || '5'; $('inputBlur').value = blur; $('blurLabel').textContent = blur + 'px'; if (res.siteName) $('inputSiteName').value = res.siteName; if (res.footerText) $('inputFooterText').value = res.footerText; if (res.footerUrl) $('inputFooterUrl').value = res.footerUrl; if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; } if (res.logo) { $('inputLogoUrl').value = res.logo; $('logoPrevImg').src = res.logo; $('logoPrevWrap').style.display = 'block'; } }); }
+function aplicarPersonalizacion() { call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; if (res.fondo) applyFondo(res.fondo, res.blur); if (res.logo) applyLogo(res.logo); if (res.siteName) applySiteName(res.siteName); applySubtitle(res.subtitle); applyFooter(res.footerText, res.footerUrl); }); }
+function cargarLoginPers() { if (App.ses.rol !== 'super_admin') return; call('obtenerPersonalizacionLogin', [], res => { if (!res?.success) return; const blur = res.blur || '5'; $('inputBlur').value = blur; $('blurLabel').textContent = blur + 'px'; if (res.siteName) $('inputSiteName').value = res.siteName; $('inputSubtitle').value = res.subtitle || ''; if (res.footerText) $('inputFooterText').value = res.footerText; if (res.footerUrl) $('inputFooterUrl').value = res.footerUrl; if (res.fondo) { $('inputFondoUrl').value = res.fondo; $('fondoPrevImg').src = res.fondo; $('fondoPrevWrap').style.display = 'block'; } if (res.logo) { $('inputLogoUrl').value = res.logo; $('logoPrevImg').src = res.logo; $('logoPrevWrap').style.display = 'block'; } }); }
 let _dFondo, _dLogo;
 function debouncePreviewFondo() { clearTimeout(_dFondo); _dFondo = setTimeout(previewFondo, 600); }
 function debouncePreviewLogo() { clearTimeout(_dLogo); _dLogo = setTimeout(previewLogo, 600); }
@@ -3027,7 +3048,20 @@ function previewLogo() { const url = $('inputLogoUrl').value.trim(); if (url) { 
 function clearFondo() { $('inputFondoUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; applyFondo('', 5); }
 function clearLogo() { $('inputLogoUrl').value = ''; $('logoPrevWrap').style.display = 'none'; }
 function onBlurChange(val) { $('blurLabel').textContent = val + 'px'; const url = $('inputFondoUrl').value.trim(); if (url) applyFondo(url, val); }
-function guardarLoginPers() { const siteName = $('inputSiteName').value.trim(), fondo = $('inputFondoUrl').value.trim(), logo = $('inputLogoUrl').value.trim(), blur = $('inputBlur').value, fTxt = $('inputFooterText').value.trim(), fUrl = $('inputFooterUrl').value.trim(); const cfg = { loginBlur: blur }; if (fondo) cfg.loginFondo = fondo; if (logo) cfg.loginLogo = logo; if (siteName) cfg.loginSiteName = siteName; cfg.loginFooterText = fTxt; cfg.loginFooterUrl = fUrl; callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => { if (res.success) { alerta('loginPersAlert', 'ok', 'Personalización guardada'); if (fondo) applyFondo(fondo, blur); if (logo) applyLogo(logo); if (siteName) applySiteName(siteName); applyFooter(fTxt, fUrl); } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar'); }); }
+function guardarLoginPers() {
+  if (App.ses.rol !== 'super_admin') return;
+  const siteName = $('inputSiteName').value.trim(), subtitle = $('inputSubtitle').value.trim(),
+        fondo = $('inputFondoUrl').value.trim(), logo = $('inputLogoUrl').value.trim(),
+        blur = $('inputBlur').value, fTxt = $('inputFooterText').value.trim(), fUrl = $('inputFooterUrl').value.trim();
+  const cfg = { loginBlur: blur, loginFondo: fondo, loginLogo: logo, loginSiteName: siteName, loginSubtitle: subtitle, loginFooterText: fTxt, loginFooterUrl: fUrl };
+  callSpin('Guardando…', 'guardarConfigGeneral', [App.ses.usuario, cfg], res => {
+    if (res.success) {
+      alerta('loginPersAlert', 'ok', 'Identidad del sistema guardada');
+      applyFondo(fondo, blur); applyLogo(logo);
+      applySiteName(siteName || 'Plataforma Educativa'); applySubtitle(subtitle); applyFooter(fTxt, fUrl);
+    } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar');
+  });
+}
 function eliminarLoginPers() { if (!confirm('¿Quitar las imágenes y restablecer personalizaición?')) return; callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('inputFooterText').value = ''; $('inputFooterUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; applyFooter('',''); alerta('loginPersAlert', 'ok', 'Personalización eliminada'); } else alerta('loginPersAlert', 'err', res.message); }); }
 
 // ============================================================
