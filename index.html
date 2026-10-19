@@ -12,6 +12,7 @@
    DESIGN TOKENS
 ============================================================ */
 :root {
+  color-scheme: dark;
   --bg: #0a0c10;
   --bg-2: #0f1117;
   --bg-3: #161a24;
@@ -106,17 +107,9 @@ a {
 }
 
 /* ============================================================
-   LOGIN SCREEN  ·  Institucional / Educativo (azul marino + dorado)
+   LOGIN SCREEN  ·  Tema oscuro original (azul + dorado) con diseño institucional
 ============================================================ */
 #loginScreen {
-  --lg-navy: #0b1f4d;
-  --lg-navy-2: #12327a;
-  --lg-blue: #1b4aa8;
-  --lg-gold: #f0c060;
-  --lg-gold-2: #f8d98a;
-  --lg-ink: #0f1f44;
-  --lg-muted: #5b6785;
-  --lg-line: #d9e1f0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,7 +117,7 @@ a {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: var(--lg-navy);
+  background: var(--bg-2);
 }
 .lv-panel {
   position: absolute;
@@ -140,11 +133,11 @@ a {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 85% 10%, rgba(240,192,96,.28), transparent 60%),
-    radial-gradient(ellipse 70% 60% at 10% 90%, rgba(91,141,238,.35), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 34px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 34px),
-    linear-gradient(135deg, #0b1f4d 0%, #12327a 55%, #1b4aa8 100%);
+    radial-gradient(ellipse 70% 60% at 30% 20%, rgba(91,141,238,.16), transparent 55%),
+    radial-gradient(ellipse 50% 70% at 75% 80%, rgba(240,192,96,.10), transparent 55%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 34px),
+    linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 100%);
 }
 #loginCustomBg {
   position: absolute;
@@ -158,15 +151,15 @@ a {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(135deg, rgba(8,24,66,.84) 0%, rgba(18,50,122,.62) 100%);
+  background: linear-gradient(135deg, rgba(10,12,16,.9) 0%, rgba(10,12,16,.65) 100%);
 }
 /* Íconos educativos flotando */
 .lv-deco { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
 .lv-float {
   position: absolute;
   font-size: 2.1rem;
-  opacity: .22;
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,.35));
+  opacity: .2;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,.45));
   animation: lvFloat 9s ease-in-out infinite;
 }
 .lv-float.f1 { top: 9%;  left: 62%; font-size: 3rem;   animation-delay: 0s; }
@@ -195,12 +188,12 @@ a {
   width: 52px;
   height: 52px;
   border-radius: 16px;
-  background: linear-gradient(135deg, var(--lg-gold), var(--lg-gold-2));
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.55rem;
-  box-shadow: 0 8px 28px rgba(240,192,96,.45);
+  font-size: 1.5rem;
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 .lv-brand-logo {
   width: 52px;
@@ -209,25 +202,25 @@ a {
   object-fit: contain;
   background: rgba(255,255,255,.95);
   padding: 4px;
-  box-shadow: 0 8px 28px rgba(0,0,0,.3);
+  box-shadow: 0 8px 28px rgba(0,0,0,.35);
 }
 .lv-brand-name {
   font-family: 'Syne', sans-serif;
   font-size: 1.2rem;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
   letter-spacing: .02em;
 }
-.lv-hero { color: #fff; max-width: 560px; }
+.lv-hero { color: #ffffff; max-width: 560px; }
 .lv-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 7px 14px;
   border-radius: 999px;
-  background: rgba(240,192,96,.14);
+  background: var(--gold-bg);
   border: 1px solid rgba(240,192,96,.4);
-  color: var(--lg-gold-2);
+  color: var(--gold-2);
   font-size: .78rem;
   font-weight: 600;
   letter-spacing: .04em;
@@ -240,16 +233,16 @@ a {
   line-height: 1.08;
   letter-spacing: -.02em;
   margin-bottom: 16px;
-  text-shadow: 0 4px 24px rgba(0,0,0,.35);
+  color: #ffffff;
 }
 .lv-hero h1 .hi {
-  background: linear-gradient(90deg, var(--lg-gold), var(--lg-gold-2));
+  background: linear-gradient(90deg, var(--gold), var(--gold-2));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: var(--lg-gold);
+  color: var(--gold);
 }
-.lv-hero p { font-size: 1rem; line-height: 1.65; color: rgba(255,255,255,.8); max-width: 480px; }
+.lv-hero p { font-size: 1rem; line-height: 1.65; color: rgba(241,243,248,.82); max-width: 480px; }
 .lv-features { display: grid; gap: 10px; margin-top: 26px; max-width: 460px; }
 .lv-feat {
   display: flex;
@@ -257,29 +250,28 @@ a {
   gap: 14px;
   padding: 12px 16px;
   border-radius: 14px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.14);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border-2);
   transition: transform .25s var(--ease), background .25s;
 }
-.lv-feat:hover { transform: translateX(6px); background: rgba(255,255,255,.14); }
+.lv-feat:hover { transform: translateX(6px); background: rgba(255,255,255,.09); }
 .lv-feat > span {
   width: 40px; height: 40px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   border-radius: 12px; font-size: 1.2rem;
-  background: rgba(240,192,96,.2);
+  background: var(--accent-bg);
+  border: 1px solid rgba(91,141,238,.25);
 }
-.lv-feat strong { display: block; font-size: .9rem; font-weight: 600; color: #fff; }
-.lv-feat small { font-size: .76rem; color: rgba(255,255,255,.7); }
-.lv-stats { display: flex; gap: 36px; margin-top: 28px !important; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.15); }
-.lv-stat-v { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--lg-gold); display: block; }
-.lv-stat-l { font-size: .72rem; color: rgba(255,255,255,.65); text-transform: uppercase; letter-spacing: .1em; margin-top: 2px; }
+.lv-feat strong { display: block; font-size: .9rem; font-weight: 600; color: #ffffff; }
+.lv-feat small { font-size: .76rem; color: var(--text-2); }
+.lv-stats { display: flex; gap: 36px; margin-top: 28px !important; padding-top: 22px; border-top: 1px solid var(--border-2); }
+.lv-stat-v { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--gold); display: block; }
+.lv-stat-l { font-size: .72rem; color: var(--text-2); text-transform: uppercase; letter-spacing: .1em; margin-top: 2px; }
 
-/* ---------- Panel del formulario (claro, institucional) ---------- */
+/* ---------- Panel del formulario (oscuro) ---------- */
 .lf-panel {
   flex: 1;
-  background: #ffffff;
+  background: var(--bg-2);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -288,13 +280,14 @@ a {
   position: relative;
   z-index: 5;
   overflow-y: auto;
+  border-left: 1px solid var(--border);
 }
 .lf-panel::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 6px;
-  background: linear-gradient(90deg, var(--lg-gold), var(--lg-gold-2), var(--lg-blue), var(--lg-navy));
+  height: 5px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-2), var(--accent), var(--accent-2));
 }
 .lf-panel > * { width: 100%; max-width: 400px; }
 @media (max-width: 1023px) {
@@ -303,9 +296,10 @@ a {
     width: 92%;
     max-width: 440px;
     margin: 20px auto;
+    border: 1px solid var(--border-2);
     border-radius: 28px;
     padding: 40px 28px 32px;
-    box-shadow: 0 30px 80px rgba(0,0,0,.45);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
   }
 }
@@ -313,10 +307,10 @@ a {
 .lf-logo-icon {
   width: 72px; height: 72px;
   border-radius: 22px;
-  background: linear-gradient(135deg, var(--lg-navy-2), var(--lg-blue));
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   display: flex; align-items: center; justify-content: center;
   font-size: 2.1rem;
-  box-shadow: 0 12px 30px rgba(27,74,168,.4), 0 0 0 5px rgba(240,192,96,.35);
+  box-shadow: 0 12px 30px var(--accent-glow), 0 0 0 5px var(--gold-glow);
 }
 .lf-logo-img {
   display: none;
@@ -329,7 +323,7 @@ a {
   font-family: 'Syne', sans-serif;
   font-size: 1.75rem;
   font-weight: 800;
-  color: var(--lg-navy);
+  color: var(--text);
   letter-spacing: -.01em;
 }
 .lf-head h2::after {
@@ -338,16 +332,16 @@ a {
   width: 46px; height: 4px;
   margin: 10px auto 0;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--lg-gold), var(--lg-gold-2));
+  background: linear-gradient(90deg, var(--gold), var(--gold-2));
 }
-.lf-head p { margin-top: 12px; font-size: .92rem; color: var(--lg-muted); }
+.lf-head p { margin-top: 12px; font-size: .92rem; color: var(--text-2); }
 .lf-field { margin-bottom: 16px; }
-.lf-label { display: block; font-size: .8rem; font-weight: 600; color: var(--lg-ink); margin-bottom: 7px; }
+.lf-label { display: block; font-size: .8rem; font-weight: 600; color: var(--text); margin-bottom: 7px; }
 .lf-input-wrap { position: relative; }
 .lf-icon {
   position: absolute; left: 14px; top: 50%;
   transform: translateY(-50%);
-  font-size: 1rem; opacity: .7; pointer-events: none;
+  font-size: 1rem; opacity: .75; pointer-events: none;
   transition: opacity .2s;
 }
 .lf-input {
@@ -355,18 +349,28 @@ a {
   padding: 14px 46px 14px 44px;
   font-family: inherit;
   font-size: .95rem;
-  color: var(--lg-ink);
-  background: #f3f6fc;
-  border: 1.5px solid var(--lg-line);
+  color: var(--text);
+  background: var(--bg-3);
+  border: 1.5px solid var(--border-2);
   border-radius: 14px;
   outline: none;
   transition: border-color .2s, box-shadow .2s, background .2s;
 }
-.lf-input::placeholder { color: #8f9bb8; }
+.lf-input::placeholder { color: var(--text-3); }
 .lf-input:focus {
-  background: #fff;
-  border-color: var(--lg-blue);
-  box-shadow: 0 0 0 4px rgba(27,74,168,.14);
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+/* El autocompletado del navegador no debe pintar de blanco ni tapar el texto */
+.lf-input:-webkit-autofill,
+.lf-input:-webkit-autofill:hover,
+.lf-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+  box-shadow: 0 0 0 1000px var(--surface) inset;
+  transition: background-color 9999s ease-in-out 0s;
 }
 .lf-field:focus-within .lf-icon { opacity: 1; }
 .lf-eye {
@@ -376,7 +380,7 @@ a {
   border: none; background: transparent;
   cursor: pointer; font-size: 1rem; border-radius: 10px;
 }
-.lf-eye:hover { background: rgba(27,74,168,.08); }
+.lf-eye:hover { background: rgba(255,255,255,.08); }
 .lf-submit {
   width: 100%;
   margin-top: 8px;
@@ -387,10 +391,10 @@ a {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: .02em;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
-  background: linear-gradient(135deg, var(--lg-navy-2), var(--lg-blue));
-  box-shadow: 0 10px 26px rgba(27,74,168,.38);
+  background: linear-gradient(135deg, #3f6fd6, var(--accent));
+  box-shadow: 0 10px 26px var(--accent-glow);
   position: relative;
   overflow: hidden;
   transition: transform .2s var(--ease), box-shadow .2s;
@@ -399,11 +403,11 @@ a {
   content: '';
   position: absolute; top: 0; left: -60%;
   width: 40%; height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.3), transparent);
   transform: skewX(-20deg);
   transition: left .6s;
 }
-.lf-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(27,74,168,.5), 0 0 0 3px rgba(240,192,96,.45); }
+.lf-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(91,141,238,.4), 0 0 0 3px var(--gold-glow); }
 .lf-submit:hover::after { left: 130%; }
 .lf-submit:active { transform: translateY(0); }
 .lf-msg {
@@ -417,11 +421,11 @@ a {
   margin-bottom: 16px;
   animation: fadeSlide .25s var(--ease);
 }
-.lf-msg-err { background: #fdecea; color: #b3261e; border: 1px solid #f5c2bd; }
-.lf-msg-ok  { background: #e7f8ef; color: #17784a; border: 1px solid #b7e4cc; }
-.lf-footer { margin-top: 26px; font-size: .74rem; color: var(--lg-muted); text-align: center; }
-.lf-footer a { color: var(--lg-muted) !important; }
-.lf-footer strong { color: var(--lg-blue); }
+.lf-msg-err { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,113,113,.25); }
+.lf-msg-ok  { background: var(--green-bg); color: var(--green); border: 1px solid rgba(52,211,153,.25); }
+.lf-footer { margin-top: 26px; font-size: .74rem; color: var(--text-2); text-align: center; }
+.lf-footer a { color: var(--text-2) !important; }
+.lf-footer strong { color: var(--accent-2); }
 @media (prefers-reduced-motion: reduce) {
   .lv-float { animation: none; }
   .lf-submit::after { display: none; }
@@ -1603,6 +1607,102 @@ textarea.form-input {
   margin-bottom: 18px;
   color: var(--text);
 }
+/* ============================================================
+   DIÁLOGOS Y AVISOS PERSONALIZADOS (reemplazan alert / confirm / prompt)
+============================================================ */
+.dlg-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10500;
+  background: rgba(6,12,30,.74);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.dlg-bg.show { display: flex; animation: fadeIn .18s; }
+.dlg {
+  --dlg-c: var(--accent);
+  --dlg-bg: rgba(91,141,238,.14);
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  border-top: 4px solid var(--dlg-c);
+  border-radius: var(--r-2xl);
+  padding: 30px 26px 22px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  animation: dlgPop .28s var(--ease-spring);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+.dlg-ic {
+  width: 66px; height: 66px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.9rem;
+  background: var(--dlg-bg);
+  box-shadow: 0 0 0 6px var(--dlg-bg);
+}
+.dlg-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.dlg-msg {
+  color: var(--text-2);
+  font-size: .9rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  margin-bottom: 18px;
+  word-break: break-word;
+}
+.dlg-field { text-align: left; margin-bottom: 18px; }
+.dlg-err { color: var(--red); font-size: .78rem; margin-top: 6px; min-height: 1em; }
+.dlg-actions { display: flex; gap: 10px; justify-content: center; }
+.dlg-actions .btn { flex: 1; min-width: 120px; justify-content: center; padding: 11px 16px; font-size: .88rem; }
+.dlg-actions .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+@media (max-width: 480px) { .dlg-actions { flex-direction: column-reverse; } }
+@keyframes dlgPop { from { opacity: 0; transform: scale(.9) translateY(10px); } to { opacity: 1; transform: none; } }
+
+.toast-wrap {
+  position: fixed;
+  top: 18px; right: 18px;
+  z-index: 10600;
+  display: flex; flex-direction: column; gap: 10px;
+  width: min(360px, calc(100vw - 36px));
+  pointer-events: none;
+}
+.toast {
+  --toast-c: var(--accent);
+  pointer-events: auto;
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 13px 16px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  border-left: 4px solid var(--toast-c);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  font-size: .86rem;
+  line-height: 1.45;
+  color: var(--text);
+  cursor: pointer;
+  animation: toastIn .32s var(--ease);
+}
+.toast.out { animation: toastOut .25s forwards; }
+.toast-ok { --toast-c: var(--green); }
+.toast-err { --toast-c: var(--red); }
+.toast-warn { --toast-c: var(--amber); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
+@media (prefers-reduced-motion: reduce) { .dlg, .toast { animation: none; } }
+
 .hamburger {
   display: none;
   position: fixed;
@@ -2797,6 +2897,152 @@ const esc = s => s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g,
 const pad = n => n < 10 ? '0' + n : n;
 const fechaCorta = s => s ? s.split(' ')[0] : '';
 
+// ============================================================
+// DIÁLOGOS PERSONALIZADOS: dlgAlert / dlgConfirm / dlgPrompt / toast
+// (reemplazan alert(), confirm() y prompt() del navegador)
+// ============================================================
+const Dlg = { el: null, opts: null, queue: [], prevFocus: null };
+const DLG_TIPOS = {
+  info:   { ic: 'ℹ️', c: '#5b8dee', bg: 'rgba(91,141,238,.14)',  btn: 'btn-primary', t: 'Aviso' },
+  ok:     { ic: '✅', c: '#34d399', bg: 'rgba(52,211,153,.14)',  btn: 'btn-green',   t: 'Operación exitosa' },
+  warn:   { ic: '⚠️', c: '#fbbf24', bg: 'rgba(251,191,36,.14)',  btn: 'btn-amber',   t: 'Atención' },
+  danger: { ic: '🗑️', c: '#f87171', bg: 'rgba(248,113,113,.14)', btn: 'btn-red',     t: 'Confirmar acción' },
+  err:    { ic: '❌', c: '#f87171', bg: 'rgba(248,113,113,.14)', btn: 'btn-red',     t: 'Ocurrió un problema' }
+};
+
+function _dlgBuild() {
+  if (Dlg.el) return;
+  const bg = document.createElement('div');
+  bg.className = 'dlg-bg';
+  bg.innerHTML = '<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">' +
+    '<div class="dlg-ic" id="dlgIc"></div>' +
+    '<h3 class="dlg-title" id="dlgTitle"></h3>' +
+    '<p class="dlg-msg" id="dlgMsg"></p>' +
+    '<div class="dlg-field" id="dlgField" style="display:none">' +
+      '<label class="form-label" id="dlgLabel" for="dlgInput"></label>' +
+      '<input class="form-input" id="dlgInput" autocomplete="off">' +
+      '<div class="dlg-err" id="dlgErr"></div>' +
+    '</div>' +
+    '<div class="dlg-actions">' +
+      '<button type="button" class="btn btn-ghost" id="dlgCancel"></button>' +
+      '<button type="button" class="btn" id="dlgOk"></button>' +
+    '</div></div>';
+  document.body.appendChild(bg);
+  Dlg.el = bg;
+  $('dlgOk').addEventListener('click', () => _dlgAceptar());
+  $('dlgCancel').addEventListener('click', () => _dlgCerrar(false));
+  bg.addEventListener('mousedown', e => { if (e.target === bg && Dlg.opts && !Dlg.opts.fijo) _dlgCerrar(false); });
+  $('dlgInput').addEventListener('input', () => { $('dlgErr').textContent = ''; _dlgActualizarOk(); });
+  document.addEventListener('keydown', e => {
+    if (!Dlg.opts) return;
+    if (e.key === 'Escape') { e.preventDefault(); if (!Dlg.opts.fijo) _dlgCerrar(false); }
+    else if (e.key === 'Enter' && document.activeElement !== $('dlgCancel')) { e.preventDefault(); _dlgAceptar(); }
+    else if (e.key === 'Tab') {
+      const fs = Array.from(Dlg.el.querySelectorAll('input,button')).filter(x => !x.disabled && x.offsetParent !== null);
+      if (!fs.length) return;
+      const first = fs[0], last = fs[fs.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+}
+
+function _dlgActualizarOk() {
+  const o = Dlg.opts; if (!o) return;
+  $('dlgOk').disabled = !!(o.escribir && $('dlgInput').value.trim() !== o.escribir);
+}
+
+function _dlgOpen(o) {
+  _dlgBuild();
+  if (Dlg.opts) { Dlg.queue.push(o); return; }
+  const T = DLG_TIPOS[o.tipo] || DLG_TIPOS.info;
+  Dlg.opts = o;
+  Dlg.prevFocus = document.activeElement;
+  const box = Dlg.el.querySelector('.dlg');
+  box.style.setProperty('--dlg-c', T.c);
+  box.style.setProperty('--dlg-bg', T.bg);
+  $('dlgIc').textContent = o.icono || T.ic;
+  $('dlgTitle').textContent = o.titulo || T.t;
+  const msg = $('dlgMsg');
+  msg.textContent = o.mensaje || '';
+  msg.style.display = o.mensaje ? 'block' : 'none';
+  const conCampo = !!(o.campo || o.escribir);
+  $('dlgField').style.display = conCampo ? 'block' : 'none';
+  $('dlgErr').textContent = '';
+  if (conCampo) {
+    const inp = $('dlgInput');
+    inp.type = o.tipoInput || 'text';
+    inp.value = o.valor || '';
+    inp.placeholder = o.placeholder || (o.escribir ? 'Escribe ' + o.escribir : '');
+    $('dlgLabel').textContent = o.label || (o.escribir ? 'Para confirmar, escribe «' + o.escribir + '»' : '');
+  }
+  const ok = $('dlgOk'), cancel = $('dlgCancel');
+  ok.className = 'btn ' + T.btn;
+  ok.textContent = o.okText || 'Aceptar';
+  cancel.textContent = o.cancelText || 'Cancelar';
+  cancel.style.display = o.cancelar === false ? 'none' : '';
+  _dlgActualizarOk();
+  Dlg.el.classList.add('show');
+  setTimeout(() => {
+    if (conCampo) { $('dlgInput').focus(); $('dlgInput').select(); }
+    else if (o.tipo === 'danger' && o.cancelar !== false) cancel.focus();
+    else ok.focus();
+  }, 30);
+}
+
+function _dlgAceptar() {
+  const o = Dlg.opts; if (!o) return;
+  const conCampo = !!(o.campo || o.escribir);
+  const val = conCampo ? $('dlgInput').value.trim() : undefined;
+  if (o.escribir && val !== o.escribir) return;
+  if (conCampo) {
+    let err = '';
+    if (o.requerido && !val) err = 'Este campo es obligatorio';
+    else if (o.validar) err = o.validar(val) || '';
+    if (err) { $('dlgErr').textContent = err; $('dlgInput').focus(); return; }
+  }
+  _dlgCerrar(true, val);
+}
+
+function _dlgCerrar(aceptado, val) {
+  const o = Dlg.opts; if (!o) return;
+  Dlg.opts = null;
+  Dlg.el.classList.remove('show');
+  try { Dlg.prevFocus && Dlg.prevFocus.focus && Dlg.prevFocus.focus(); } catch (e) {}
+  try {
+    if (aceptado) { if (o.onOk) o.onOk(val); }
+    else if (o.onCancel) o.onCancel();
+  } finally {
+    if (!Dlg.opts && Dlg.queue.length) _dlgOpen(Dlg.queue.shift());
+  }
+}
+
+function dlgAlert(mensaje, o, onClose) {
+  _dlgOpen(Object.assign({ tipo: 'info', okText: 'Entendido', cancelar: false }, o || {}, { mensaje, onOk: onClose, onCancel: onClose }));
+}
+function dlgConfirm(o, onOk, onCancel) {
+  _dlgOpen(Object.assign({ tipo: 'warn', okText: 'Confirmar', cancelText: 'Cancelar' }, o || {}, { onOk, onCancel }));
+}
+function dlgPrompt(o, onOk, onCancel) {
+  _dlgOpen(Object.assign({ tipo: 'info', okText: 'Aceptar', cancelText: 'Cancelar', campo: true }, o || {}, { onOk, onCancel }));
+}
+
+function toast(mensaje, tipo, ms) {
+  tipo = tipo || 'ok';
+  let wrap = $('toastWrap');
+  if (!wrap) { wrap = document.createElement('div'); wrap.className = 'toast-wrap'; wrap.id = 'toastWrap'; document.body.appendChild(wrap); }
+  const t = document.createElement('div');
+  t.className = 'toast toast-' + tipo;
+  t.setAttribute('role', 'status');
+  const ic = document.createElement('span'); ic.textContent = { ok: '✅', err: '❌', warn: '⚠️', info: 'ℹ️' }[tipo] || 'ℹ️';
+  const tx = document.createElement('span'); tx.textContent = mensaje || '';
+  t.appendChild(ic); t.appendChild(tx);
+  const quitar = () => { if (t._r) return; t._r = true; t.classList.add('out'); setTimeout(() => t.remove(), 260); };
+  t.addEventListener('click', quitar);
+  wrap.appendChild(t);
+  setTimeout(quitar, ms || 3800);
+}
+
 function alerta(id, tipo, msg) {
   const el = $(id);
   if (!el) return;
@@ -3111,7 +3357,7 @@ function guardarLoginPers() {
     } else alerta('loginPersAlert', 'err', res.message || 'Error al guardar');
   });
 }
-function eliminarLoginPers() { if (!confirm('¿Quitar las imágenes y restablecer personalizaición?')) return; callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('inputFooterText').value = ''; $('inputFooterUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; applyFooter('',''); alerta('loginPersAlert', 'ok', 'Personalización eliminada'); } else alerta('loginPersAlert', 'err', res.message); }); }
+function eliminarLoginPers() { dlgConfirm({ tipo: 'warn', icono: '🖼️', titulo: 'Restablecer imágenes', mensaje: 'Se quitarán el logo y la imagen de fondo del login, y volverá el diseño por defecto.', okText: 'Sí, restablecer' }, () => callSpin('Eliminando…', 'eliminarImagenesLogin', [App.ses.usuario], res => { if (res.success) { applyFondo('', 5); applyLogo(''); $('inputFondoUrl').value = ''; $('inputLogoUrl').value = ''; $('inputFooterText').value = ''; $('inputFooterUrl').value = ''; $('fondoPrevWrap').style.display = 'none'; $('logoPrevWrap').style.display = 'none'; applyFooter('',''); alerta('loginPersAlert', 'ok', 'Personalización eliminada'); } else alerta('loginPersAlert', 'err', res.message); })); }
 
 // ============================================================
 // EXPORTADOR EXCEL
@@ -3259,11 +3505,20 @@ function crearAdmin() {
 }
 
 function cambiarEstAdmin(usuario, estado) {
-  const motivo = prompt(`Motivo de ${estado === 'activo' ? 'activación' : 'desactivación'}:`, 'Manual');
-  if (motivo === null) return;
-  callSpin('Actualizando…', 'cambiarEstadoAdmin', [usuario, estado, App.ses.usuario, motivo || 'Manual'], res => {
-    alerta('adminAlert', res.success ? 'ok' : 'err', res.message);
-    if (res.success) cargarAdmins();
+  const activar = estado === 'activo';
+  dlgPrompt({
+    titulo: activar ? 'Activar administrador' : 'Desactivar administrador',
+    icono: activar ? '✅' : '⏸️',
+    tipo: activar ? 'ok' : 'warn',
+    mensaje: `Cuenta: ${usuario}`,
+    label: `Motivo de ${activar ? 'activación' : 'desactivación'}`,
+    valor: 'Manual',
+    okText: activar ? 'Activar' : 'Desactivar'
+  }, motivo => {
+    callSpin('Actualizando…', 'cambiarEstadoAdmin', [usuario, estado, App.ses.usuario, motivo || 'Manual'], res => {
+      alerta('adminAlert', res.success ? 'ok' : 'err', res.message);
+      if (res.success) cargarAdmins();
+    });
   });
 }
 
@@ -3288,10 +3543,16 @@ function guardarEditAdmin() {
 }
 
 function eliminarAdmin(usuario) {
-  if (!confirm(`⚠️ ¿Eliminar al administrador "${usuario}"?`)) return;
-  callSpin('Eliminando…', 'eliminarUsuario', [App.ses.usuario, usuario], res => {
-    alerta('adminAlert', res.success ? 'ok' : 'err', res.message);
-    if (res.success) cargarAdmins();
+  dlgConfirm({
+    tipo: 'danger',
+    titulo: 'Eliminar administrador',
+    mensaje: `¿Seguro que deseas eliminar al administrador "${usuario}"?\nEsta acción no se puede deshacer.`,
+    okText: 'Sí, eliminar'
+  }, () => {
+    callSpin('Eliminando…', 'eliminarUsuario', [App.ses.usuario, usuario], res => {
+      alerta('adminAlert', res.success ? 'ok' : 'err', res.message);
+      if (res.success) cargarAdmins();
+    });
   });
 }
 
@@ -3420,30 +3681,51 @@ function crearUsuario() {
 }
 
 function toggleUser(usuario, estado) {
-  if (!confirm(`¿${estado === 'activo' ? 'Activar' : 'Desactivar'} a "${usuario}"?`)) return;
-  callSpin('Actualizando…', 'cambiarEstadoUsuario', [App.ses.usuario, usuario, estado], res => {
-    if (res.success) cargarUsuarios();
-    else alert(res.message);
+  const activar = estado === 'activo';
+  dlgConfirm({
+    tipo: activar ? 'ok' : 'warn',
+    icono: activar ? '✅' : '⏸️',
+    titulo: activar ? 'Activar estudiante' : 'Desactivar estudiante',
+    mensaje: `¿${activar ? 'Activar' : 'Desactivar'} a "${usuario}"?`,
+    okText: activar ? 'Activar' : 'Desactivar'
+  }, () => {
+    callSpin('Actualizando…', 'cambiarEstadoUsuario', [App.ses.usuario, usuario, estado], res => {
+      if (res.success) { cargarUsuarios(); toast(`Estudiante ${activar ? 'activado' : 'desactivado'}`, 'ok'); }
+      else dlgAlert(res.message, { tipo: 'err' });
+    });
   });
 }
 
 function borrarUser(usuario) {
-  if (!confirm(`⚠️ ¿Eliminar a "${usuario}"?`)) return;
-  callSpin('Eliminando…', 'eliminarUsuario', [App.ses.usuario, usuario], res => {
-    alert(res.message);
-    if (res.success) cargarUsuarios();
+  dlgConfirm({
+    tipo: 'danger',
+    titulo: 'Eliminar estudiante',
+    mensaje: `¿Seguro que deseas eliminar a "${usuario}"?\nEsta acción no se puede deshacer.`,
+    okText: 'Sí, eliminar'
+  }, () => {
+    callSpin('Eliminando…', 'eliminarUsuario', [App.ses.usuario, usuario], res => {
+      if (res.success) { toast(res.message || 'Estudiante eliminado', 'ok'); cargarUsuarios(); }
+      else dlgAlert(res.message, { tipo: 'err' });
+    });
   });
 }
 
 function resetearQuizUser(usuario) {
-  if (!confirm(`🔄 ¿Resetear el quiz de "${usuario}"?\n\nEsto eliminará todos sus intentos e historial de resultados. No se puede deshacer.`)) return;
-  callSpin('Reseteando quiz…', 'resetearQuizUsuario', [App.ses.usuario, usuario], res => {
-    if (res.success) {
-      alerta('userAlert', 'ok', res.message);
-      cargarUsuarios();
-    } else {
-      alerta('userAlert', 'err', res.message || 'Error al resetear el quiz');
-    }
+  dlgConfirm({
+    tipo: 'danger',
+    icono: '🔄',
+    titulo: 'Resetear quiz',
+    mensaje: `¿Resetear el quiz de "${usuario}"?\n\nEsto eliminará todos sus intentos e historial de resultados. No se puede deshacer.`,
+    okText: 'Sí, resetear'
+  }, () => {
+    callSpin('Reseteando quiz…', 'resetearQuizUsuario', [App.ses.usuario, usuario], res => {
+      if (res.success) {
+        alerta('userAlert', 'ok', res.message);
+        cargarUsuarios();
+      } else {
+        alerta('userAlert', 'err', res.message || 'Error al resetear el quiz');
+      }
+    });
   });
 }
 
@@ -3536,15 +3818,28 @@ function enviarContenido(txt, tema) {
 }
 
 function eliminarPreguntas() {
-  if (!confirm('⚠️ ¿Eliminar TODAS las preguntas?')) return;
-  if (prompt('Escribe ELIMINAR para confirmar:') !== 'ELIMINAR') return;
-  callSpin('Eliminando…', 'eliminarTodasPreguntas', [App.ses.usuario], res => alerta('importAlert', res.success ? 'ok' : 'err', res.message));
+  dlgConfirm({
+    tipo: 'danger',
+    titulo: 'Eliminar todas las preguntas',
+    mensaje: 'Se borrarán TODAS tus preguntas del banco.\nEsta acción es irreversible.',
+    escribir: 'ELIMINAR',
+    okText: 'Eliminar todo'
+  }, () => {
+    callSpin('Eliminando…', 'eliminarTodasPreguntas', [App.ses.usuario], res => alerta('importAlert', res.success ? 'ok' : 'err', res.message));
+  });
 }
 
 function limpiarHistorial() {
-  if (!confirm('⚠️ ¿Eliminar TODO el historial?')) return;
-  if (prompt('Escribe LIMPIAR para confirmar:') !== 'LIMPIAR') return;
-  callSpin('Limpiando…', 'limpiarHistorial', [App.ses.usuario], res => alerta('importAlert', res.success ? 'ok' : 'err', res.message));
+  dlgConfirm({
+    tipo: 'danger',
+    icono: '🧹',
+    titulo: 'Limpiar historial',
+    mensaje: 'Se eliminará TODO el historial de resultados.\nEsta acción es irreversible.',
+    escribir: 'LIMPIAR',
+    okText: 'Limpiar historial'
+  }, () => {
+    callSpin('Limpiando…', 'limpiarHistorial', [App.ses.usuario], res => alerta('importAlert', res.success ? 'ok' : 'err', res.message));
+  });
 }
 
 // ============================================================
@@ -3687,7 +3982,7 @@ function guardarPerfil() {
   callSpin('Guardando…', 'cambiarMiPerfil', [App.ses.usuario, nu, np, nn], res => {
     if (res.success) {
       alerta('perfilAlert', 'ok', res.message);
-      if (nu || np) setTimeout(() => { alert('Inicia sesión con tus nuevos datos.'); cerrarSesion(); }, 1500);
+      if (nu || np) setTimeout(() => { dlgAlert('Inicia sesión con tus nuevos datos.', { tipo: 'ok', titulo: 'Perfil actualizado', okText: 'Ir al inicio de sesión', fijo: true }, cerrarSesion); }, 1200);
       else if (res.nuevosDatos) {
         App.ses.nombre = res.nuevosDatos.nombre;
         sessionStorage.setItem('ses', JSON.stringify(App.ses));
@@ -3766,7 +4061,7 @@ function iniciarQuiz() {
   const cant = (esAdm || App.cfg.quizCantidadLibre) ? parseInt($('selectCant').value) : App.cfg.quizCantidad;
   callSpin('Cargando preguntas…', 'obtenerPreguntas', [tema, cant, App.ses.adminId], res => {
     if (!res.success || !res.preguntas?.length) {
-      alert(res.message || 'No hay preguntas disponibles');
+      dlgAlert(res.message || 'No hay preguntas disponibles', { tipo: 'info', icono: '📭', titulo: 'Sin preguntas' });
       return;
     }
     App.quiz = {
@@ -3927,9 +4222,10 @@ function _detenerTimer() {
 }
 
 function tiempoAgotado() {
-  alert(`⏱️ ${App.cfg.mensajeTiempo}`);
-  App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas);
-  finalizarQuiz();
+  dlgAlert(App.cfg.mensajeTiempo, { tipo: 'warn', icono: '⏱️', titulo: 'Se acabó el tiempo', okText: 'Ver resultados', fijo: true }, () => {
+    App.quiz.incorrectas += App.quiz.preguntas.length - (App.quiz.correctas + App.quiz.incorrectas);
+    finalizarQuiz();
+  });
 }
 
 const _blkEv = e => { e.preventDefault(); e.stopPropagation(); };
@@ -4034,16 +4330,24 @@ function exportarPDF() {
 }
 
 function enviarPDFemail() {
-  const e = prompt('📧 Email destino:');
-  if (!e?.trim() || !e.includes('@')) {
-    if (e !== null) alerta('histAlert', 'err', 'Email inválido');
-    return;
-  }
-  const accion = App.ses.rol === 'estudiante' ? 'enviarPDFporEmailEstudiante' : 'enviarPDFporEmail';
-  const args = App.ses.rol === 'estudiante'
-    ? [App.ses.usuario, e.trim(), App.ses.adminId]
-    : [App.ses.usuario, App.ses.rol, e.trim(), App.ses.adminId];
-  callSpin('Enviando PDF...', accion, args, res => alerta('histAlert', res.success ? 'ok' : 'err', res.message));
+  dlgPrompt({
+    tipo: 'info',
+    icono: '📧',
+    titulo: 'Enviar reporte por email',
+    mensaje: 'Te enviaremos el reporte de resultados en PDF.',
+    label: 'Email de destino',
+    placeholder: 'correo@ejemplo.com',
+    tipoInput: 'email',
+    requerido: true,
+    validar: v => /^\S+@\S+\.\S+$/.test(v) ? '' : 'Ingresa un email válido',
+    okText: 'Enviar'
+  }, e => {
+    const accion = App.ses.rol === 'estudiante' ? 'enviarPDFporEmailEstudiante' : 'enviarPDFporEmail';
+    const args = App.ses.rol === 'estudiante'
+      ? [App.ses.usuario, e.trim(), App.ses.adminId]
+      : [App.ses.usuario, App.ses.rol, e.trim(), App.ses.adminId];
+    callSpin('Enviando PDF...', accion, args, res => alerta('histAlert', res.success ? 'ok' : 'err', res.message));
+  });
 }
 
 // ============================================================
