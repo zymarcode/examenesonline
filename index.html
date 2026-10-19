@@ -575,10 +575,20 @@ body.exam-mode .notif-dropdown { display: none !important; }
 body.exam-mode .app-main { margin-left: 0 !important; }
 body.exam-mode .content {
   width: 100%;
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 28px 18px 48px;
+  max-width: none;
+  margin: 0;
+  padding: 20px clamp(14px, 5vw, 90px) 36px;
 }
+body.exam-mode #quizMotor .card {
+  min-height: calc(100vh - 40px);
+  margin-bottom: 0;
+  border-radius: var(--r-xl);
+}
+body.exam-mode #quizMotor .card > * { max-width: 1000px; margin-left: auto; margin-right: auto; }
+body.exam-mode .q-text { font-size: 1.2rem; line-height: 1.7; }
+body.exam-mode .q-card { padding: 26px 28px; }
+body.exam-mode .opt-btn { padding: 15px 18px; font-size: 1rem; }
+body.exam-mode .opt-btn .opt-l { width: 32px; height: 32px; }
 @media (max-width: 768px) {
   body.exam-mode .content { padding: 14px 12px 40px; }
 }
@@ -3159,8 +3169,8 @@ body.ap-on {
           <div class="card-title"><span class="card-ic">📊</span><span id="histTitulo">Mi Historial</span></div>
           <div class="btn-grp" id="btnGrpHistorial">
             <button class="btn btn-dark btn-sm" onclick="exportarPDF()" id="histBtnPDF">📄 PDF</button>
-            <button class="btn btn-green btn-sm" onclick="enviarPDFemail()" id="histBtnEmail">📧 Email</button>
-            <button class="btn btn-green btn-sm" onclick="exportarHistorialExcel()" id="histBtnExcel">📊 Excel</button>
+            <button class="btn btn-green btn-sm" onclick="enviarPDFemail()" id="histBtnEmail" style="display:none;">📧 Email</button>
+            <button class="btn btn-green btn-sm" onclick="exportarHistorialExcel()" id="histBtnExcel" style="display:none;">📊 Excel</button>
           </div>
         </div>
         <div id="histAlert"></div>
@@ -4026,7 +4036,7 @@ function xlResumen(wb, d, meta) {
 
 // ---------- Descarga ----------
 async function descargarExcel(tipos, base, alertId, completo) {
-  if (App.ses.rol === 'estudiante') return;
+  if (App.ses.rol !== 'admin' && App.ses.rol !== 'super_admin') { toast('La descarga en Excel es solo para administradores', 'warn'); return; }
   if (typeof ExcelJS === 'undefined') { alerta(alertId, 'err', 'No se pudo cargar el generador de Excel. Revisa tu conexión y recarga la página.'); return; }
   const pedir = completo ? ['preguntas', 'estudiantes', 'resultados', 'ranking', 'config'] : tipos;
   spin('Preparando Excel…');
@@ -5210,6 +5220,7 @@ function apActivar() {
     else setTimeout(apMedirBase, 900);
   }
   if (AP_CFG.pantallaCompleta && apFSSoportado() && !apEnFS()) apPedirFS();
+  setTimeout(apGateFS, 900); // si el navegador no concedió la pantalla completa, se pide con un botón
 
   // Pantalla dividida / ventana reducida
   let rt = null;
@@ -5268,6 +5279,22 @@ function apActivar() {
   AP.timers.lock = setInterval(latido, 1500);
 }
 
+// Si el navegador no activó la pantalla completa automáticamente, se bloquea el quiz hasta que el alumno la active con un clic
+function apGateFS() {
+  if (!AP.activo || AP.finalizando || !AP_CFG.pantallaCompleta || !apFSSoportado() || apEnFS()) return;
+  let ov = $('apFsGate');
+  if (!ov) { ov = document.createElement('div'); ov.id = 'apFsGate'; ov.className = 'ap-ov'; document.body.appendChild(ov); }
+  ov.innerHTML = '<div class="ap-box" style="border-top-color:var(--accent)"><div class="ap-ic">🖥️</div><h3 style="color:var(--text)">Pantalla completa</h3>' +
+    '<p>El examen se rinde en pantalla completa. Pulsa el botón para continuar con tu quiz.</p>' +
+    '<button type="button" class="btn btn-primary" id="apFsGo">Entrar en pantalla completa</button></div>';
+  ov.style.display = 'flex';
+  $('apFsGo').onclick = () => {
+    AP.ignorarHasta = Date.now() + 2500;
+    apPedirFS();
+    setTimeout(() => { ov.style.display = 'none'; }, 250);
+  };
+}
+
 function apDesactivar() {
   AP.activo = false;
   AP.handlers.forEach(h => { try { h[0].removeEventListener(h[1], h[2], h[3]); } catch (e) {} });
@@ -5277,6 +5304,7 @@ function apDesactivar() {
   document.body.classList.remove('ap-on');
   document.body.classList.remove('exam-mode');
   const w = $('apWatermark'); if (w) w.style.display = 'none';
+  const gf = $('apFsGate'); if (gf) gf.style.display = 'none';
   const ov = $('apAvisoOv'); if (ov) ov.style.display = 'none';
   const b = $('apBar'); if (b) b.style.display = 'none';
   try { const cur = JSON.parse(localStorage.getItem(AP_LOCK_KEY) || 'null'); if (cur && cur.tok === AP.tok) localStorage.removeItem(AP_LOCK_KEY); } catch (e) {}
