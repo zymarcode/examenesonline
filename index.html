@@ -431,6 +431,48 @@ a {
   .lf-submit::after { display: none; }
 }
 
+/* ---------- Panel de login en BLANCO (solo el formulario) ---------- */
+.lf-panel {
+  background: #ffffff;
+  color-scheme: light;
+  border-left: 1px solid #e5e9f2;
+}
+.lf-head h2 { color: #0b1f4d; }
+.lf-head p { color: #5b6785; }
+.lf-label { color: #1c2540; }
+.lf-icon { opacity: .9; }
+.lf-input {
+  color: #111827;
+  background: #f3f6fc;
+  border: 1.5px solid #cfd8ea;
+}
+.lf-input::placeholder { color: #8a94ad; }
+.lf-input:focus {
+  color: #111827;
+  background: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(91,141,238,.18);
+}
+.lf-input:-webkit-autofill,
+.lf-input:-webkit-autofill:hover,
+.lf-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #111827;
+  caret-color: #111827;
+  -webkit-box-shadow: 0 0 0 1000px #f3f6fc inset;
+  box-shadow: 0 0 0 1000px #f3f6fc inset;
+}
+.lf-eye:hover { background: rgba(11,31,77,.08); }
+.lf-msg-err { background: #fef3f2; color: #b3261e; border: 1px solid #f3b9b4; }
+.lf-msg-ok  { background: #ecfdf3; color: #17784a; border: 1px solid #a7e3c3; }
+.lf-footer, .lf-footer a { color: #5b6785 !important; }
+.lf-footer strong { color: #1b4aa8; }
+@media (max-width: 1023px) {
+  .lf-panel {
+    border: 1px solid #e5e9f2;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  }
+}
+
 /* ============================================================
    APP LAYOUT
 ============================================================ */
@@ -1494,6 +1536,20 @@ textarea.form-input {
   background: var(--red);
   border-color: transparent;
   color: #fff;
+}
+.opt-btn.sel {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  color: var(--text);
+}
+.opt-btn.sel .opt-l {
+  background: var(--accent);
+  border-color: transparent;
+  color: #fff;
+}
+.opt-btn.sel.dis {
+  opacity: 1;
+  cursor: default;
 }
 .opt-btn.dis {
   cursor: not-allowed;
@@ -4243,11 +4299,15 @@ function seleccionar(letraOrig) {
   App.quiz.respondida = true;
   const p = App.quiz.preguntas[App.quiz.indice];
   const fb = $('quizFeedback');
-  document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('dis'));
-  fb.className = 'alert alert-info';
-  fb.innerHTML = App.quiz.indice >= App.quiz.preguntas.length - 1 ? '⏳ Calculando tu nota…' : '⏳ Verificando respuesta…';
-  fb.style.display = 'flex';
-  // La respuesta correcta vive en el servidor: se verifica pregunta por pregunta
+  const esUltima = App.quiz.indice >= App.quiz.preguntas.length - 1;
+  // Solo se marca la opción elegida (sin indicar si es correcta o no)
+  document.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.classList.add('dis');
+    if (btn.dataset.orig === letraOrig) btn.classList.add('sel');
+  });
+  fb.style.display = 'none';
+  $('btnSig').style.display = 'none';
+  // La respuesta correcta vive en el servidor: se registra pregunta por pregunta, pero NO se muestra al alumno
   call('verificarRespuesta', [App.ses.usuario, App.ses.adminId, p.id, letraOrig], res => {
     if (App.quiz.finalizado) return;
     if (!res || !res.success) {
@@ -4257,39 +4317,18 @@ function seleccionar(letraOrig) {
         dlgAlert(res.message, { tipo: 'err', titulo: 'Quiz no válido', okText: 'Volver', fijo: true }, reiniciarQuiz);
         return;
       }
-      // Error de conexión: se permite reintentar la misma pregunta
+      // Error de conexión: se permite volver a elegir en la misma pregunta
       App.quiz.respondida = false;
-      document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('dis'));
+      document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('dis', 'sel'));
       fb.className = 'alert alert-warn';
-      fb.innerHTML = '⚠️ No se pudo verificar la respuesta (' + esc(res?.message || 'sin conexión') + '). Intenta de nuevo.';
+      fb.innerHTML = '⚠️ No se pudo registrar tu respuesta (' + esc(res?.message || 'sin conexión') + '). Elige de nuevo.';
+      fb.style.display = 'flex';
       return;
     }
-    // Última pregunta: no se muestra la respuesta correcta, se pasa directo a la nota
-    if (App.quiz.indice >= App.quiz.preguntas.length - 1) {
-      if (res.esCorrecta) App.quiz.correctas++; else App.quiz.incorrectas++;
-      finalizarQuiz();
-      return;
-    }
-    const correcta = String(res.correcta).toUpperCase(), esOk = !!res.esCorrecta;
-    document.querySelectorAll('.opt-btn').forEach(btn => {
-      if (btn.dataset.orig === letraOrig) btn.classList.add(esOk ? 'correct' : 'wrong');
-    });
-    if (esOk) {
-      fb.className = 'alert alert-ok';
-      fb.innerHTML = '✅ ¡Correcto!';
-      App.quiz.correctas++;
-    } else {
-      let letraDisp = '';
-      document.querySelectorAll('.opt-btn').forEach(btn => {
-        if (btn.dataset.orig === correcta) letraDisp = btn.querySelector('.opt-l').textContent;
-      });
-      fb.className = 'alert alert-err';
-      fb.innerHTML = `❌ Incorrecto. Respuesta correcta: <strong>${letraDisp}) ${esc(p[correcta])}</strong>`;
-      App.quiz.incorrectas++;
-    }
-    fb.style.display = 'flex';
-    $('btnSig').style.display = 'block';
-    $('btnSig').textContent = App.quiz.indice >= App.quiz.preguntas.length - 1 ? '🏆 Ver Resultados' : 'Siguiente →';
+    if (res.esCorrecta) App.quiz.correctas++; else App.quiz.incorrectas++;
+    // Última pregunta: se muestra la nota final. Si no, pasa sola a la siguiente.
+    if (esUltima) { finalizarQuiz(); return; }
+    setTimeout(() => { if (!App.quiz.finalizado) siguientePregunta(); }, 450);
   });
 }
 
