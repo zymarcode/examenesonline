@@ -566,31 +566,93 @@ span.zc-credit:hover { transform: none; }
 .sb-footer .zc-year { color: var(--gold); background: var(--gold-bg); }
 .sb-footer .zc-custom, .sb-footer .zc-custom a { color: var(--text-3); }
 
-/* ---------- Modo examen: solo se ve el quiz ---------- */
+/* ---------- Quiz a pantalla completa (campos, texto, preguntas y resultados) ---------- */
+/* Vista normal (admin / configuración): el quiz ocupa todo el ancho disponible */
+#sec-quiz { width: 100%; max-width: none; }
+#sec-quiz .card { width: 100%; max-width: none; }
+#sec-quiz .form-input,
+#sec-quiz select.form-input,
+#sec-quiz .form-row { width: 100%; max-width: none; }
+#sec-quiz #quizConfigPanel .card,
+#sec-quiz #quizBloqueado .card { min-height: calc(100vh - var(--topbar-h) - 70px); }
+#sec-quiz #quizMotor .card,
+#sec-quiz #quizResultados .card { min-height: calc(100vh - var(--topbar-h) - 70px); display: flex; flex-direction: column; }
+#sec-quiz #quizMotor .q-card { flex: 0 0 auto; }
+#sec-quiz #optionsList { display: grid; grid-template-columns: 1fr; gap: 10px; }
+#sec-quiz #optionsList .opt-btn { margin-bottom: 0; }
+@media (min-width: 900px) {
+  #sec-quiz #optionsList { grid-template-columns: 1fr 1fr; }
+}
+
+/* Modo examen (alumno): solo se ve el quiz, ocupando TODA la pantalla */
 body.exam-mode .app-sidebar,
 body.exam-mode .hamburger,
 body.exam-mode .sidebar-overlay,
 body.exam-mode .topbar,
 body.exam-mode .notif-dropdown { display: none !important; }
-body.exam-mode .app-main { margin-left: 0 !important; }
+body.exam-mode { display: block; }
+body.exam-mode .app-main {
+  margin-left: 0 !important;
+  width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+}
 body.exam-mode .content {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 20px clamp(14px, 5vw, 90px) 36px;
+  padding: 0;
 }
-body.exam-mode #quizMotor .card {
-  min-height: calc(100vh - 40px);
+body.exam-mode #sec-quiz { min-height: 100vh; }
+body.exam-mode #quizMotor,
+body.exam-mode #quizResultados,
+body.exam-mode #quizConfigPanel { min-height: 100vh; }
+body.exam-mode #quizMotor .card,
+body.exam-mode #quizResultados .card {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  padding: clamp(16px, 3vw, 48px) clamp(16px, 5vw, 96px);
+  display: flex;
+  flex-direction: column;
+}
+/* El contenido usa todo el ancho de la pantalla (sin tope de 1000px) */
+body.exam-mode #quizMotor .card > * { max-width: none; width: 100%; margin-left: 0; margin-right: 0; }
+body.exam-mode #quizMotor .q-card {
+  padding: clamp(22px, 3vw, 44px) clamp(20px, 4vw, 56px);
+  margin-bottom: 22px;
+  flex: 0 0 auto;
+}
+body.exam-mode .q-num { font-size: .85rem; }
+body.exam-mode .q-text { font-size: clamp(1.25rem, 2.2vw, 1.9rem); line-height: 1.6; }
+body.exam-mode #quizProgress { font-size: 1.05rem; }
+body.exam-mode .prog-bar { height: 8px; }
+body.exam-mode #optionsList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  flex: 1 1 auto;
+  align-content: start;
+}
+body.exam-mode .opt-btn {
   margin-bottom: 0;
-  border-radius: var(--r-xl);
+  padding: clamp(16px, 2vw, 26px) clamp(16px, 2vw, 28px);
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  min-height: 72px;
 }
-body.exam-mode #quizMotor .card > * { max-width: 1000px; margin-left: auto; margin-right: auto; }
-body.exam-mode .q-text { font-size: 1.2rem; line-height: 1.7; }
-body.exam-mode .q-card { padding: 26px 28px; }
-body.exam-mode .opt-btn { padding: 15px 18px; font-size: 1rem; }
-body.exam-mode .opt-btn .opt-l { width: 32px; height: 32px; }
+body.exam-mode .opt-btn .opt-l { width: 40px; height: 40px; font-size: 1rem; border-radius: 10px; }
+body.exam-mode .timer-box { padding: 14px 22px; }
+body.exam-mode .timer-val { font-size: 1.8rem; }
+body.exam-mode #quizResultados .card { align-items: center; justify-content: center; text-align: center; }
+body.exam-mode #quizResultados .card > * { max-width: 1100px; }
+@media (min-width: 900px) {
+  body.exam-mode #optionsList { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 768px) {
-  body.exam-mode .content { padding: 14px 12px 40px; }
+  body.exam-mode #quizMotor .card,
+  body.exam-mode #quizResultados .card { padding: 14px 12px 40px; }
 }
 
 /* ============================================================
@@ -5150,8 +5212,9 @@ function apMedirBase() { AP.base = { w: window.innerWidth, h: window.innerHeight
 function apMarcaDeAgua() {
   let el = $('apWatermark');
   if (!el) { el = document.createElement('div'); el.id = 'apWatermark'; el.className = 'ap-watermark'; document.body.appendChild(el); }
-  const txt = (App.ses.nombre || '') + ' · @' + (App.ses.usuario || '') + ' · ' + new Date().toLocaleString('es-PE');
-  const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='460' height='240'><text x='20' y='130' fill='white' font-size='15' font-family='Arial' transform='rotate(-25 230 120)'>" +
+  const sis = (($('sidebarSiteName') && $('sidebarSiteName').textContent) || document.title || 'Plataforma Educativa').trim();
+  const txt = sis + ' · ' + (App.ses.nombre || '') + ' · @' + (App.ses.usuario || '') + ' · ' + new Date().toLocaleString('es-PE');
+  const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='640' height='260'><text x='20' y='140' fill='white' font-size='15' font-family='Arial' transform='rotate(-25 320 130)'>" +
     txt.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;') + '</text></svg>';
   el.style.backgroundImage = 'url("data:image/svg+xml;utf8,' + encodeURIComponent(svg) + '")';
   el.style.display = 'block';
