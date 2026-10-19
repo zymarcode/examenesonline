@@ -1026,6 +1026,23 @@ body.exam-mode #quizResultados .card > * { max-width: 1100px; }
   font-weight: 600;
   color: var(--text-2);
 }
+.btn-refresh {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  background: var(--accent-bg);
+  border: 1px solid rgba(91,141,238,.25);
+  color: var(--accent-2);
+  border-radius: 50px;
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-refresh:hover { background: rgba(91,141,238,.18); }
+.btn-refresh.loading .rf-ic { display: inline-block; animation: spin .7s linear infinite; }
+.btn-refresh:disabled { opacity: .6; cursor: wait; }
 .btn-logout {
   display: flex;
   align-items: center;
@@ -2733,6 +2750,7 @@ body.ap-on {
           <div class="notif-empty">No hay notificaciones</div>
         </div>
       </div>
+      <button class="btn-refresh" id="btnActualizar" onclick="actualizarSistema()" title="Actualizar datos del sistema"><span class="rf-ic">🔄</span><span class="rf-tx">Actualizar</span></button>
       <span class="tb-user" id="tbUser">👤</span>
       <button class="btn-logout" onclick="cerrarSesion()">🚪 Salir</button>
     </div>
@@ -2774,7 +2792,7 @@ body.ap-on {
         <div class="btn-grp" id="qaAdmin">
           <button class="btn btn-green" onclick="mostrarSec('quiz')">📝 Iniciar Quiz</button>
           <button class="btn btn-dark" onclick="mostrarSec('historial')">📊 Ver Resultados</button>
-          <button class="btn btn-gold" onclick="mostrarSec('descargas')">📥 Descargas</button>
+          <button class="btn btn-gold" id="qaDescargas" onclick="mostrarSec('descargas')">📥 Descargas</button>
         </div>
         <div class="btn-grp" id="qaSuper" style="display: none;">
           <button class="btn btn-green" onclick="mostrarSec('admins')">👑 Administradores</button>
@@ -3673,6 +3691,7 @@ function buildNav() {
   $('heroName').textContent = App.ses.nombre;
   if ($('qaAdmin')) $('qaAdmin').style.display = esS ? 'none' : 'flex';
   if ($('qaSuper')) $('qaSuper').style.display = esS ? 'flex' : 'none';
+  if ($('qaDescargas')) $('qaDescargas').style.display = esA ? '' : 'none';   // los alumnos no ven Descargas
 }
 function mostrarSec(sec) {
   if (typeof AP !== 'undefined' && AP.activo && sec !== 'quiz') {
@@ -3702,6 +3721,22 @@ function mostrarSec(sec) {
     inicio: cargarDashboard
   };
   if (actions[sec]) actions[sec]();
+}
+// Recarga los datos de la pantalla actual, las notificaciones y la identidad del sistema
+function actualizarSistema() {
+  if (typeof AP !== 'undefined' && AP.activo) { toast('No puedes actualizar durante el quiz', 'warn'); return; }
+  const btn = $('btnActualizar');
+  if (btn) { btn.disabled = true; btn.classList.add('loading'); }
+  const activo = document.querySelector('.nav-item.active');
+  const sec = activo ? activo.dataset.sec : 'inicio';
+  mostrarSec(sec);
+  aplicarPersonalizacion();
+  cargarNotificacionesBell();
+  if (App.ses.rol !== 'super_admin') { cargarCfgTiempo(); cargarCfgQuiz(); }
+  setTimeout(() => {
+    if (btn) { btn.disabled = false; btn.classList.remove('loading'); }
+    toast('Sistema actualizado', 'ok', 2200);
+  }, 1200);
 }
 let sidebarOpen = false;
 function toggleSidebar() { sidebarOpen ? cerrarSidebar() : abrirSidebar(); }
